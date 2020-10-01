@@ -242,6 +242,7 @@
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -420,6 +421,26 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '1b092418a3028be296e8',
+      clientSecret: '8f61995498559ef2919c1ebaf471d49037f9848e',
+      repo        : 'https://github.com/ethanol1310/ethanol1310comment.git',
+      owner       : 'ethanol1310',
+      admin       : ['ethanol1310'],
+      id          : '8d20eaf2375a70b1431babd464a67159',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
