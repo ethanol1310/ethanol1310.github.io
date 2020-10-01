@@ -3,148 +3,145 @@
   <entry>
     <title>Diary</title>
     <url>/2099/09/16/Diary/</url>
-    <content><![CDATA[<h1 id="2020-9-16"><a href="#2020-9-16" class="headerlink" title="2020-9-16"></a>2020-9-16</h1><ol>
+    <content><![CDATA[<h1 id="section">2020-9-16</h1>
+<ol type="1">
 <li>mlcourse.ai: assignment week 1 - exploratory data analysis.</li>
 </ol>
-<h1 id="2020-9-17"><a href="#2020-9-17" class="headerlink" title="2020-9-17"></a>2020-9-17</h1><ol>
-<li><p>mlcourse.ai: </p>
+<h1 id="section-1">2020-9-17</h1>
+<ol type="1">
+<li>mlcourse.ai:
 <ul>
-<li><p>assignment week 2 - visual data analysis.</p>
-</li>
-<li><p>assignment week 3 - classification, decision trees, and k-NN.</p>
-</li>
-</ul>
-</li>
+<li><p>assignment week 2 - visual data analysis.</p></li>
+<li><p>assignment week 3 - classification, decision trees, and k-NN.</p></li>
+</ul></li>
 </ol>
 <a id="more"></a>
-<h1 id="2020-9-18"><a href="#2020-9-18" class="headerlink" title="2020-9-18"></a>2020-9-18</h1><ol>
-<li><p>Technique: convert categorical to numerical.</p>
-</li>
-<li><p>Review machine learning Caltech: Learning from data.</p>
-</li>
+<h1 id="section-2">2020-9-18</h1>
+<ol type="1">
+<li><p>Technique: convert categorical to numerical.</p></li>
+<li><p>Review machine learning Caltech: Learning from data.</p></li>
 </ol>
-<p>This repository is amazing for questions interview: </p>
-<p><a href="https://github.com/putao537/DeepLearning-500-questions">https://github.com/putao537/DeepLearning-500-questions</a></p>
-<h1 id="2020-9-19"><a href="#2020-9-19" class="headerlink" title="2020-9-19"></a>2020-9-19</h1><ol>
-<li><p>Coursera: </p>
+<p>This repository is amazing for questions interview:</p>
+<p>https://github.com/putao537/DeepLearning-500-questions</p>
+<h1 id="section-3">2020-9-19</h1>
+<ol type="1">
+<li><p>Coursera:</p>
 <ul>
 <li>Neural network &amp; Deep Learning - Andrew Ng - week 1 + week 2</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h1 id="2020-9-20"><a href="#2020-9-20" class="headerlink" title="2020-9-20"></a>2020-9-20</h1><ol>
-<li><p>Review data structure &amp; algorithm: </p>
+<h1 id="section-4">2020-9-20</h1>
+<ol type="1">
+<li>Review data structure &amp; algorithm:
 <ul>
 <li>Chapter 1 - Chapter 8 (Cracking the coding interview).</li>
-</ul>
-</li>
-<li><p>Coursera:</p>
+</ul></li>
+<li>Coursera:
 <ul>
 <li>Neural network &amp; Deep Learning - Andrew Ng - complete week 2</li>
-</ul>
-</li>
-<li><p>Logistic regression: deep understand.</p>
-</li>
+</ul></li>
+<li>Logistic regression: deep understand.</li>
 </ol>
-<p>Helpful course: <a href="https://developers.google.com/machine-learning/">https://developers.google.com/machine-learning/</a></p>
-<h1 id="2020-9-21"><a href="#2020-9-21" class="headerlink" title="2020-9-21"></a>2020-9-21</h1><ol>
-<li><p>Review data structure &amp; algorithm: </p>
+<p>Helpful course: https://developers.google.com/machine-learning/</p>
+<h1 id="section-5">2020-9-21</h1>
+<ol type="1">
+<li>Review data structure &amp; algorithm:
 <ul>
 <li>Chapter IX (Cracking the coding interview): 1 - 2 - 3 (Array and strings, linked list, stack, and queues).</li>
-</ul>
-</li>
-<li><p>Coursera:</p>
+</ul></li>
+<li>Coursera:
 <ul>
 <li>Neural network &amp; Deep Learning - Deeplearning.ai - complete week 3 + week 4.</li>
-</ul>
-</li>
-<li><p>mlcourse.ai: </p>
+</ul></li>
+<li>mlcourse.ai:
 <ul>
 <li>week 5 - Bagging and random forest + week 5 assignment</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h1 id="2020-9-22"><a href="#2020-9-22" class="headerlink" title="2020-9-22"></a>2020-9-22</h1><ol>
-<li><p>mlcourse.ai: </p>
+<h1 id="section-6">2020-9-22</h1>
+<ol type="1">
+<li>mlcourse.ai:
 <ul>
-<li><p>week 6 - Feature engineering &amp; feature selection.</p>
-</li>
-<li><p>week 7 - Unsupervised learning - PCA and clustering.</p>
-</li>
-<li><p>week 8 - Learning with Gigabytes of Data.</p>
-</li>
-</ul>
-</li>
-<li><p>Coursera:</p>
+<li><p>week 6 - Feature engineering &amp; feature selection.</p></li>
+<li><p>week 7 - Unsupervised learning - PCA and clustering.</p></li>
+<li><p>week 8 - Learning with Gigabytes of Data.</p></li>
+</ul></li>
+<li>Coursera:
 <ul>
 <li>Improve DNN: Hyperparameter tuning, Regularization, and Optimization - week 1 + week 2</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h1 id="2020-9-23"><a href="#2020-9-23" class="headerlink" title="2020-9-23"></a>2020-9-23</h1><ol>
-<li><p>Coursera:</p>
+<h1 id="section-7">2020-9-23</h1>
+<ol type="1">
+<li>Coursera:
 <ul>
-<li>Improve DNN: Hyperparameter tuning, Regularization, and Optimization - week 3 </li>
-</ul>
-</li>
-<li><p>mlcourse.ai: </p>
+<li>Improve DNN: Hyperparameter tuning, Regularization, and Optimization - week 3</li>
+</ul></li>
+<li>mlcourse.ai:
 <ul>
 <li>week 9 - Time-series Analysis with python.</li>
-</ul>
-</li>
-<li><p>Understanding ROC - AUC curve: <a href="https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5">https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5</a></p>
-</li>
+</ul></li>
+<li>Understanding ROC - AUC curve: https://towardsdatascience.com/understanding-auc-roc-curve-68b2303cc9c5</li>
 </ol>
-<h1 id="2020-9-24"><a href="#2020-9-24" class="headerlink" title="2020-9-24"></a>2020-9-24</h1><ol>
-<li><p>Coursera:</p>
+<h1 id="section-8">2020-9-24</h1>
+<ol type="1">
+<li>Coursera:
 <ul>
 <li>Structuring Machine Learning Projects - week 1</li>
-</ul>
-</li>
-<li><p>mlcourse.ai: </p>
+</ul></li>
+<li>mlcourse.ai:
 <ul>
 <li>week 10 - Gradient boosting.</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h1 id="2020-9-25"><a href="#2020-9-25" class="headerlink" title="2020-9-25"></a>2020-9-25</h1><ol>
-<li>Coursera:<ul>
+<h1 id="section-9">2020-9-25</h1>
+<ol type="1">
+<li>Coursera:
+<ul>
 <li>Structuring Machine Learning Projects - week 2</li>
-</ul>
-</li>
+</ul></li>
 </ol>
-<h1 id="2020-9-26"><a href="#2020-9-26" class="headerlink" title="2020-9-26"></a>2020-9-26</h1><ul>
+<h1 id="section-10">2020-9-26</h1>
+<ul>
 <li>HCMUS - CTF</li>
 </ul>
-<h1 id="2020-9-27"><a href="#2020-9-27" class="headerlink" title="2020-9-27"></a>2020-9-27</h1><ul>
-<li><p>HCMUS - CTF: I learned how to decompile the Android app and go lang! It’s quite interesting.</p>
-</li>
-<li><p>Top 3 CTF &lt;3 Yeah! </p>
-</li>
+<h1 id="section-11">2020-9-27</h1>
+<ul>
+<li>HCMUS - CTF: I learned how to decompile the Android app and go lang! It's quite interesting.</li>
+<li>Top 3 HCMUS - CTF :heart:</li>
+<li>Hơi tiếc vì không đủ thời gian để dò flag bài RE cuối cùng.</li>
 </ul>
-<h1 id="2020-9-28"><a href="#2020-9-28" class="headerlink" title="2020-9-28"></a>2020-9-28</h1><ul>
+<h1 id="section-12">2020-9-28</h1>
+<ul>
 <li>Relax</li>
 </ul>
-<h1 id="2020-9-29"><a href="#2020-9-29" class="headerlink" title="2020-9-29"></a>2020-9-29</h1><ol>
-<li>Coursera:<ul>
-<li>Convolution Neural Network - week 1 + week 2</li>
-<li>Programming assignment - Improve DNN - week 1 + week 2</li>
-</ul>
-</li>
-</ol>
-<h1 id="2020-9-30"><a href="#2020-9-30" class="headerlink" title="2020-9-30"></a>2020-9-30</h1><ol>
-<li><p>Coursera:</p>
+<h1 id="section-13">2020-9-29</h1>
+<ol type="1">
+<li>Coursera:
 <ul>
-<li><p>Programming assignment - Improve DNN - week 3</p>
-</li>
-<li><p>Programming assignment - Structuring Machine Learning Projects -  week 1 + week 2</p>
-</li>
-<li><p>Convolution Neural Network - week 3</p>
-</li>
-</ul>
-</li>
-<li><p>Tìm hiểu hexo và làm blog với next-theme.<br>Nice blog: <a href="https://theme-next.js.org">https://theme-next.js.org</a> </p>
-</li>
+<li>Convolution Neural Network - week 1 + week 2</li>
+<li>Assignment - Improve DNN - week 1 + week 2</li>
+</ul></li>
+</ol>
+<h1 id="section-14">2020-9-30</h1>
+<ol type="1">
+<li>Coursera:
+<ul>
+<li><p>Programming assignment - Improve DNN - week 3</p></li>
+<li><p>Assignment - Structuring Machine Learning Projects - week 1 + week 2</p></li>
+<li>Convolution Neural Network - week 3</li>
+</ul></li>
+<li>Tìm hiểu hexo và làm blog với next-theme. Nice blog: https://theme-next.js.org</li>
+</ol>
+<h1 id="section-15">2020 - 10 - 1</h1>
+<ol type="1">
+<li>Coursera:
+<ul>
+<li>Convolution Neural Network - week 4</li>
+</ul></li>
+<li>Hoàn thành blog, sau này làm trong document sau cho vui :happy:</li>
+<li>Đi chơi trung thu :tada:</li>
+<li>Viết blog học latex và markdown.</li>
 </ol>
 ]]></content>
       <categories>
@@ -152,6 +149,23 @@
       </categories>
       <tags>
         <tag>Diary</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LaTex formula syntax</title>
+    <url>/2020/10/01/study/latex/</url>
+    <content><![CDATA[<h1 id="hiển-thị-formula">Hiển thị formula</h1>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">This is the formula in the line: $ a^2 + b^2 = c^2 $</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[
+a^2 + b^2 = c^2 
+\]</span></p>
+<p>The famous matter-energy equation <span class="math inline">\(\eqref{eq1}\)</span> proposed by Einstein...</p>
+]]></content>
+      <categories>
+        <category>study</category>
+      </categories>
+      <tags>
+        <tag>latex</tag>
       </tags>
   </entry>
 </search>
