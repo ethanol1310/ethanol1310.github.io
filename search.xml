@@ -108,7 +108,7 @@
 <h1 id="section-11">2020-9-27</h1>
 <ul>
 <li>HCMUS - CTF: I learned how to decompile the Android app and go lang! It's quite interesting.</li>
-<li>Top 3 HCMUS - CTF :heart:</li>
+<li>Top 3 HCMUS - CTF <span class="github-emoji" data-alias="heart" style="" data-fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png?v8">❤</span></li>
 <li>Hơi tiếc vì không đủ thời gian để dò flag bài RE cuối cùng.</li>
 </ul>
 <h1 id="section-12">2020-9-28</h1>
@@ -129,19 +129,31 @@
 <ul>
 <li><p>Programming assignment - Improve DNN - week 3</p></li>
 <li><p>Assignment - Structuring Machine Learning Projects - week 1 + week 2</p></li>
-<li>Convolution Neural Network - week 3</li>
+<li><p>Convolution Neural Network - week 3</p></li>
 </ul></li>
-<li>Tìm hiểu hexo và làm blog với next-theme. Nice blog: https://theme-next.js.org</li>
+<li>Tìm hiểu hexo và làm blog với next-theme.</li>
 </ol>
+<p>Nice blog: <a href="https://theme-next.js.org" class="uri">https://theme-next.js.org</a></p>
 <h1 id="section-15">2020 - 10 - 1</h1>
 <ol type="1">
 <li>Coursera:
 <ul>
 <li>Convolution Neural Network - week 4</li>
 </ul></li>
-<li>Hoàn thành blog, sau này làm trong document sau cho vui :happy:</li>
-<li>Đi chơi trung thu :tada:</li>
-<li>Viết blog học latex và markdown.</li>
+<li>Hoàn thành blog, sau này sẽ làm thêm trang document.</li>
+<li>Đi chơi trung thu <span class="github-emoji" data-alias="tada" style="" data-fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f389.png?v8">🎉</span></li>
+<li>Viết blog học latex và markdown: <a href="https://ethanol1310.github.io/2020/10/01/study/latex/">LaTex formula syntax</a></li>
+</ol>
+<h1 id="section-16">2020 - 10 - 2</h1>
+<ol type="1">
+<li>Coursera:
+<ul>
+<li>Assignment - Convolution Neural Network - week 1</li>
+</ul></li>
+<li>mlcourse.ai:
+<ul>
+<li>Assignment 4</li>
+</ul></li>
 </ol>
 ]]></content>
       <categories>
