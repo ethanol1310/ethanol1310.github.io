@@ -2,44 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/2020/10/01/getting-started/note/</loc>
-    
-    <lastmod>2020-10-01T05:49:12.493Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://example.com/docs/getting-started/index.html</loc>
-    
-    <lastmod>2020-10-01T05:46:03.816Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/index.html</loc>
     
-    <lastmod>2020-10-01T05:07:01.712Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://example.com/research/index.html</loc>
-    
-    <lastmod>2020-10-01T05:06:45.266Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://example.com/categories/index.html</loc>
-    
-    <lastmod>2020-10-01T05:06:32.819Z</lastmod>
+    <lastmod>2020-10-01T05:59:12.044Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://example.com/about/index.html</loc>
     
-    <lastmod>2020-10-01T05:06:21.566Z</lastmod>
+    <lastmod>2020-10-01T05:59:00.093Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/index.html</loc>
+    
+    <lastmod>2020-10-01T05:58:55.998Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://example.com/research/index.html</loc>
+    
+    <lastmod>2020-10-01T05:58:50.467Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://example.com/docs/getting-started/index.html</loc>
+    
+    <lastmod>2020-10-01T05:50:04.814Z</lastmod>
     
   </url>
   
