@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>note</title>
+    <url>/2020/10/01/getting-started/note/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Diary</title>
     <url>/2099/09/16/Diary/</url>
     <content><![CDATA[<h1 id="2020-9-16"><a href="#2020-9-16" class="headerlink" title="2020-9-16"></a>2020-9-16</h1><ol>
@@ -153,13 +158,5 @@
       <tags>
         <tag>Diary</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>note</title>
-    <url>/2020/10/01/getting-started/note/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>getting-started</category>
-      </categories>
   </entry>
 </search>
