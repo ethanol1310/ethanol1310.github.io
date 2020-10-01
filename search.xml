@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Diary</title>
-    <url>/2099/09/16/hello-world/</url>
+    <url>/2099/09/16/Diary/</url>
     <content><![CDATA[<h1 id="2020-9-16"><a href="#2020-9-16" class="headerlink" title="2020-9-16"></a>2020-9-16</h1><ol>
 <li>mlcourse.ai: assignment week 1 - exploratory data analysis.</li>
 </ol>
@@ -12,10 +12,12 @@
 <li><p>assignment week 2 - visual data analysis.</p>
 </li>
 <li><p>assignment week 3 - classification, decision trees, and k-NN.</p>
-<a id="more"></a>
-<h1 id="2020-9-18"><a href="#2020-9-18" class="headerlink" title="2020-9-18"></a>2020-9-18</h1></li>
+</li>
 </ul>
 </li>
+</ol>
+<a id="more"></a>
+<h1 id="2020-9-18"><a href="#2020-9-18" class="headerlink" title="2020-9-18"></a>2020-9-18</h1><ol>
 <li><p>Technique: convert categorical to numerical.</p>
 </li>
 <li><p>Review machine learning Caltech: Learning from data.</p>
