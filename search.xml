@@ -170,8 +170,171 @@
 <ul>
 <li>Lập một lộ trình và diary riêng cho luận văn tốt nghiệp</li>
 </ul></li>
-<li>Chưa nghĩ ra</li>
 </ol>
+<h1 id="section-19">2020 - 10 - 5</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Convolution Neural Network - week 4</li>
+<li>Assignment - CNN - week 1</li>
+</ul></li>
+</ol>
+<h1 id="section-20">2020 - 10 - 6</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Sequence Model - week 1</li>
+<li>Assignment - CNN - week 2</li>
+</ul></li>
+<li>Beers</li>
+</ol>
+<h1 id="section-21">2020 - 10 - 7</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Sequence Model - week 1</li>
+<li>Assignment - CNN - week 3</li>
+</ul></li>
+</ol>
+<h1 id="section-22">2020 - 10 - 8</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Sequence Model - week 2</li>
+<li>Assignment - CNN - week 4</li>
+</ul></li>
+</ol>
+<h1 id="section-23">2020 - 10 - 9</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Sequence Model - week 3</li>
+</ul></li>
+</ol>
+<h1 id="section-24">2020 - 10 - 10</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Sequence Model - week 3</li>
+</ul></li>
+</ol>
+<h1 id="section-25">2020 - 10 - 11</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Sequence Model - week 3</li>
+</ul></li>
+<li>Trà đá hacking #9</li>
+</ol>
+<h1 id="section-26">2020 - 10 - 12</h1>
+<ol type="1">
+<li>Coursera:
+<ul>
+<li>Sequence Model - week 3</li>
+<li>Assignment - Sequence Model - Quiz 1,2,3</li>
+</ul></li>
+</ol>
+<h1 id="section-27">2020 - 10 - 13</h1>
+<ol type="1">
+<li>Coursera:
+<ul>
+<li>Assignment - Sequence Model - week 1</li>
+</ul></li>
+<li>Stanford:
+<ul>
+<li>Introduction to IoT:
+<ul>
+<li>Overview</li>
+<li>Cool Application</li>
+</ul></li>
+<li>Introduction to Web Security:
+<ul>
+<li>HTTP</li>
+</ul></li>
+</ul></li>
+</ol>
+<h1 id="section-28">2020 - 10 - 14</h1>
+<ol type="1">
+<li>Coursera:
+<ul>
+<li>Building Web Applications in PHP:
+<ul>
+<li>PHP syntax</li>
+<li>Install LAMP</li>
+<li>HTML, CSS</li>
+</ul></li>
+<li>OOP in Java:
+<ul>
+<li>Setup Java and Eclipse</li>
+<li>GUI: processing</li>
+</ul></li>
+</ul></li>
+</ol>
+<h1 id="section-29">2020 - 10 - 15</h1>
+<ol type="1">
+<li>Coursera:
+<ul>
+<li>SQL, MySql</li>
+<li>Building Web Applications in PHP:
+<ul>
+<li>Complete basic PHP and HTML Forms</li>
+</ul></li>
+</ul></li>
+</ol>
+<h1 id="section-30">2020 - 10 - 16</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Web application:
+<ul>
+<li>Basic XSS (HTML injection), SQL Injection</li>
+<li>Cookie, Session</li>
+<li>PDO, run SQL Queries in PHP</li>
+</ul></li>
+<li>Review Sequence Model:
+<ul>
+<li>Word2Vec</li>
+<li>GloVe</li>
+<li>LSTM, Keras</li>
+</ul></li>
+</ul></li>
+</ol>
+<h1 id="section-31">2020 - 10 - 17</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Web application:
+<ul>
+<li>Javascript, Jquery, JSON</li>
+</ul></li>
+</ul></li>
+</ol>
+<h1 id="section-32">2020 - 10 - 18</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Web application:
+<ul>
+<li>Coding some projects using PHP and MySQL: Login, Logout, CRUD</li>
+<li>Session and cookie</li>
+</ul></li>
+</ul></li>
+</ol>
+<h1 id="section-33">2020 - 10 - 19</h1>
+<ol type="1">
+<li>Coursera
+<ul>
+<li>Front end:
+<ul>
+<li>Bootstrap</li>
+</ul></li>
+<li>Web Application:
+<ul>
+<li>Coding some projects using JQuery and JSON</li>
+</ul></li>
+</ul></li>
+</ol>
+<p>Regular Expression</p>
 ]]></content>
       <categories>
         <category>Learning</category>
@@ -202,6 +365,10 @@
 <h2 id="natural-language-processing">Natural Language Processing</h2>
 <ol type="1">
 <li>NLP</li>
+<li>GRU</li>
+<li>LSTM</li>
+<li>Word Embedding, Word2Vec, Negative Sampling, GloVe</li>
+<li>Beam Search</li>
 </ol>
 <h1 id="web">Web</h1>
 <h2 id="front-end">Front End</h2>
@@ -232,10 +399,14 @@
 <ul>
 <li>Basic terminal command</li>
 </ul></li>
-<li>Basic network concepts</li>
+<li>Basic network concepts
+<ul>
+<li>HTTP</li>
+</ul></li>
 <li>Language
 <ul>
 <li>Javascript</li>
+<li>PHP</li>
 </ul></li>
 <li>Database
 <ul>
@@ -312,7 +483,21 @@
 </ul></li>
 </ol>
 <h1 id="software">Software</h1>
+<ol type="1">
+<li>Language
+<ul>
+<li>Java</li>
+</ul></li>
+</ol>
 <h1 id="iot">IoT</h1>
+<ol type="1">
+<li>Cool application</li>
+<li>Microdevice
+<ul>
+<li>Sensor</li>
+<li>Circuit</li>
+</ul></li>
+</ol>
 <h1 id="security">Security</h1>
 <h1 id="language">Language</h1>
 <ol start="0" type="1">
