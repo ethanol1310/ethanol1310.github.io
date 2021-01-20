@@ -516,6 +516,7 @@
 <li>Debug Glibc</li>
 </ol>
 <p>Repo: <a href="https://github.com/ethanol1310">ubuntu-enviroment</a></p>
+<a id="more"></a>
 <h2 id="git">Git</h2>
 <h3 id="thiết-lập-git">Thiết lập git</h3>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;Your name&quot;</span><br><span class="line">git config --global user.email &quot;Your email&quot;</span><br><span class="line">git config --list</span><br></pre></td></tr></table></figure>
