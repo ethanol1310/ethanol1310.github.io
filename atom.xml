@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2020-10-15T03:17:26.913Z</updated>
+  <updated>2021-01-18T04:08:55.543Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,30 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Learning Path</title>
-    <link href="http://example.com/2099/10/02/learning_path/"/>
-    <id>http://example.com/2099/10/02/learning_path/</id>
-    <published>2099-10-01T17:00:00.000Z</published>
-    <updated>2020-10-15T03:17:26.913Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="computer-science">Computer Science</h1><a id="more"></a><h2 id="machine-learning">Machine learning</h2><ol start="0" type="1"><li>Math</li><li>Data analytics</li><li>Model</li><li>Big data</li><li>Deep learning</li></ol><h2 id="computer-vision">Computer Vision</h2><ol type="1"><li>CNN</li></ol><h2 id="natural-language-processing">Natural Language Processing</h2><ol type="1"><li>NLP</li><li>GRU</li><li>LSTM</li><li>Word Embedding, Word2Vec, Negative Sampling, GloVe</li><li>Beam Search</li></ol><h1 id="web">Web</h1><h2 id="front-end">Front End</h2><ol type="1"><li>HTML, CSS</li><li>Javascript<ul><li>Syntax and Basic constructs</li><li>Learn DOM manipulation</li><li>Learn Fetch API / Ajax</li><li>ES6+ and modular Javascript</li></ul></li><li>Bootstrap</li><li>Package manager<ul><li>npm</li></ul></li><li>Node.js<ul><li>Express</li></ul></li><li>React.js</li></ol><h2 id="back-end">Back End</h2><ol type="1"><li>OS</li><li>Linux<ul><li>Basic terminal command</li></ul></li><li>Basic network concepts<ul><li>HTTP</li></ul></li><li>Language<ul><li>Javascript</li><li>PHP</li></ul></li><li>Database<ul><li>Relational: PostgreSQL, MySQL</li><li>NoSQL: MongoDB</li></ul></li><li>Learn about APIs<ul><li>JSON</li><li>gRPC</li><li>Authentication</li></ul></li><li>Caching<ul><li>CDN</li><li>Client side</li><li>Server side: Redis</li></ul></li><li>Testing:<ul><li>Integration Testing</li><li>Unit Testing</li><li>Functional Testing</li></ul></li><li>CI/CD</li><li>Docker</li><li>Webserver<ul><li>Nginx</li></ul></li><li>Protocol</li></ol><h1 id="devops">Devops</h1><ol type="1"><li>Language<ul><li>Go</li></ul></li><li>OS Concepts<ul><li>POSIX</li><li>Networking Concepts</li><li>Theads and Concurrency</li></ul></li><li>OS<ul><li>Unix: FreeBSD</li><li>Linux: Ubuntu, Centos, RHEL</li></ul></li><li>Terminal<ul><li>Vim</li><li>System performance</li><li>Network</li><li>Process monitoring</li></ul></li><li>Protocol<ul><li>HTTP</li><li>HTTPS</li><li>FTP</li><li>SSL / TLS</li><li>SSH</li><li>Port Forwarding</li></ul></li><li>Setup<ul><li>Reverse Proxy</li><li>Caching Server</li><li>Forward Proxy</li><li>Load Balancer</li><li>Web Server</li><li>Nginx</li></ul></li></ol><h1 id="software">Software</h1><ol type="1"><li>Language<ul><li>Java</li></ul></li></ol><h1 id="iot">IoT</h1><ol type="1"><li>Cool application</li><li>Microdevice<ul><li>Sensor</li><li>Circuit</li></ul></li></ol><h1 id="security">Security</h1><h1 id="language">Language</h1><ol start="0" type="1"><li>C/C++</li><li>Python</li><li>Java</li><li>C#</li><li>Javascript</li><li>Go</li><li>Rust</li></ol><h1 id="english">English</h1>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;computer-science&quot;&gt;Computer Science&lt;/h1&gt;
-    
-    </summary>
-    
-      <category term="Learning" scheme="http://example.com/categories/Learning/"/>
-    
-      <category term="Path" scheme="http://example.com/categories/Learning/Path/"/>
-    
-    
-      <category term="learning" scheme="http://example.com/tags/learning/"/>
-    
-  </entry>
   
   <entry>
     <title>Diary</title>
