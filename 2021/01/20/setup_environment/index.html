@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Setup Environment Ubuntu CTF  GDB &#x2F; gdbs Pwntools Gcc-multilib Binutils keystone-engine ROPgadgets&#x2F;ropper Debug Glibc  Repo: ubuntu-enviroment">
+  <meta name="description" content="Ubuntu CTF  GDB &#x2F; gdbs Pwntools Gcc-multilib Binutils keystone-engine ROPgadgets&#x2F;ropper Debug Glibc  Repo: ubuntu-enviroment">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Setup environment">
 <meta property="og:url" content="http://example.com/2021/01/20/setup_environment/index.html">
 <meta property="og:site_name" content="Ethanol&#39;s blog">
-<meta property="og:description" content="Setup Environment Ubuntu CTF  GDB &#x2F; gdbs Pwntools Gcc-multilib Binutils keystone-engine ROPgadgets&#x2F;ropper Debug Glibc  Repo: ubuntu-enviroment">
+<meta property="og:description" content="Ubuntu CTF  GDB &#x2F; gdbs Pwntools Gcc-multilib Binutils keystone-engine ROPgadgets&#x2F;ropper Debug Glibc  Repo: ubuntu-enviroment">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-01-20T04:55:32.000Z">
-<meta property="article:modified_time" content="2021-01-20T04:59:37.197Z">
+<meta property="article:modified_time" content="2021-01-22T07:05:18.737Z">
 <meta property="article:author" content="Ethanol">
 <meta property="article:tag" content="setup, environment">
 <meta name="twitter:card" content="summary">
@@ -348,10 +348,16 @@ mjx-container[display="true"] + br {
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-01-20 11:55:32 / Modified: 11:59:37" itemprop="dateCreated datePublished" datetime="2021-01-20T11:55:32+07:00">2021-01-20</time>
+              <time title="Created: 2021-01-20 11:55:32" itemprop="dateCreated datePublished" datetime="2021-01-20T11:55:32+07:00">2021-01-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-22 14:05:18" itemprop="dateModified" datetime="2021-01-22T14:05:18+07:00">2021-01-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -373,8 +379,7 @@ mjx-container[display="true"] + br {
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="setup-environment">Setup Environment</h1>
-<h2 id="ubuntu-ctf">Ubuntu CTF</h2>
+        <h1 id="ubuntu-ctf">Ubuntu CTF</h1>
 <ol type="1">
 <li>GDB / gdbs</li>
 <li>Pwntools</li>
@@ -386,11 +391,13 @@ mjx-container[display="true"] + br {
 </ol>
 <p>Repo: <a target="_blank" rel="noopener" href="https://github.com/ethanol1310">ubuntu-enviroment</a></p>
 <a id="more"></a>
-<h2 id="git">Git</h2>
-<h3 id="thiết-lập-git">Thiết lập git</h3>
+<h1 id="git">Git</h1>
+<h2 id="thiết-lập-ssh">Thiết lập SSH</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 2048 -C &quot;quanhuynh1310@gmail.com&quot; # Create SSH </span><br><span class="line">pbcopy &lt; ~&#x2F;.ssh&#x2F;id_rsa.pub # Copy text</span><br><span class="line">SSH -T git@gitlab.com # Check </span><br></pre></td></tr></table></figure>
+<h2 id="thiết-lập-git">Thiết lập git</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;Your name&quot;</span><br><span class="line">git config --global user.email &quot;Your email&quot;</span><br><span class="line">git config --list</span><br></pre></td></tr></table></figure>
-<h3 id="thiết-lập-repository">Thiết lập repository</h3>
-<h4 id="cách-1">Cách 1</h4>
+<h2 id="thiết-lập-repository">Thiết lập repository</h2>
+<h3 id="cách-1">Cách 1</h3>
 <ul>
 <li>Tạo local repository</li>
 </ul>
@@ -399,21 +406,64 @@ mjx-container[display="true"] + br {
 <li>Liên kết với repo online</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin &lt;repository URL&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="cách-2">Cách 2</h4>
+<h3 id="cách-2">Cách 2</h3>
 <ul>
 <li>Tạo repo trên github</li>
 <li>Clone repo đó về máy</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone &lt;repository URL&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="các-lệnh-cơ-bản">Các lệnh cơ bản</h3>
+<h2 id="các-lệnh-cơ-bản">Các lệnh cơ bản</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add README.md</span><br><span class="line">git status</span><br><span class="line">git commit -m &quot;First commit&quot;</span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
 <ul>
+<li>Undo lệnh <code>git add</code>: <code>git reset &lt;file&gt;</code> hoặc <code>git reset</code></li>
 <li>Để loại 1 file ra khỏi trạng thái làm việc (Tracked -&gt; Untracked) ta dùng lệnh <code>rm &lt;file&gt;</code></li>
-<li>Để xóa 1 hẳn 1 file dùng lệnh <code>git rm -f &lt;file&gt;</code></li>
+<li>Để xóa hẳn 1 file dùng lệnh <code>git rm -f &lt;file&gt;</code></li>
 <li><code>git push -f origin master</code> ghi đè local repo lên online repo</li>
 </ul>
-<h2 id="nodejs-and-npm">NodeJS and NPM</h2>
-<h3 id="khởi-tạo-package.json-và-lite-server">Khởi tạo package.json và lite-server</h3>
+<h2 id="git-commit-và-staging-area">Git commit và staging area</h2>
+<h3 id="tracked-vs-untracked">Tracked vs untracked</h3>
+<p>Một tập tin có 2 trạng thái chính là:</p>
+<ul>
+<li>Tracked:
+<ul>
+<li>Unmodified: chưa chỉnh sửa</li>
+<li>Modified: đã chỉnh sửa</li>
+<li>Staged: sẵn sàng commit</li>
+</ul></li>
+<li>Untracked: là tập tin không muốn làm việc trong git</li>
+</ul>
+<p>Lệnh <code>git add &lt;file&gt;</code> đưa 1 tập tin từ untracked thành tracked Chuyển từ tracked về untracked: <code>rm &lt;file&gt;</code> Xoá hẳn 1 file: <code>git rm -f &lt;file&gt;</code> Bỏ tập tin ra khỏi staging aread: <code>git reset HEAD &lt;file&gt;</code></p>
+<h2 id="git-tag">Git tag</h2>
+<p>Trong git có 2 kiểu tag là: - Lightweight tag: đánh dấu snapshot của commit - Annotated tag: có thể đặt tiêu đề cho tag, có các thông tin về người tag, ngày tag</p>
+<p>Git sẽ đánh dấu lệnh commit cuối cùng vào tag</p>
+<h3 id="lightweight-tag">Lightweight tag</h3>
+<p>Tạo 1 tag: <code>git tag &lt;name&gt;</code> Xem danh sách tag: <code>git tag</code> Xem tag gắn với commit: <code>git show &lt;tag&gt;</code></p>
+<h3 id="annotated-tag">Annotated tag</h3>
+<p>Tạo 1 tag: <code>git tag -a &lt;name&gt; -m &lt;title&gt;</code></p>
+<h3 id="branch-tag">Branch tag</h3>
+<p>Tạo một branch mới với dữ liệu cmoot trên tag: <code>git checkout -b &lt;branch name&gt; &lt;tag&gt;</code></p>
+<h2 id="push-vs-pull-vs-clone">push vs pull vs clone</h2>
+<ul>
+<li><code>git clone</code>: Sao chép toàn bộ thiết lập và dữ liệu của master branch</li>
+<li><code>git pull</code>: lấy dữ liệu từ remote repository và gộp vào branch hiện tại đang làm việc tự đông</li>
+<li><code>git fetch</code>: Lấy dữ liệu từ remote repository và gộp thủ công vào branch nào đó với lệnh <code>git merge &lt;branch name&gt;</code></li>
+</ul>
+<h2 id="branch">Branch</h2>
+<h3 id="tạo-một-branch">Tạo một branch</h3>
+<p>Để xem toàn bộ branch dùng lệnh: <code>git branch</code> Tạo một branch mới: <code>git branch develop</code></p>
+<h3 id="checkout-một-branch">Checkout một branch</h3>
+<p>Checkout một branch: <code>git checkout &lt;branch name&gt;</code></p>
+<h3 id="merge-branch">Merge branch</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git merge develop</span><br></pre></td></tr></table></figure>
+<h3 id="xoá-branch">Xoá branch</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d develop</span><br></pre></td></tr></table></figure>
+<h3 id="remote-branch">Remote branch</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote add &lt;name repo&gt; &lt;link repo&gt;</span><br><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+<p>Xem toàn bộ branch của remote mới: <code>git remote show &lt;name repo&gt;</code></p>
+<p>Tạo một branch và merge dữ liệu với một branch của repo mới:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git branch develop</span><br><span class="line">git checkout develop</span><br><span class="line"></span><br><span class="line">git pull &lt;name repo&gt; &lt;branch repo&gt;</span><br><span class="line">git commit -m &quot;Commit branch develop&quot;</span><br><span class="line">git push origin develop</span><br></pre></td></tr></table></figure>
+<h1 id="nodejs-and-npm">NodeJS and NPM</h1>
+<h2 id="khởi-tạo-package.json-và-lite-server">Khởi tạo package.json và lite-server</h2>
 <ul>
 <li>File <code>package.json</code> được dùng để lưu các thông tin về project, xác định phiên bản các package mà projet sử dụng, dễ dàng chia sẻ với các developers khác.</li>
 </ul>
@@ -430,24 +480,24 @@ mjx-container[display="true"] + br {
 <li>Khởi động server</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
-<h2 id="blog-hexo">Blog Hexo</h2>
-<h3 id="install-git-npm">Install Git &amp; NPM</h3>
-<h3 id="install-hexo">Install Hexo</h3>
+<h1 id="blog-hexo">Blog Hexo</h1>
+<h2 id="install-git-npm">Install Git &amp; NPM</h2>
+<h2 id="install-hexo">Install Hexo</h2>
 <ol type="1">
 <li>Create new folder and open terminal</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g </span><br><span class="line">npm install hexo --save</span><br></pre></td></tr></table></figure>
-<h3 id="create-hexo-folder">Create Hexo folder</h3>
+<h2 id="create-hexo-folder">Create Hexo folder</h2>
 <ol type="1">
 <li><p>Create a directory</p></li>
 <li><p>Git Bash and command:</p></li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-<h3 id="install-hexo-plugin">Install hexo plugin</h3>
+<h2 id="install-hexo-plugin">Install hexo plugin</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-index --save </span><br><span class="line">npm install hexo-generator-archive --save </span><br><span class="line">npm install hexo-generator-category --save </span><br><span class="line">npm install hexo-generator-tag --save </span><br><span class="line">npm install hexo-server --save </span><br><span class="line">npm install hexo-deployer-git --save </span><br><span class="line">npm install hexo-deployer-heroku --save </span><br><span class="line">npm install hexo-deployer-rsync --save </span><br><span class="line">npm install hexo-deployer-openshift --save </span><br><span class="line">npm install hexo-renderer-marked@0.2 --save </span><br><span class="line">npm install hexo-renderer-stylus@0.2 --save </span><br><span class="line">npm install hexo-generator-feed@1 --save </span><br><span class="line">npm install hexo-generator-sitemap@1 --save</span><br><span class="line">npm install hexo-hide-posts --save</span><br></pre></td></tr></table></figure>
-<h4 id="local-view-effect">Local view effect</h4>
+<h3 id="local-view-effect">Local view effect</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate or hexo g</span><br><span class="line">hexo server or hexo s</span><br></pre></td></tr></table></figure>
-<h4 id="deploy-the-blog-to-github-pages">Deploy the blog to Github Pages</h4>
+<h3 id="deploy-the-blog-to-github-pages">Deploy the blog to Github Pages</h3>
 <ol type="1">
 <li>New repository <code>username.github.io</code></li>
 <li>Create a new pair of SSH keys</li>
@@ -471,8 +521,8 @@ mjx-container[display="true"] + br {
 <li>Update hexo</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br><span class="line">or hexo g -d</span><br></pre></td></tr></table></figure>
-<h2 id="theme-hexo-and-write-document">Theme Hexo and Write document</h2>
-<h3 id="next-theme">Next-Theme</h3>
+<h1 id="theme-hexo-and-write-document">Theme Hexo and Write document</h1>
+<h2 id="next-theme">Next-Theme</h2>
 <ol type="1">
 <li><p>Download hexo-theme and add to folder <code>\hexo\themes</code></p></li>
 <li><p>Modify Hexo configuration file</p></li>
@@ -481,7 +531,7 @@ mjx-container[display="true"] + br {
 <ol start="3" type="1">
 <li>Use documentation of next-theme</li>
 </ol>
-<h3 id="write-document">Write document</h3>
+<h2 id="write-document">Write document</h2>
 <p><strong>New article</strong></p>
 <ol type="1">
 <li>Publish new articles</li>
@@ -504,15 +554,15 @@ mjx-container[display="true"] + br {
 <li><p>Add sub-menu in <code>_config.yml</code> in next-theme folder</p></li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F; || fa fa-home</span><br><span class="line">  about: &#x2F;about&#x2F; || fa fa-user</span><br><span class="line">  tags: &#x2F;tags&#x2F; || fa fa-tags</span><br><span class="line">  categories: &#x2F;categories&#x2F; || fa fa-th</span><br><span class="line">  archives: &#x2F;archives&#x2F; || fa fa-archive</span><br><span class="line">  #schedule: &#x2F;schedule&#x2F; || fa fa-calendar</span><br><span class="line">  Research: &#x2F;research || fa fa-sitemap</span><br><span class="line">  #commonweal: &#x2F;404&#x2F; || fa fa-heartbeat</span><br><span class="line">  #Docs:</span><br><span class="line">  #  default: &#x2F;docs&#x2F; || fa fa-book</span><br><span class="line">  #  Getting Started:</span><br><span class="line">  #    default: &#x2F;getting-started&#x2F; || fa fa-flag</span><br><span class="line">  #    Installation: &#x2F;installation&#x2F; || fa fa-download</span><br><span class="line">  #    Configuration: &#x2F;configuration&#x2F; || fa fa-wrench</span><br><span class="line">  #  Third Party Services:</span><br><span class="line">  #    default: &#x2F;third-party-services&#x2F; || fa fa-puzzle-piece</span><br><span class="line">  #    Math Equations: &#x2F;math-equations&#x2F; || fa fa-square-root-alt</span><br><span class="line">  #    Comment Systems: &#x2F;comments&#x2F;|| fa fa-comment-alt</span><br><span class="line"># Enable &#x2F; Disable menu icons &#x2F; item badges.</span><br></pre></td></tr></table></figure>
-<h2 id="go">Go</h2>
-<h3 id="windows">Windows</h3>
-<h4 id="setup-wsl">Setup WSL</h4>
+<h1 id="go">Go</h1>
+<h2 id="windows">Windows</h2>
+<h3 id="setup-wsl">Setup WSL</h3>
 <ul>
 <li><p><strong>Enable WSL Feature</strong>: Open the Start Menu, search for and open “<strong>Turn Windows features on or off</strong>”. Enable “<strong>Windows Subsystem for Linux</strong>” and click <strong>OK</strong>.</p></li>
 <li><p>Open Microsoft Store and search for “<strong>Linux</strong>”</p></li>
 </ul>
-<h4 id="install-terminus">Install Terminus</h4>
-<h4 id="install-go-in-wsl">Install Go in WSL</h4>
+<h3 id="install-terminus">Install Terminus</h3>
+<h3 id="install-go-in-wsl">Install Go in WSL</h3>
 <p><strong>Install from Ubuntu Repository</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install golang-go</span><br></pre></td></tr></table></figure>
 <p><strong>Install a Binary Release</strong></p>
@@ -520,7 +570,7 @@ mjx-container[display="true"] + br {
 <p><a target="_blank" rel="noopener" href="https://golang.org/doc/install">Installation guide</a></p>
 <p><code>~/.bash_profile</code> for bash and <code>~/.zshrc</code> for zsh.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export GOPATH&#x3D;&quot;$HOME&#x2F;Go&quot; # or any directory to put your Go code</span><br><span class="line">export PATH&#x3D;&quot;$PATH:&#x2F;usr&#x2F;local&#x2F;go&#x2F;bin:$GOPATH&#x2F;bin&quot;</span><br></pre></td></tr></table></figure>
-<h4 id="configure-vs-code">Configure VS Code</h4>
+<h3 id="configure-vs-code">Configure VS Code</h3>
 <p><strong>Install Remote - WSL</strong></p>
 <p><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">Remote - WSL</a></p>
 <ul>
@@ -538,42 +588,42 @@ mjx-container[display="true"] + br {
 <li>GOPATH and GOROOT</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;terminal.integrated.shell.linux&quot;: &quot;&#x2F;bin&#x2F;bash&quot;,</span><br><span class="line">    &quot;go.gopath&quot;: &quot;&#x2F;home&#x2F;ethanol1310&#x2F;Coding&#x2F;Go&quot;,</span><br><span class="line">    &quot;go.goroot&quot;: &quot;&#x2F;usr&#x2F;local&#x2F;go&quot;,</span><br><span class="line">    &quot;go.formatTool&quot;: &quot;goformat&quot;,</span><br><span class="line">    &quot;go.autocompleteUnimportedPackages&quot;: true,</span><br><span class="line">    &quot;[go]&quot;: &#123;</span><br><span class="line">        &quot;editor.formatOnSave&quot;: true,</span><br><span class="line">        &quot;editor.codeActionsOnSave&quot;: &#123;</span><br><span class="line">            &quot;source.organizeImports&quot;: true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="ubuntu">Ubuntu</h3>
-<h4 id="install-go">Install Go</h4>
+<h2 id="ubuntu">Ubuntu</h2>
+<h3 id="install-go">Install Go</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get -y upgrade</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;dl.google.com&#x2F;go&#x2F;go1.15.6.linux-amd64.tar.gz</span><br><span class="line">sudo tar -C &#x2F;usr&#x2F;local -xzf go1.15.6.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
-<h4 id="set-up-environment">Set up environment</h4>
+<h3 id="set-up-environment">Set up environment</h3>
 <p><code>~/.bash_profile</code> - <code>~/.profile</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export GOROOT&#x3D;&#x2F;usr&#x2F;local&#x2F;go</span><br><span class="line">export GOPATH&#x3D;$HOME&#x2F;go</span><br><span class="line">export PATH&#x3D;$GOPATH&#x2F;bin:$GOROOT&#x2F;bin:$PATH</span><br></pre></td></tr></table></figure>
-<h4 id="update-current-shell-session">Update current shell session</h4>
+<h3 id="update-current-shell-session">Update current shell session</h3>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;.profile</span><br><span class="line">go version</span><br></pre></td></tr></table></figure>
-<h2 id="php-mysql">PHP &amp; MySQL</h2>
-<h3 id="xampp">Xampp</h3>
+<h1 id="php-mysql">PHP &amp; MySQL</h1>
+<h2 id="xampp">Xampp</h2>
 <p>Install Xampp and enable error.</p>
-<h2 id="java">Java</h2>
-<h3 id="windows-1">Windows</h3>
+<h1 id="java">Java</h1>
+<h2 id="windows-1">Windows</h2>
 <ol type="1">
 <li>Install Java SDK</li>
 <li>Install Eclipse IDE</li>
 <li>Windows -&gt; Preferences -&gt; Java -&gt; Installed JREs and choose folder installed Java</li>
 </ol>
-<h3 id="create-project">Create Project</h3>
+<h2 id="create-project">Create Project</h2>
 <ol type="1">
 <li>File -&gt; New -&gt; Java Project</li>
 <li>Give a project name</li>
 <li>Right click on the Project -&gt; New -&gt; Class</li>
 </ol>
-<h3 id="ubuntu-1">Ubuntu</h3>
-<h3 id="mac-os">Mac OS</h3>
-<h2 id="android">Android</h2>
-<h2 id="jupyter-notebook">Jupyter notebook</h2>
-<h3 id="download-and-install-anaconda">Download and install Anaconda</h3>
-<h3 id="using-jupyter-notebook">Using Jupyter notebook</h3>
-<h4 id="method-1">Method 1</h4>
+<h2 id="ubuntu-1">Ubuntu</h2>
+<h2 id="mac-os">Mac OS</h2>
+<h1 id="android">Android</h1>
+<h1 id="jupyter-notebook">Jupyter notebook</h1>
+<h2 id="download-and-install-anaconda">Download and install Anaconda</h2>
+<h2 id="using-jupyter-notebook">Using Jupyter notebook</h2>
+<h3 id="method-1">Method 1</h3>
 <p>Open Anaconda Navigator</p>
-<h4 id="method-2">Method 2</h4>
+<h3 id="method-2">Method 2</h3>
 <p>Open Anaconda prompt and type <code>jupyter notebook</code></p>
-<h3 id="create-multiple-virtual-environment-with-different-python-version">Create multiple virtual environment with different Python version</h3>
+<h2 id="create-multiple-virtual-environment-with-different-python-version">Create multiple virtual environment with different Python version</h2>
 <ol type="1">
 <li>Open "Anaconda Prompt" and type</li>
 </ol>
@@ -589,30 +639,33 @@ mjx-container[display="true"] + br {
 <p><code>conda env list</code></p>
 <p>Check the installed kernels in Jupyter Notebook using:</p>
 <p><code>jupyter kernelspec list</code></p>
-<h4 id="export-environment">Export environment</h4>
+<h3 id="export-environment">Export environment</h3>
 <p><code>conda env export &gt; environment.yml</code></p>
-<h4 id="import-environment">Import environment</h4>
+<h3 id="import-environment">Import environment</h3>
 <p><code>conda env create -f environment.yml</code></p>
-<h3 id="install-extension">Install extension</h3>
+<h2 id="install-extension">Install extension</h2>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install jupyter_contrib_nbextensions</span><br><span class="line">pip install jupyter_nbextensions_configurator</span><br><span class="line">jupyter nbextensions_configurator enable --user</span><br></pre></td></tr></table></figure>
-<h2 id="python-environment">Python environment</h2>
-<h3 id="install">Install</h3>
-<h4 id="ubuntu-2">Ubuntu</h4>
+<h1 id="python-environment">Python environment</h1>
+<h2 id="install">Install</h2>
+<h3 id="ubuntu-2">Ubuntu</h3>
 <p><code>pip install virtualenv</code></p>
-<h4 id="mac-os-1">Mac OS</h4>
+<h3 id="mac-os-1">Mac OS</h3>
 <p><code>python3 -m pip install --user virtualenv</code></p>
-<h3 id="create-virtual-environment">Create virtual environment</h3>
+<h2 id="create-virtual-environment">Create virtual environment</h2>
 <p><code>virtualenv [project_name]</code></p>
-<h3 id="create-virtual-environment-with-different-python">Create virtual environment with different python</h3>
+<h2 id="create-virtual-environment-with-different-python">Create virtual environment with different python</h2>
 <p><code>virtualenv -p /usr/bin/python2.7 [project_name]</code></p>
-<h3 id="create-virtual-environment-with-no-packages">Create virtual environment with no packages</h3>
+<h2 id="create-virtual-environment-with-no-packages">Create virtual environment with no packages</h2>
 <p><code>virtualenv --no-site-packages [project_name]</code></p>
-<h3 id="use">Use</h3>
+<h2 id="use">Use</h2>
 <p><code>source [project_name]/bin/activate</code></p>
 <p><code>deactivate</code></p>
-<h3 id="extract">Extract</h3>
+<h2 id="extract">Extract</h2>
 <p><code>pip freeze &gt; requirements.txt</code></p>
 <p><code>pip install -r requirements.txt</code></p>
+<h1 id="virtualenvwrapper">Virtualenvwrapper</h1>
+<h2 id="install-1">Install</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip install --user virtualenvwrapper</span><br><span class="line">export WORKON_HOME&#x3D;~&#x2F;Envs</span><br><span class="line">source &#x2F;usr&#x2F;local&#x2F;bin&#x2F;virtualenvwrapper.sh</span><br></pre></td></tr></table></figure>
 <h1 id="setup-environment-for-specific-task">Setup Environment for Specific Task</h1>
 <h2 id="ida-keypatcher">IDA + Keypatcher</h2>
 <h2 id="decompile-apk">Decompile apk</h2>
@@ -702,7 +755,7 @@ mjx-container[display="true"] + br {
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#setup-environment"><span class="nav-number">1.</span> <span class="nav-text">Setup Environment</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-ctf"><span class="nav-number">1.1.</span> <span class="nav-text">Ubuntu CTF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git"><span class="nav-number">1.2.</span> <span class="nav-text">Git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#thi%E1%BA%BFt-l%E1%BA%ADp-git"><span class="nav-number">1.2.1.</span> <span class="nav-text">Thiết lập git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#thi%E1%BA%BFt-l%E1%BA%ADp-repository"><span class="nav-number">1.2.2.</span> <span class="nav-text">Thiết lập repository</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#c%C3%A1ch-1"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Cách 1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#c%C3%A1ch-2"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">Cách 2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c%C3%A1c-l%E1%BB%87nh-c%C6%A1-b%E1%BA%A3n"><span class="nav-number">1.2.3.</span> <span class="nav-text">Các lệnh cơ bản</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nodejs-and-npm"><span class="nav-number">1.3.</span> <span class="nav-text">NodeJS and NPM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kh%E1%BB%9Fi-t%E1%BA%A1o-package.json-v%C3%A0-lite-server"><span class="nav-number">1.3.1.</span> <span class="nav-text">Khởi tạo package.json và lite-server</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#blog-hexo"><span class="nav-number">1.4.</span> <span class="nav-text">Blog Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install-git-npm"><span class="nav-number">1.4.1.</span> <span class="nav-text">Install Git &amp; NPM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install-hexo"><span class="nav-number">1.4.2.</span> <span class="nav-text">Install Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-hexo-folder"><span class="nav-number">1.4.3.</span> <span class="nav-text">Create Hexo folder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install-hexo-plugin"><span class="nav-number">1.4.4.</span> <span class="nav-text">Install hexo plugin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#local-view-effect"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">Local view effect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deploy-the-blog-to-github-pages"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">Deploy the blog to Github Pages</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#theme-hexo-and-write-document"><span class="nav-number">1.5.</span> <span class="nav-text">Theme Hexo and Write document</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#next-theme"><span class="nav-number">1.5.1.</span> <span class="nav-text">Next-Theme</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#write-document"><span class="nav-number">1.5.2.</span> <span class="nav-text">Write document</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#go"><span class="nav-number">1.6.</span> <span class="nav-text">Go</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows"><span class="nav-number">1.6.1.</span> <span class="nav-text">Windows</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#setup-wsl"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">Setup WSL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#install-terminus"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">Install Terminus</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#install-go-in-wsl"><span class="nav-number">1.6.1.3.</span> <span class="nav-text">Install Go in WSL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#configure-vs-code"><span class="nav-number">1.6.1.4.</span> <span class="nav-text">Configure VS Code</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu"><span class="nav-number">1.6.2.</span> <span class="nav-text">Ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#install-go"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">Install Go</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set-up-environment"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">Set up environment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#update-current-shell-session"><span class="nav-number">1.6.2.3.</span> <span class="nav-text">Update current shell session</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php-mysql"><span class="nav-number">1.7.</span> <span class="nav-text">PHP &amp; MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xampp"><span class="nav-number">1.7.1.</span> <span class="nav-text">Xampp</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java"><span class="nav-number">1.8.</span> <span class="nav-text">Java</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-1"><span class="nav-number">1.8.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-project"><span class="nav-number">1.8.2.</span> <span class="nav-text">Create Project</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu-1"><span class="nav-number">1.8.3.</span> <span class="nav-text">Ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mac-os"><span class="nav-number">1.8.4.</span> <span class="nav-text">Mac OS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#android"><span class="nav-number">1.9.</span> <span class="nav-text">Android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jupyter-notebook"><span class="nav-number">1.10.</span> <span class="nav-text">Jupyter notebook</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#download-and-install-anaconda"><span class="nav-number">1.10.1.</span> <span class="nav-text">Download and install Anaconda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#using-jupyter-notebook"><span class="nav-number">1.10.2.</span> <span class="nav-text">Using Jupyter notebook</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#method-1"><span class="nav-number">1.10.2.1.</span> <span class="nav-text">Method 1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#method-2"><span class="nav-number">1.10.2.2.</span> <span class="nav-text">Method 2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-multiple-virtual-environment-with-different-python-version"><span class="nav-number">1.10.3.</span> <span class="nav-text">Create multiple virtual environment with different Python version</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#export-environment"><span class="nav-number">1.10.3.1.</span> <span class="nav-text">Export environment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#import-environment"><span class="nav-number">1.10.3.2.</span> <span class="nav-text">Import environment</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install-extension"><span class="nav-number">1.10.4.</span> <span class="nav-text">Install extension</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python-environment"><span class="nav-number">1.11.</span> <span class="nav-text">Python environment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install"><span class="nav-number">1.11.1.</span> <span class="nav-text">Install</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ubuntu-2"><span class="nav-number">1.11.1.1.</span> <span class="nav-text">Ubuntu</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mac-os-1"><span class="nav-number">1.11.1.2.</span> <span class="nav-text">Mac OS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-virtual-environment"><span class="nav-number">1.11.2.</span> <span class="nav-text">Create virtual environment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-virtual-environment-with-different-python"><span class="nav-number">1.11.3.</span> <span class="nav-text">Create virtual environment with different python</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-virtual-environment-with-no-packages"><span class="nav-number">1.11.4.</span> <span class="nav-text">Create virtual environment with no packages</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#use"><span class="nav-number">1.11.5.</span> <span class="nav-text">Use</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extract"><span class="nav-number">1.11.6.</span> <span class="nav-text">Extract</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setup-environment-for-specific-task"><span class="nav-number">2.</span> <span class="nav-text">Setup Environment for Specific Task</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ida-keypatcher"><span class="nav-number">2.1.</span> <span class="nav-text">IDA + Keypatcher</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decompile-apk"><span class="nav-number">2.2.</span> <span class="nav-text">Decompile apk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debug-glibc"><span class="nav-number">2.3.</span> <span class="nav-text">Debug Glibc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker"><span class="nav-number">2.4.</span> <span class="nav-text">Docker</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ubuntu-ctf"><span class="nav-number">1.</span> <span class="nav-text">Ubuntu CTF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git"><span class="nav-number">2.</span> <span class="nav-text">Git</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#thi%E1%BA%BFt-l%E1%BA%ADp-ssh"><span class="nav-number">2.1.</span> <span class="nav-text">Thiết lập SSH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#thi%E1%BA%BFt-l%E1%BA%ADp-git"><span class="nav-number">2.2.</span> <span class="nav-text">Thiết lập git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#thi%E1%BA%BFt-l%E1%BA%ADp-repository"><span class="nav-number">2.3.</span> <span class="nav-text">Thiết lập repository</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#c%C3%A1ch-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">Cách 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c%C3%A1ch-2"><span class="nav-number">2.3.2.</span> <span class="nav-text">Cách 2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c%C3%A1c-l%E1%BB%87nh-c%C6%A1-b%E1%BA%A3n"><span class="nav-number">2.4.</span> <span class="nav-text">Các lệnh cơ bản</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-commit-v%C3%A0-staging-area"><span class="nav-number">2.5.</span> <span class="nav-text">Git commit và staging area</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tracked-vs-untracked"><span class="nav-number">2.5.1.</span> <span class="nav-text">Tracked vs untracked</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-tag"><span class="nav-number">2.6.</span> <span class="nav-text">Git tag</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lightweight-tag"><span class="nav-number">2.6.1.</span> <span class="nav-text">Lightweight tag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#annotated-tag"><span class="nav-number">2.6.2.</span> <span class="nav-text">Annotated tag</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#branch-tag"><span class="nav-number">2.6.3.</span> <span class="nav-text">Branch tag</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#push-vs-pull-vs-clone"><span class="nav-number">2.7.</span> <span class="nav-text">push vs pull vs clone</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#branch"><span class="nav-number">2.8.</span> <span class="nav-text">Branch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#t%E1%BA%A1o-m%E1%BB%99t-branch"><span class="nav-number">2.8.1.</span> <span class="nav-text">Tạo một branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#checkout-m%E1%BB%99t-branch"><span class="nav-number">2.8.2.</span> <span class="nav-text">Checkout một branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#merge-branch"><span class="nav-number">2.8.3.</span> <span class="nav-text">Merge branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xo%C3%A1-branch"><span class="nav-number">2.8.4.</span> <span class="nav-text">Xoá branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#remote-branch"><span class="nav-number">2.8.5.</span> <span class="nav-text">Remote branch</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nodejs-and-npm"><span class="nav-number">3.</span> <span class="nav-text">NodeJS and NPM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#kh%E1%BB%9Fi-t%E1%BA%A1o-package.json-v%C3%A0-lite-server"><span class="nav-number">3.1.</span> <span class="nav-text">Khởi tạo package.json và lite-server</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#blog-hexo"><span class="nav-number">4.</span> <span class="nav-text">Blog Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#install-git-npm"><span class="nav-number">4.1.</span> <span class="nav-text">Install Git &amp; NPM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#install-hexo"><span class="nav-number">4.2.</span> <span class="nav-text">Install Hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#create-hexo-folder"><span class="nav-number">4.3.</span> <span class="nav-text">Create Hexo folder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#install-hexo-plugin"><span class="nav-number">4.4.</span> <span class="nav-text">Install hexo plugin</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#local-view-effect"><span class="nav-number">4.4.1.</span> <span class="nav-text">Local view effect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deploy-the-blog-to-github-pages"><span class="nav-number">4.4.2.</span> <span class="nav-text">Deploy the blog to Github Pages</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#theme-hexo-and-write-document"><span class="nav-number">5.</span> <span class="nav-text">Theme Hexo and Write document</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#next-theme"><span class="nav-number">5.1.</span> <span class="nav-text">Next-Theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write-document"><span class="nav-number">5.2.</span> <span class="nav-text">Write document</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#go"><span class="nav-number">6.</span> <span class="nav-text">Go</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#windows"><span class="nav-number">6.1.</span> <span class="nav-text">Windows</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#setup-wsl"><span class="nav-number">6.1.1.</span> <span class="nav-text">Setup WSL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install-terminus"><span class="nav-number">6.1.2.</span> <span class="nav-text">Install Terminus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#install-go-in-wsl"><span class="nav-number">6.1.3.</span> <span class="nav-text">Install Go in WSL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#configure-vs-code"><span class="nav-number">6.1.4.</span> <span class="nav-text">Configure VS Code</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu"><span class="nav-number">6.2.</span> <span class="nav-text">Ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#install-go"><span class="nav-number">6.2.1.</span> <span class="nav-text">Install Go</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-up-environment"><span class="nav-number">6.2.2.</span> <span class="nav-text">Set up environment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#update-current-shell-session"><span class="nav-number">6.2.3.</span> <span class="nav-text">Update current shell session</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#php-mysql"><span class="nav-number">7.</span> <span class="nav-text">PHP &amp; MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#xampp"><span class="nav-number">7.1.</span> <span class="nav-text">Xampp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#java"><span class="nav-number">8.</span> <span class="nav-text">Java</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-1"><span class="nav-number">8.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#create-project"><span class="nav-number">8.2.</span> <span class="nav-text">Create Project</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-1"><span class="nav-number">8.3.</span> <span class="nav-text">Ubuntu</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mac-os"><span class="nav-number">8.4.</span> <span class="nav-text">Mac OS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#android"><span class="nav-number">9.</span> <span class="nav-text">Android</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#jupyter-notebook"><span class="nav-number">10.</span> <span class="nav-text">Jupyter notebook</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#download-and-install-anaconda"><span class="nav-number">10.1.</span> <span class="nav-text">Download and install Anaconda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#using-jupyter-notebook"><span class="nav-number">10.2.</span> <span class="nav-text">Using Jupyter notebook</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#method-1"><span class="nav-number">10.2.1.</span> <span class="nav-text">Method 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#method-2"><span class="nav-number">10.2.2.</span> <span class="nav-text">Method 2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#create-multiple-virtual-environment-with-different-python-version"><span class="nav-number">10.3.</span> <span class="nav-text">Create multiple virtual environment with different Python version</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#export-environment"><span class="nav-number">10.3.1.</span> <span class="nav-text">Export environment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import-environment"><span class="nav-number">10.3.2.</span> <span class="nav-text">Import environment</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#install-extension"><span class="nav-number">10.4.</span> <span class="nav-text">Install extension</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python-environment"><span class="nav-number">11.</span> <span class="nav-text">Python environment</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#install"><span class="nav-number">11.1.</span> <span class="nav-text">Install</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu-2"><span class="nav-number">11.1.1.</span> <span class="nav-text">Ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mac-os-1"><span class="nav-number">11.1.2.</span> <span class="nav-text">Mac OS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#create-virtual-environment"><span class="nav-number">11.2.</span> <span class="nav-text">Create virtual environment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#create-virtual-environment-with-different-python"><span class="nav-number">11.3.</span> <span class="nav-text">Create virtual environment with different python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#create-virtual-environment-with-no-packages"><span class="nav-number">11.4.</span> <span class="nav-text">Create virtual environment with no packages</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use"><span class="nav-number">11.5.</span> <span class="nav-text">Use</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#extract"><span class="nav-number">11.6.</span> <span class="nav-text">Extract</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#virtualenvwrapper"><span class="nav-number">12.</span> <span class="nav-text">Virtualenvwrapper</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#install-1"><span class="nav-number">12.1.</span> <span class="nav-text">Install</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setup-environment-for-specific-task"><span class="nav-number">13.</span> <span class="nav-text">Setup Environment for Specific Task</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ida-keypatcher"><span class="nav-number">13.1.</span> <span class="nav-text">IDA + Keypatcher</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decompile-apk"><span class="nav-number">13.2.</span> <span class="nav-text">Decompile apk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#debug-glibc"><span class="nav-number">13.3.</span> <span class="nav-text">Debug Glibc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker"><span class="nav-number">13.4.</span> <span class="nav-text">Docker</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
