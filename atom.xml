@@ -34,9 +34,9 @@
       <category term="Diary" scheme="http://example.com/categories/Diary/"/>
     
     
-      <category term="diary" scheme="http://example.com/tags/diary/"/>
-    
       <category term="learning" scheme="http://example.com/tags/learning/"/>
+    
+      <category term="diary" scheme="http://example.com/tags/diary/"/>
     
   </entry>
   
