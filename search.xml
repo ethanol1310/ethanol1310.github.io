@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Diary</title>
-    <url>/2099/09/16/diary/</url>
+    <url>/2099/09/16/Diary/Diary/</url>
     <content><![CDATA[<h1 id="section">2020-9-16</h1>
 <a id="more"></a>
 <ol type="1">
@@ -490,13 +490,13 @@
         <category>Diary</category>
       </categories>
       <tags>
-        <tag>learning</tag>
         <tag>diary</tag>
+        <tag>learning</tag>
       </tags>
   </entry>
   <entry>
     <title>LaTex formula syntax</title>
-    <url>/2020/10/01/study/latex/</url>
+    <url>/2020/10/01/Study/LaTex/</url>
     <content><![CDATA[<h1 id="formula-position">Formula position</h1>
 <h2 id="in-line-formula">In-line formula</h2>
 <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">inline: $ a^2 + b^2 = c^2 $</span><br></pre></td></tr></table></figure>
