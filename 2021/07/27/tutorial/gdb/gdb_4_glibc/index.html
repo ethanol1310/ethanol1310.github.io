@@ -29,7 +29,7 @@
 <meta property="og:description" content="Abstract This article describes the preparations needed to debug glibc source code, including: how to install the glibc shared library with debugging information, how to get the glibc source code that">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-27T16:12:50.000Z">
-<meta property="article:modified_time" content="2024-03-08T03:16:22.065Z">
+<meta property="article:modified_time" content="2024-03-08T04:20:06.444Z">
 <meta property="article:author" content="Ethanol">
 <meta property="article:tag" content="gdb">
 <meta property="article:tag" content="debug">
@@ -176,20 +176,20 @@ Series</span></a></li></ol></div>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -308,8 +308,8 @@ debugging glibc source code</h1>
 <p><strong>Note:</strong> libc-dbg contains glibc shared libraries such
 as <code>ld-X.X.so</code>, <code>libc-X.X.so</code> and
 <code>libm-X.X.so</code> with debugging information.</p>
-<p>On the author's machine, after installing libc-dbg, these shared
-libraries with debugging information are located in the
+<p>After installing libc-dbg, these shared libraries with debugging
+information are located in the
 <code>/usr/lib/debug/lib/x86_64-linux-gnu</code> directory, as
 follows:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls /usr/lib/debug/lib/x86_64-linux-gnu</span><br></pre></td></tr></table></figure>
@@ -365,18 +365,6 @@ executable target file.</p>
 Series</h1>
 <div class="post-series">
 <ul class="post-series-list">
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_1_basic/">Code
-Debugging with GDB - part 1: Basic Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_2_custom/">Code
-Debugging with GDB - part 2: Custom Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_3_automating_testing/">Code
-Debugging with GDB - part 3: Automating the Testing</a>
-</li>
 <li class="post-series-list-item">
 <a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_4_glibc/">Code
 Debugging with GDB - part 4: Basic Debug Glibc Source Code</a>

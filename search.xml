@@ -800,74 +800,6 @@ data-fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f
       </tags>
   </entry>
   <entry>
-    <title>Diary 2024 - 2025</title>
-    <url>/2024/03/07/diary/diary_2022/</url>
-    <content><![CDATA[<div class="note info no-icon"><h1 id="diary">Diary</h1>
-<div class="post-series">
-<ul class="post-series-list">
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2024/03/07/diary/diary_2022/">Diary
-2024 - 2025</a>
-</li>
-</ul>
-</div>
-</div>
-<h1 id="section">2022-4-1</h1>
-<span id="more"></span>
-<h1 id="section-1">2024-03-07</h1>
-<ul>
-<li>Read blog: <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.freecodecamp.org/news/so-you-want-to-work-in-security-bc6c10157d23/</span><br><span class="line">https://buaq.net/go-38591.html</span><br></pre></td></tr></table></figure></li>
-<li>Summary:
-<ol type="1">
-<li>Stop reading, start doing.</li>
-<li>Write code.</li>
-<li>Break code:
-<ol type="1">
-<li>Learning:
-<ol type="1">
-<li>Debugger: gdb, ida</li>
-<li>Network scanner: ffuf, nmap, masscan</li>
-<li>Web debugging proxy: WireShark, BurpSuite</li>
-<li>Software fuzzer: AFLfuzzing, winAFL</li>
-</ol></li>
-<li>CTF</li>
-<li>Bug Bounty: HackerOne, BugCrowd</li>
-<li>Reproduce 0day - learning from what others are finding:
-<ol type="1">
-<li>https://seclists.org/fulldisclosure/</li>
-<li>https://seclists.org/oss-sec/</li>
-</ol></li>
-<li>Share knowledge: write-up</li>
-</ol></li>
-</ol></li>
-<li>How to get into hacking:
-https://www.youtube.com/watch?v=9I5RAWGWj7I</li>
-<li>Learning Rust Challenge - Gynvael:
-<ul>
-<li>https://www.youtube.com/watch?v=CQyQBO1uvV0</li>
-</ul></li>
-</ul>
-<h1 id="section-2">2024-03-08</h1>
-<ul>
-<li>Update blog</li>
-<li>Learning Rust Challenge:
-<ul>
-<li><a href="https://www.youtube.com/watch?v=CQyQBO1uvV0">Learning Rust
-Challenge! #1 - YouTube</a></li>
-<li><a href="https://www.youtube.com/watch?v=POc-1X7mEH4">Learning Rust
-Challenge! #2 (youtube.com)</a></li>
-</ul></li>
-<li>Review GDB and debug glibc.</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Diary</category>
-      </categories>
-      <tags>
-        <tag>diary</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Computer Systems Practical - Part 0: The Compilation System</title>
     <url>/2021/07/27/learning/computer_system/cs_0_compilation/</url>
     <content><![CDATA[<h1 id="abstract">Abstract</h1>
@@ -1995,8 +1927,535 @@ Systems Practical - Part 4: Data Sections</a>
       </tags>
   </entry>
   <entry>
+    <title>Code Debugging with GDB - part 1: Basic Commands</title>
+    <url>/2021/07/26/tutorial/gdb/gdb_1_basic/</url>
+    <content><![CDATA[<h1 id="abstract">Abstract</h1>
+<p>This article describes basic commands in GDB and how to use it.</p>
+<span id="more"></span>
+<h1 id="start-gdb">Start GDB</h1>
+<h2 id="start-a-process-without-parameters">Start a process without
+parameters</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb &lt;executable-file&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="start-a-process-with-parameters">Start a process with
+parameters</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb -- args &lt;executable-file&gt; &lt;arg1&gt; &lt;argn&gt;</span><br><span class="line">gdb --args ./samples/main ./config.txt</span><br></pre></td></tr></table></figure>
+<h2 id="debug-a-running-process">Debug a running process</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb</span><br><span class="line">attach &lt;process-id&gt;</span><br><span class="line">attach &lt;8888&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="debug-the-process-with-command-files">Debug the process with
+command files</h2>
+<p>Command file is a file containing gdb commands.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb -x &lt;commmand-file&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb -x main.gdb</span><br><span class="line"><span class="comment"># Specify the path of the executable file</span></span><br><span class="line">file ./samples/main</span><br><span class="line"><span class="comment"># Set the parameters of the executable file (if any)</span></span><br><span class="line"><span class="built_in">set</span> args ./config.txt</span><br><span class="line"><span class="comment"># Start the process</span></span><br><span class="line">start</span><br><span class="line"><span class="comment"># Continue execution</span></span><br><span class="line">c</span><br></pre></td></tr></table></figure>
+<h1 id="debugging-process">Debugging Process</h1>
+<h2 id="view-process-information">View process information</h2>
+<h3 id="view-process-id-executable-file-path-current-directory">View
+process ID, executable file path, current directory</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">info proc</span><br><span class="line">i proc</span><br></pre></td></tr></table></figure>
+<h3 id="view-all-threads">View all threads</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">info threads</span><br><span class="line">i threads</span><br></pre></td></tr></table></figure>
+<h3 id="view-the-thread-where-the-breakpoint-is-currently-located">View
+the thread where the breakpoint is currently located</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">p <span class="variable">$_thread</span></span><br></pre></td></tr></table></figure>
+<h2 id="view-stack-information">View stack information</h2>
+<h3 id="view-the-stack-information-of-the-current-thread">View the stack
+information of the current thread</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Only print the call level of stack information</span></span><br><span class="line">(gdb) bt</span><br><span class="line"><span class="comment"># Print the call level of stack information, and print the value of function parameters and local variables</span></span><br><span class="line">(gdb) bt full</span><br></pre></td></tr></table></figure>
+<h3 id="view-the-stack-information-of-all-threads">View the stack
+information of all threads</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">thread apply all bt</span><br><span class="line">thread apply all <span class="built_in">where</span></span><br></pre></td></tr></table></figure>
+<h3 id="view-the-stack-information-of-the-specified-thread">View the
+stack information of the specified thread</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">thread &lt;thread-id-by-gdb&gt;</span><br><span class="line">bt</span><br></pre></td></tr></table></figure>
+<h2 id="viewset-the-search-path-of-the-source-code">View/set the search
+path of the source code</h2>
+<h3 id="view-the-source-code-search-path">View the source code search
+path</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">show directories</span><br></pre></td></tr></table></figure>
+<h3 id="add-source-code-search-path">Add source code search path</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">directory &lt;source-code-path&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="reset-the-the-deault-source-code-search-path">Reset the the
+deault source code search path</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">directory</span><br></pre></td></tr></table></figure>
+<h2 id="view-source-codeassembly">View source code/assembly</h2>
+<p><strong>Note:</strong> To view the source code, you must include
+<code>-g</code>option when compiling.</p>
+<h3 id="view-the-source-code-of-the-current-file">View the source code
+of the current file</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">list &lt;line-number&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="view-the-source-code-of-the-specified-file">View the source code
+of the specified file</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">list &lt;file-name&gt;:&lt;line-number&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="view-the-assembly-code-of-the-specified-function">View the
+assembly code of the specified function</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Print assembly code</span></span><br><span class="line">disas &lt;function-name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Print assembly code and corresponding source code</span></span><br><span class="line">disas /m &lt;function-name&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="viewsetdebug-breakpoints">View/set/Debug breakpoints</h2>
+<h3 id="add-breakpoints-all-threads">Add breakpoints (all threads)</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b &lt;file-name&gt;:&lt;line-number&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="add-breakpoints-specify-thread">Add breakpoints (specify
+thread)</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b &lt;file-name&gt;:&lt;line-number&gt; thread &lt;thread-id-by-gdb&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="add-breakpoints-to-the-specified-memory-address">Add breakpoints
+to the specified memory address</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b *&lt;address&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="add-conditional-breakpoints">Add conditional breakpoints</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b &lt;file-name&gt;:&lt;line-number&gt; <span class="keyword">if</span> &lt;expression&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="view-all-breakpoints">View all breakpoints</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">i breakpoints</span><br></pre></td></tr></table></figure>
+<h3 id="view-the-specified-breakpoint">View the specified
+breakpoint</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">i breakpoints &lt;breakpoint-number&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="view-breakpoints-in-the-specified-range">View breakpoints in the
+specified range</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">i breakpoints &lt;breakpoint-number&gt;-&lt;breakpoint-number&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="delete-breakpoints">Delete breakpoints</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d breakpoints &lt;breakpoints-number&gt;</span><br><span class="line">d breakpoints &lt;breakpoints-number&gt;:&lt;breakpoints-number&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="debugging">Debugging</h1>
+<h2 id="stepjump">Step/jump</h2>
+<h3 id="single-step-statement-level">Single step (statement level)</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">next</span><br></pre></td></tr></table></figure>
+<h3 id="single-step-instruction-level">Single step (instruction
+level)</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nexti</span><br></pre></td></tr></table></figure>
+<h3 id="jump-into-the-function-statement-level">Jump into the function
+(statement level)</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">step</span><br></pre></td></tr></table></figure>
+<h3 id="jump-into-the-function-intruction-level">Jump into the function
+(intruction level)</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">stepi</span><br></pre></td></tr></table></figure>
+<h3 id="jump-out-function">Jump out function</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">finish</span><br></pre></td></tr></table></figure>
+<h3 id="continue">Continue</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">continue</span><br><span class="line">c</span><br></pre></td></tr></table></figure>
+<h2 id="printchange-value">Print/Change value</h2>
+<h3 id="print-the-value-of-the-variable-prin-only-once">Print the value
+of the variable (prin only once)</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">print &lt;variable-name&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="print-the-value-of-the-variable-automatic-printing">Print the
+value of the variable (automatic printing)</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">display &lt;variable-name&gt;</span><br><span class="line">undisplay &lt;variable-name&gt;</span><br><span class="line"><span class="comment"># Check the variable are available for automatic printing</span></span><br><span class="line">i display</span><br></pre></td></tr></table></figure>
+<h3 id="print-the-value-of-function-parameterslocal-variables">Print the
+value of function parameters/local variables</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">i args</span><br><span class="line">i locals</span><br></pre></td></tr></table></figure>
+<h2 id="viewchange-the-value-of-the-register">View/change the value of
+the register</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">i registers</span><br><span class="line">i registers all</span><br><span class="line">p <span class="variable">$rcx</span></span><br><span class="line">p <span class="variable">$rcx</span>=1 <span class="comment"># change value </span></span><br></pre></td></tr></table></figure>
+<h2 id="view-the-value-of-memory">View the value of memory</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">x/&lt;n&gt;&lt;f&gt;&lt;u&gt; &lt;address&gt;</span><br><span class="line">x/wx</span><br><span class="line">x/gx</span><br></pre></td></tr></table></figure>
+<p><strong>f represents the output format, and the default value
+is</strong></p>
+<p><code>x</code> (hexadecimal).</p>
+<p><code>i</code> machine instruction, ignore the size of the output
+unit;</p>
+<p><code>d</code> (signed) decimal;</p>
+<p><code>u</code> (unsigned) decimal;</p>
+<p><code>o</code> octal;</p>
+<p><code>t</code> binary;</p>
+<p><code>a</code> hexadecimal, omitted The first 0;</p>
+<p><code>s</code> a character string, and the default output unit size
+is b (bytes).</p>
+<p><strong>u represents the output unit size</strong></p>
+<p>The default value is <code>w</code> (Words, 4 bytes)</p>
+<p><code>b</code> bytes;</p>
+<p><code>h</code> Halfwords, 2 bytes;</p>
+<p><code>g</code> Giant words, 8 bytes.</p>
+<p>Note: When the command x is executed, if the specified output unit
+size is not displayed, the last specified value will be used by
+default.</p>
+<h2 id="calling-cc-functions">Calling C/C++ functions</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">call &lt;function-name&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="debug-coredump-files">Debug coredump files</h1>
+<p><strong>Step 1:</strong> Check whether coredump is turned on</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ulimit -c</span><br></pre></td></tr></table></figure>
+<p>Note: If the output result is 0, then coredump is not turned on.</p>
+<p><strong>Step 2: Turn</strong> on coredump</p>
+<p>Turn on coredump and don't limit the size of the core file (only
+valid for the current session):</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ulimit -c unlimited</span><br></pre></td></tr></table></figure>
+<p><strong>Step 3: Debug</strong> coredump files</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ gdb &lt;executable-file&gt; &lt;coredump-file-path&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>Note: </strong> <code>&lt;executable-file&gt;</code> is the
+executable file used when coredump occurs.</p>
+<p><strong>Step 4:</strong> View stack information</p>
+<p>See the view stack information in this article.</p>
+<h1 id="setup-gdb-log-function">Setup GDB log function</h1>
+<ul>
+<li><strong>Turn on/off log output function</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Turn on the log output function, and the default log output file name is gdb.txt</span><br><span class="line">(gdb) set logging on</span><br><span class="line"># Turn off the log output function</span><br><span class="line">(gdb) set logging off</span><br><span class="line"># Turn on the log output function and specify the log output file</span><br><span class="line"># (gdb) set logging on gdb_log.txt</span><br><span class="line">(gdb) set logging on &lt;log-file&gt;</span><br></pre></td></tr></table></figure>
+<p>Note: After opening the log output function, the output of gdb will
+be written to the specified log file.</p>
+<ul>
+<li><strong>Change the file of log output</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) set logging file &lt;log-file&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Set the way to write log files: overwrite/append
+write</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Set the way to write log files: overwrite</span><br><span class="line">(gdb) set logging overwrite on</span><br><span class="line"># Set the way to write the log file: append write</span><br><span class="line">(gdb) set logging overwrite off</span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong> The default mode of gdb is append write.</p>
+<p><strong>Note:</strong> After setting <code>overwrite</code> or
+<code>additional write</code>, you need to execute
+<code>set logging on</code> again to take effect.</p>
+<p>Example:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">file ./main</span><br><span class="line">set logging overwrite on</span><br><span class="line">set logging on test.log</span><br><span class="line">starrt</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Set whether to redirect gdb output</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># The output of gdb is only written to the log output file, not to the console</span><br><span class="line">(gdb) set logging redirect on</span><br><span class="line"># The output of gdb will be written to the log output file and the console</span><br><span class="line">(gdb) set logging redirect off</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>View the current log output settings</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) show logging </span><br><span class="line">Currently logging to &quot;debug_navigator.txt&quot;.</span><br><span class="line">Logs will be appended to the log file.</span><br><span class="line">Output is being logged and displayed.</span><br></pre></td></tr></table></figure>
+<div class="note info no-icon"><h1 id="code-debugging-with-gdb-series">Code debugging with GDB
+Series</h1>
+<div class="post-series">
+<ul class="post-series-list">
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_1_basic/">Code
+Debugging with GDB - part 1: Basic Commands</a>
+</li>
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_2_custom/">Code
+Debugging with GDB - part 2: Custom Commands</a>
+</li>
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_3_automating_testing/">Code
+Debugging with GDB - part 3: Automating the Testing</a>
+</li>
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_4_glibc/">Code
+Debugging with GDB - part 4: Basic Debug Glibc Source Code</a>
+</li>
+</ul>
+</div>
+</div>
+]]></content>
+      <categories>
+        <category>Tutorial</category>
+        <category>Code debugging with GDB</category>
+      </categories>
+      <tags>
+        <tag>gdb</tag>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Code Debugging with GDB - part 2: Custom Commands</title>
+    <url>/2021/07/26/tutorial/gdb/gdb_2_custom/</url>
+    <content><![CDATA[<h1 id="abstract">Abstract</h1>
+<p>This article describes custom commands in GDB and how to write
+it.</p>
+<span id="more"></span>
+<h1 id="customize-a-gdb-command">Customize a gdb command</h1>
+<h2 id="syntax">Syntax</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">define &lt;command-name&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">define &lt;defined-command-name&gt;&lt;sub-command-name&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p><strong>Debug</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ethanol@ethanol:~/Desktop/pic$ gdb -q ./main_mix</span><br><span class="line">GEF <span class="keyword">for</span> linux ready, <span class="built_in">type</span> `gef<span class="string">&#x27; to start, `gef config&#x27;</span> to configure</span><br><span class="line">96 commands loaded <span class="keyword">for</span> GDB 9.2 using Python engine 3.8</span><br><span class="line">Reading symbols from ./main_mix...</span><br><span class="line">gef➤  define hello</span><br><span class="line">Type commands <span class="keyword">for</span> definition of <span class="string">&quot;hello&quot;</span>.</span><br><span class="line">End with a line saying just <span class="string">&quot;end&quot;</span>.</span><br><span class="line">&gt;<span class="built_in">echo</span> hello, world\n</span><br><span class="line">&gt;end</span><br><span class="line">gef➤  hello</span><br><span class="line">hello, world</span><br></pre></td></tr></table></figure>
+<h2 id="view-custom-gdb-command">View custom gdb command</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gef➤  show user</span><br><span class="line">User <span class="built_in">command</span> <span class="string">&quot;hello&quot;</span>:</span><br><span class="line">  <span class="built_in">echo</span> hello, world\n</span><br><span class="line"></span><br><span class="line">gef➤  show user hello</span><br><span class="line">User <span class="built_in">command</span> <span class="string">&quot;hello&quot;</span>:</span><br><span class="line">  <span class="built_in">echo</span> hello, world\n</span><br></pre></td></tr></table></figure>
+<h1 id="get-parameters">Get parameters</h1>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$arg0</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$arg1</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$arg</span>&lt;n-1&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gef➤  define log_info</span><br><span class="line">Type commands <span class="keyword">for</span> definition of <span class="string">&quot;log_info&quot;</span>.</span><br><span class="line">End with a line saying just <span class="string">&quot;end&quot;</span>.</span><br><span class="line">&gt;<span class="built_in">echo</span> argc=<span class="variable">$argc</span>\n</span><br><span class="line">&gt;<span class="built_in">echo</span> arg1=<span class="variable">$arg0</span>\n</span><br><span class="line">&gt;<span class="built_in">echo</span> arg2=<span class="variable">$arg1</span>\n</span><br><span class="line">&gt;end</span><br><span class="line">gef➤  log_info hello world</span><br><span class="line">argc=2</span><br><span class="line">arg1=hello</span><br><span class="line">arg2=world</span><br></pre></td></tr></table></figure>
+<h1 id="use-conditional-branching">Use conditional branching</h1>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gef➤  define log_info</span><br><span class="line">Type commands <span class="keyword">for</span> definition of <span class="string">&quot;log_info&quot;</span>.</span><br><span class="line">End with a line saying just <span class="string">&quot;end&quot;</span>.</span><br><span class="line">&gt;<span class="keyword">if</span> <span class="variable">$argc</span>==2</span><br><span class="line">&gt;<span class="built_in">echo</span> argc=<span class="variable">$argc</span>\n</span><br><span class="line">&gt;<span class="built_in">echo</span> arg1=<span class="variable">$arg0</span>\n</span><br><span class="line">&gt;<span class="built_in">echo</span> arg2=<span class="variable">$arg1</span>\n</span><br><span class="line">&gt;<span class="keyword">else</span></span><br><span class="line">&gt;<span class="built_in">echo</span> args error\n</span><br><span class="line">&gt;end</span><br><span class="line">&gt;end</span><br><span class="line">gef➤  log_info hello world</span><br><span class="line">argc=2</span><br><span class="line">arg1=hello</span><br><span class="line">arg2=world</span><br></pre></td></tr></table></figure>
+<h1 id="use-loop">Use loop</h1>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">define log_info</span><br><span class="line">	<span class="keyword">if</span> <span class="variable">$argc</span> &lt; 1</span><br><span class="line">		<span class="built_in">echo</span> args error\n</span><br><span class="line">		<span class="built_in">return</span></span><br><span class="line">	end</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">set</span> <span class="variable">$i</span> = 0</span><br><span class="line">	<span class="keyword">while</span> <span class="variable">$1</span> &lt; argc</span><br><span class="line">		<span class="built_in">printf</span> <span class="string">&quot;%dth arg\n&quot;</span>, <span class="variable">$i</span></span><br><span class="line">		<span class="built_in">set</span> <span class="variable">$i</span> = <span class="variable">$i</span> + 1</span><br><span class="line">	end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<h1 id="execute-custom-gdb-commands-in-files">Execute custom gdb
+commands in files</h1>
+<p>In gdb:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> cmd.gdb</span><br><span class="line">show user</span><br></pre></td></tr></table></figure>
+<div class="note info no-icon"><h1 id="code-debugging-with-gdb-series">Code debugging with GDB
+Series</h1>
+<div class="post-series">
+<ul class="post-series-list">
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_1_basic/">Code
+Debugging with GDB - part 1: Basic Commands</a>
+</li>
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_2_custom/">Code
+Debugging with GDB - part 2: Custom Commands</a>
+</li>
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_3_automating_testing/">Code
+Debugging with GDB - part 3: Automating the Testing</a>
+</li>
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_4_glibc/">Code
+Debugging with GDB - part 4: Basic Debug Glibc Source Code</a>
+</li>
+</ul>
+</div>
+</div>
+]]></content>
+      <categories>
+        <category>Tutorial</category>
+        <category>Code debugging with GDB</category>
+      </categories>
+      <tags>
+        <tag>gdb</tag>
+        <tag>debug</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Code Debugging with GDB - part 3: Automating the Testing</title>
+    <url>/2021/07/27/tutorial/gdb/gdb_3_automating_testing/</url>
+    <content><![CDATA[<h1 id="abstract">Abstract</h1>
+<p>There are some processes nested with complex conditional branches.
+Now you need to be able to fully cover and test program work
+correctly.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Sequence 1: Condition1 -&gt; Condition2 -&gt; Condition3 -&gt; Condition4 -&gt; Handler1</span><br><span class="line">Sequence 2: Condition1 -&gt; Condition2 -&gt; Condition3 -&gt; Condition5 -&gt; Handler1</span><br><span class="line">Sequence 3: Condition1 -&gt; Condition2 -&gt; Condition7 -&gt; Condition4 -&gt; Handler1</span><br></pre></td></tr></table></figure>
+<p><strong>Note</strong>: Each condition is encapsulated into a separate
+function, and these execution branches execute only one at a time.</p>
+<span id="more"></span>
+<h1 id="automating-testing">Automating Testing</h1>
+<h2 id="ideas">Ideas</h2>
+<ul>
+<li>Do not try to modify the existing code.</li>
+<li>Construct the conditions required to execute each handler at
+runtime. For example, to handler called normally requires all its
+pre-condition to be modified to true.</li>
+<li>Can do this with GDB.</li>
+</ul>
+<h2 id="using-gdb-to-modify-function-return-values-at-runtime">Using GDB
+to modify function return values at runtime</h2>
+<h3 id="source-test">Source test</h3>
+<figure class="highlight c++"><figcaption><span>main.cpp</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> g_cond1 = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> g_cond2 = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">bool</span> g_cond3 = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">bool</span> g_cond4 = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">condition1</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> g_cond1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">condition2</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> g_cond2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">condition3</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> g_cond3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">condition4</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> g_cond4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">handler1</span><span class="params">()</span></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;handler1() is called&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">condition1</span>() == <span class="number">2</span> &amp;&amp; <span class="built_in">condition2</span>() == <span class="number">3</span> &amp; !<span class="built_in">condition3</span>() &amp;&amp; <span class="built_in">condition4</span>()) &#123;</span><br><span class="line">		<span class="built_in">handler1</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="modify-return-value-in-gdb">Modify return value in GDB</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ethanol@ethanol:~/Desktop/automating_test$ gdb -q ./main</span><br><span class="line">GEF <span class="keyword">for</span> linux ready, <span class="built_in">type</span> `gef<span class="string">&#x27; to start, `gef config&#x27;</span> to configure</span><br><span class="line">96 commands loaded <span class="keyword">for</span> GDB 9.2 using Python engine 3.8</span><br><span class="line">Reading symbols from ./main...</span><br><span class="line">gef➤  b condition1</span><br><span class="line">Breakpoint 1 at 0x11a9: file main.cpp, line 8.</span><br><span class="line">gef➤  b condition2</span><br><span class="line">Breakpoint 2 at 0x11b9: file main.cpp, line 12.</span><br><span class="line">gef➤  b condition3</span><br><span class="line">Breakpoint 3 at 0x11c9: file main.cpp, line 16.</span><br><span class="line">gef➤  b condition4</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gef➤  c</span><br><span class="line">gef➤  <span class="built_in">return</span> 2</span><br><span class="line">gef➤  c </span><br><span class="line">gef➤  <span class="built_in">return</span> 3</span><br><span class="line">gef➤  c</span><br><span class="line">gef➤  <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">gef➤  c</span><br><span class="line">gef➤  <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">gef➤  c</span><br><span class="line">Continuing.</span><br><span class="line">handler1() is called</span><br><span class="line">[Inferior 1 (process 20873) exited normally]</span><br><span class="line">gef➤  </span><br></pre></td></tr></table></figure>
+<p>We can put manually executed commands into a file
+<code>cmd_test.gdb</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">file ./main</span><br><span class="line">start</span><br><span class="line"></span><br><span class="line">define test_handler1</span><br><span class="line">  b condition1</span><br><span class="line">  b condition2</span><br><span class="line">  b condition3</span><br><span class="line">  b condition4</span><br><span class="line"></span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> 2</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> 3</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">  c</span><br><span class="line">end</span><br><span class="line">test_handler1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb -q -x cmd_test.gdb</span><br></pre></td></tr></table></figure>
+<h2 id="tell-if-the-handler-is-called">Tell if the handler is
+called</h2>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">file ./main</span><br><span class="line">start</span><br><span class="line"></span><br><span class="line">define test_handler1</span><br><span class="line">  b condition1</span><br><span class="line">  b condition2</span><br><span class="line">  b condition3</span><br><span class="line">  b condition4</span><br><span class="line">	b *handler1</span><br><span class="line">	</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> 2</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> 3</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">set</span> <span class="variable">$next_actual</span> = <span class="variable">$pc</span></span><br><span class="line">  <span class="built_in">set</span> <span class="variable">$next_expected</span> = &amp;handler1</span><br><span class="line">  <span class="keyword">if</span> <span class="variable">$next_actual</span> == <span class="variable">$next_expected</span></span><br><span class="line">  	<span class="built_in">echo</span> test_handler1[SUCCESS]\n</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  	<span class="built_in">echo</span> test_handler1[FAILURE]\n</span><br><span class="line">  end</span><br><span class="line">  c</span><br><span class="line">end</span><br><span class="line">test_handler1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>Note</strong>: If you want to get the first instruction of a
+class member function -
+<code>set $expected =(int) 'test.cpp' ::Test::Handler1</code>.</p>
+<ul>
+<li><code>Test</code>: class name.</li>
+<li><code>Handler1</code>: member function name.</li>
+</ul>
+<h2 id="other-issues">Other issues</h2>
+<ol type="1">
+<li>Breakpoint cleanup between test cases - <code>d</code>.</li>
+<li>Test case results statistics.
+<ol type="1">
+<li>Turn on gdb logging function.</li>
+<li>Write scripts that analyze the output logs of gdb and count which
+test cases passed and which failed.</li>
+</ol></li>
+</ol>
+<div class="note info no-icon"><h1 id="code-debugging-with-gdb-series">Code debugging with GDB
+Series</h1>
+<div class="post-series">
+<ul class="post-series-list">
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_1_basic/">Code
+Debugging with GDB - part 1: Basic Commands</a>
+</li>
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_2_custom/">Code
+Debugging with GDB - part 2: Custom Commands</a>
+</li>
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_3_automating_testing/">Code
+Debugging with GDB - part 3: Automating the Testing</a>
+</li>
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_4_glibc/">Code
+Debugging with GDB - part 4: Basic Debug Glibc Source Code</a>
+</li>
+</ul>
+</div>
+</div>
+]]></content>
+      <categories>
+        <category>Tutorial</category>
+        <category>Code debugging with GDB</category>
+      </categories>
+      <tags>
+        <tag>gdb</tag>
+        <tag>debug</tag>
+        <tag>automating</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Code Debugging with GDB - part 4: Basic Debug Glibc Source Code</title>
+    <url>/2021/07/27/tutorial/gdb/gdb_4_glibc/</url>
+    <content><![CDATA[<h1 id="abstract">Abstract</h1>
+<p>This article describes the preparations needed to debug glibc source
+code, including: how to install the glibc shared library with debugging
+information, how to get the glibc source code that matches the system,
+how to use the glibc source code in gdb, and through a simple Examples
+show this process.</p>
+<span id="more"></span>
+<h1 id="preparation-for-debugging-glibc-source-code">Preparation for
+debugging glibc source code</h1>
+<h2 id="install-libc-dbg">Install <code>libc-dbg</code></h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libc-dbg</span><br></pre></td></tr></table></figure>
+<p><strong>Note:</strong> libc-dbg contains glibc shared libraries such
+as <code>ld-X.X.so</code>, <code>libc-X.X.so</code> and
+<code>libm-X.X.so</code> with debugging information.</p>
+<p>After installing libc-dbg, these shared libraries with debugging
+information are located in the
+<code>/usr/lib/debug/lib/x86_64-linux-gnu</code> directory, as
+follows:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls /usr/lib/debug/lib/x86_64-linux-gnu</span><br></pre></td></tr></table></figure>
+<p>We can use the readelf command to verify that these shared libraries
+are indeed with debugging information. for example:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">readelf -S /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.31.so | grep debug</span><br></pre></td></tr></table></figure>
+<p>If there are sections beginning with <code>.debug</code> in the above
+output, it means that there are debugging information.</p>
+<h2 id="install-the-matching-glibc-source-code">Install the matching
+glibc source code</h2>
+<p><strong>Note:</strong> If the glibc library that comes with the
+system, for example, the version of <code>lib.c.so</code> is 2.31. Then,
+the source code of glibc 2.31 version downloaded directly from GNU
+official website may not match. The word "may" here means that if ubuntu
+does not modify the source code you want to debug, then it matches;
+otherwise, it does not match.</p>
+<p><strong>Install the matching glibc source code</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install glibc-source</span><br></pre></td></tr></table></figure>
+<p><strong>Decompress the matching glibc source code</strong></p>
+<p>the installed glibc source code is located in the /usr/src/glibc/
+directory, as follows:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls /usr/src/glibc</span><br></pre></td></tr></table></figure>
+<p>After the installation is complete, you need to unzip it before you
+can use it. Suppose you want to extract it to the <code>/home</code>
+directory, then execute the following command:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo tar xvf /usr/src/glibc/glibc-2.31.tar.xz -C /home/ethanol/Desktop</span><br></pre></td></tr></table></figure>
+<p><strong>How to determine whether the glibc source code is
+compatible</strong></p>
+<p>If you use gdb to debug the glibc source code, a
+<code>warning: Source file is more recent than executable</code>
+appears. Well, it usually means that the glibc source code is not
+compatible. At this point, we must install the supporting glibc source
+code before proceeding with source code debugging.</p>
+<h1 id="debug-glibc-source-code">Debug glibc source code</h1>
+<p><strong>Step 1</strong>: Prepare the sample program and generate an
+executable target file.</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hello world.&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">g++ -o hello hello.cpp -g</span><br></pre></td></tr></table></figure>
+<p><strong>Step 2</strong>: Debug glibc</p>
+<ul>
+<li>Directory of debugging shared library.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">show debug-file-directory</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Manually set the directory of debugging shared library.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> debug-file-directory /usr/lib/debug</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Specify the directory where the glibc source is located.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Start debug</span></span><br><span class="line">gdb -q ./hello</span><br><span class="line"></span><br><span class="line"><span class="comment"># Specify the directory where the glibc source code is locate</span></span><br><span class="line">gef➤  directory /home/ethanol/Desktop/glibc-2.31/stdio-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># Run file</span></span><br><span class="line">gef➤  start</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the breakpoint and continue execute</span></span><br><span class="line">gef➤  b __printf</span><br><span class="line">gef➤  c</span><br><span class="line"></span><br><span class="line">gef➤  l</span><br><span class="line">23</span><br><span class="line">24      /* Write formatted output to stdout from the format string FORMAT.  */</span><br><span class="line">25      /* VARARGS1 */</span><br><span class="line">26      int</span><br><span class="line">27      __printf (const char *format, ...)</span><br><span class="line">28      &#123;</span><br><span class="line">29        va_list arg;</span><br><span class="line">30        int <span class="keyword">done</span>;</span><br><span class="line">31</span><br><span class="line">32        va_start (arg, format);</span><br></pre></td></tr></table></figure>
+<div class="note info no-icon"><h1 id="code-debugging-with-gdb-series">Code debugging with GDB
+Series</h1>
+<div class="post-series">
+<ul class="post-series-list">
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_4_glibc/">Code
+Debugging with GDB - part 4: Basic Debug Glibc Source Code</a>
+</li>
+</ul>
+</div>
+</div>
+]]></content>
+      <categories>
+        <category>Tutorial</category>
+        <category>Code debugging with GDB</category>
+      </categories>
+      <tags>
+        <tag>gdb</tag>
+        <tag>debug</tag>
+        <tag>glibc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Diary 2024 - 2025</title>
+    <url>/2024/03/07/diary/diary_2024/</url>
+    <content><![CDATA[<div class="note info no-icon"><h1 id="diary">Diary</h1>
+<div class="post-series">
+<ul class="post-series-list">
+<li class="post-series-list-item">
+<a href="https://ethanol1310.github.io/2024/03/07/diary/diary_2024/">Diary
+2024 - 2025</a>
+</li>
+</ul>
+</div>
+</div>
+<h1 id="section">2022-4-1</h1>
+<span id="more"></span>
+<h1 id="section-1">2024-03-07</h1>
+<ul>
+<li>Read blog: <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">https://www.freecodecamp.org/news/so-you-want-to-work-in-security-bc6c10157d23/</span><br><span class="line">https://buaq.net/go-38591.html</span><br></pre></td></tr></table></figure></li>
+<li>Summary:
+<ol type="1">
+<li>Stop reading, start doing.</li>
+<li>Write code.</li>
+<li>Break code:
+<ol type="1">
+<li>Learning:
+<ol type="1">
+<li>Debugger: gdb, ida</li>
+<li>Network scanner: ffuf, nmap, masscan</li>
+<li>Web debugging proxy: WireShark, BurpSuite</li>
+<li>Software fuzzer: AFLfuzzing, winAFL</li>
+</ol></li>
+<li>CTF</li>
+<li>Bug Bounty: HackerOne, BugCrowd</li>
+<li>Reproduce 0day - learning from what others are finding:
+<ol type="1">
+<li>https://seclists.org/fulldisclosure/</li>
+<li>https://seclists.org/oss-sec/</li>
+</ol></li>
+<li>Share knowledge: write-up</li>
+</ol></li>
+</ol></li>
+<li>How to get into hacking:
+https://www.youtube.com/watch?v=9I5RAWGWj7I</li>
+<li>Learning Rust Challenge - Gynvael:
+<ul>
+<li>https://www.youtube.com/watch?v=CQyQBO1uvV0</li>
+</ul></li>
+</ul>
+<h1 id="section-2">2024-03-08</h1>
+<ul>
+<li>Update blog.</li>
+<li>Learning Rust Challenge:
+<ul>
+<li><a href="https://www.youtube.com/watch?v=CQyQBO1uvV0">Learning Rust
+Challenge! #1</a></li>
+</ul></li>
+</ul>
+<h1 id="section-3">2024-03-09</h1>
+<ul>
+<li>Learning Rust Challenge:
+<ul>
+<li><a href="https://www.youtube.com/watch?v=POc-1X7mEH4">Learning Rust
+Challenge! #2</a></li>
+</ul></li>
+<li>Find something online to transcribe code Rust to learn.</li>
+<li>Transcribing source code is fun</li>
+<li>Review GDB and debug glibc.</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Diary</category>
+      </categories>
+      <tags>
+        <tag>diary</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LaTex formula syntax</title>
-    <url>/2020/10/01/learning/latex/LaTex/</url>
+    <url>/2020/10/01/learning/latex/laTex/</url>
     <content><![CDATA[<h1 id="formula-position">Formula position</h1>
 <h2 id="in-line-formula">In-line formula</h2>
 <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">inline: $a^2 + b^2 = c^2$</span><br></pre></td></tr></table></figure>
@@ -3174,466 +3633,31 @@ unsaturation</td>
       </tags>
   </entry>
   <entry>
-    <title>Code Debugging with GDB - part 1: Basic Commands</title>
-    <url>/2021/07/26/tutorial/gdb/gdb_1_basic/</url>
-    <content><![CDATA[<h1 id="abstract">Abstract</h1>
-<p>This article describes basic commands in GDB and how to use it.</p>
-<span id="more"></span>
-<h1 id="start-gdb">Start GDB</h1>
-<h2 id="start-a-process-without-parameters">Start a process without
-parameters</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb &lt;executable-file&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="start-a-process-with-parameters">Start a process with
-parameters</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb -- args &lt;executable-file&gt; &lt;arg1&gt; &lt;argn&gt;</span><br><span class="line">gdb --args ./samples/main ./config.txt</span><br></pre></td></tr></table></figure>
-<h2 id="debug-a-running-process">Debug a running process</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb</span><br><span class="line">attach &lt;process-id&gt;</span><br><span class="line">attach &lt;8888&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="debug-the-process-with-command-files">Debug the process with
-command files</h2>
-<p>Command file is a file containing gdb commands.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb -x &lt;commmand-file&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb -x main.gdb</span><br><span class="line"><span class="comment"># Specify the path of the executable file</span></span><br><span class="line">file ./samples/main</span><br><span class="line"><span class="comment"># Set the parameters of the executable file (if any)</span></span><br><span class="line"><span class="built_in">set</span> args ./config.txt</span><br><span class="line"><span class="comment"># Start the process</span></span><br><span class="line">start</span><br><span class="line"><span class="comment"># Continue execution</span></span><br><span class="line">c</span><br></pre></td></tr></table></figure>
-<h1 id="debugging-process">Debugging Process</h1>
-<h2 id="view-process-information">View process information</h2>
-<h3 id="view-process-id-executable-file-path-current-directory">View
-process ID, executable file path, current directory</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">info proc</span><br><span class="line">i proc</span><br></pre></td></tr></table></figure>
-<h3 id="view-all-threads">View all threads</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">info threads</span><br><span class="line">i threads</span><br></pre></td></tr></table></figure>
-<h3 id="view-the-thread-where-the-breakpoint-is-currently-located">View
-the thread where the breakpoint is currently located</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">p <span class="variable">$_thread</span></span><br></pre></td></tr></table></figure>
-<h2 id="view-stack-information">View stack information</h2>
-<h3 id="view-the-stack-information-of-the-current-thread">View the stack
-information of the current thread</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Only print the call level of stack information</span></span><br><span class="line">(gdb) bt</span><br><span class="line"><span class="comment"># Print the call level of stack information, and print the value of function parameters and local variables</span></span><br><span class="line">(gdb) bt full</span><br></pre></td></tr></table></figure>
-<h3 id="view-the-stack-information-of-all-threads">View the stack
-information of all threads</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">thread apply all bt</span><br><span class="line">thread apply all <span class="built_in">where</span></span><br></pre></td></tr></table></figure>
-<h3 id="view-the-stack-information-of-the-specified-thread">View the
-stack information of the specified thread</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">thread &lt;thread-id-by-gdb&gt;</span><br><span class="line">bt</span><br></pre></td></tr></table></figure>
-<h2 id="viewset-the-search-path-of-the-source-code">View/set the search
-path of the source code</h2>
-<h3 id="view-the-source-code-search-path">View the source code search
-path</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">show directories</span><br></pre></td></tr></table></figure>
-<h3 id="add-source-code-search-path">Add source code search path</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">directory &lt;source-code-path&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="reset-the-the-deault-source-code-search-path">Reset the the
-deault source code search path</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">directory</span><br></pre></td></tr></table></figure>
-<h2 id="view-source-codeassembly">View source code/assembly</h2>
-<p><strong>Note:</strong> To view the source code, you must include
-<code>-g</code>option when compiling.</p>
-<h3 id="view-the-source-code-of-the-current-file">View the source code
-of the current file</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">list &lt;line-number&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="view-the-source-code-of-the-specified-file">View the source code
-of the specified file</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">list &lt;file-name&gt;:&lt;line-number&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="view-the-assembly-code-of-the-specified-function">View the
-assembly code of the specified function</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Print assembly code</span></span><br><span class="line">disas &lt;function-name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Print assembly code and corresponding source code</span></span><br><span class="line">disas /m &lt;function-name&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="viewsetdebug-breakpoints">View/set/Debug breakpoints</h2>
-<h3 id="add-breakpoints-all-threads">Add breakpoints (all threads)</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b &lt;file-name&gt;:&lt;line-number&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="add-breakpoints-specify-thread">Add breakpoints (specify
-thread)</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b &lt;file-name&gt;:&lt;line-number&gt; thread &lt;thread-id-by-gdb&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="add-breakpoints-to-the-specified-memory-address">Add breakpoints
-to the specified memory address</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b *&lt;address&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="add-conditional-breakpoints">Add conditional breakpoints</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b &lt;file-name&gt;:&lt;line-number&gt; <span class="keyword">if</span> &lt;expression&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="view-all-breakpoints">View all breakpoints</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">i breakpoints</span><br></pre></td></tr></table></figure>
-<h3 id="view-the-specified-breakpoint">View the specified
-breakpoint</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">i breakpoints &lt;breakpoint-number&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="view-breakpoints-in-the-specified-range">View breakpoints in the
-specified range</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">i breakpoints &lt;breakpoint-number&gt;-&lt;breakpoint-number&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="delete-breakpoints">Delete breakpoints</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d breakpoints &lt;breakpoints-number&gt;</span><br><span class="line">d breakpoints &lt;breakpoints-number&gt;:&lt;breakpoints-number&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="debugging">Debugging</h1>
-<h2 id="stepjump">Step/jump</h2>
-<h3 id="single-step-statement-level">Single step (statement level)</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">next</span><br></pre></td></tr></table></figure>
-<h3 id="single-step-instruction-level">Single step (instruction
-level)</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nexti</span><br></pre></td></tr></table></figure>
-<h3 id="jump-into-the-function-statement-level">Jump into the function
-(statement level)</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">step</span><br></pre></td></tr></table></figure>
-<h3 id="jump-into-the-function-intruction-level">Jump into the function
-(intruction level)</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">stepi</span><br></pre></td></tr></table></figure>
-<h3 id="jump-out-function">Jump out function</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">finish</span><br></pre></td></tr></table></figure>
-<h3 id="continue">Continue</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">continue</span><br><span class="line">c</span><br></pre></td></tr></table></figure>
-<h2 id="printchange-value">Print/Change value</h2>
-<h3 id="print-the-value-of-the-variable-prin-only-once">Print the value
-of the variable (prin only once)</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">print &lt;variable-name&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="print-the-value-of-the-variable-automatic-printing">Print the
-value of the variable (automatic printing)</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">display &lt;variable-name&gt;</span><br><span class="line">undisplay &lt;variable-name&gt;</span><br><span class="line"><span class="comment"># Check the variable are available for automatic printing</span></span><br><span class="line">i display</span><br></pre></td></tr></table></figure>
-<h3 id="print-the-value-of-function-parameterslocal-variables">Print the
-value of function parameters/local variables</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">i args</span><br><span class="line">i locals</span><br></pre></td></tr></table></figure>
-<h2 id="viewchange-the-value-of-the-register">View/change the value of
-the register</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">i registers</span><br><span class="line">i registers all</span><br><span class="line">p <span class="variable">$rcx</span></span><br><span class="line">p <span class="variable">$rcx</span>=1 <span class="comment"># change value </span></span><br></pre></td></tr></table></figure>
-<h2 id="view-the-value-of-memory">View the value of memory</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">x/&lt;n&gt;&lt;f&gt;&lt;u&gt; &lt;address&gt;</span><br><span class="line">x/wx</span><br><span class="line">x/gx</span><br></pre></td></tr></table></figure>
-<p><strong>f represents the output format, and the default value
-is</strong></p>
-<p><code>x</code> (hexadecimal).</p>
-<p><code>i</code> machine instruction, ignore the size of the output
-unit;</p>
-<p><code>d</code> (signed) decimal;</p>
-<p><code>u</code> (unsigned) decimal;</p>
-<p><code>o</code> octal;</p>
-<p><code>t</code> binary;</p>
-<p><code>a</code> hexadecimal, omitted The first 0;</p>
-<p><code>s</code> a character string, and the default output unit size
-is b (bytes).</p>
-<p><strong>u represents the output unit size</strong></p>
-<p>The default value is <code>w</code> (Words, 4 bytes)</p>
-<p><code>b</code> bytes;</p>
-<p><code>h</code> Halfwords, 2 bytes;</p>
-<p><code>g</code> Giant words, 8 bytes.</p>
-<p>Note: When the command x is executed, if the specified output unit
-size is not displayed, the last specified value will be used by
-default.</p>
-<h2 id="calling-cc-functions">Calling C/C++ functions</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">call &lt;function-name&gt;</span><br></pre></td></tr></table></figure>
-<h1 id="debug-coredump-files">Debug coredump files</h1>
-<p><strong>Step 1:</strong> Check whether coredump is turned on</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ulimit -c</span><br></pre></td></tr></table></figure>
-<p>Note: If the output result is 0, then coredump is not turned on.</p>
-<p><strong>Step 2: Turn</strong> on coredump</p>
-<p>Turn on coredump and don't limit the size of the core file (only
-valid for the current session):</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ulimit -c unlimited</span><br></pre></td></tr></table></figure>
-<p><strong>Step 3: Debug</strong> coredump files</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ gdb &lt;executable-file&gt; &lt;coredump-file-path&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>Note: </strong> <code>&lt;executable-file&gt;</code> is the
-executable file used when coredump occurs.</p>
-<p><strong>Step 4:</strong> View stack information</p>
-<p>See the view stack information in this article.</p>
-<h1 id="setup-gdb-log-function">Setup GDB log function</h1>
+    <title>Rust: Getting Started</title>
+    <url>/2024/03/08/learning/rust/rust_1_getting_started/</url>
+    <content><![CDATA[<h1 id="documentation">Documentation</h1>
+<h1 id="hello-world">Hello World</h1>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fn main() &#123;</span><br><span class="line">    println!(&quot;Hello World&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><strong>Turn on/off log output function</strong></li>
+<li>Run code: <code>rustc &lt;file.rc&gt;</code></li>
+<li>Debug: <code>rust-gdb</code></li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Turn on the log output function, and the default log output file name is gdb.txt</span><br><span class="line">(gdb) set logging on</span><br><span class="line"># Turn off the log output function</span><br><span class="line">(gdb) set logging off</span><br><span class="line"># Turn on the log output function and specify the log output file</span><br><span class="line"># (gdb) set logging on gdb_log.txt</span><br><span class="line">(gdb) set logging on &lt;log-file&gt;</span><br></pre></td></tr></table></figure>
-<p>Note: After opening the log output function, the output of gdb will
-be written to the specified log file.</p>
-<ul>
-<li><strong>Change the file of log output</strong></li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) set logging file &lt;log-file&gt;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>Set the way to write log files: overwrite/append
-write</strong></li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Set the way to write log files: overwrite</span><br><span class="line">(gdb) set logging overwrite on</span><br><span class="line"># Set the way to write the log file: append write</span><br><span class="line">(gdb) set logging overwrite off</span><br></pre></td></tr></table></figure>
-<p><strong>Note:</strong> The default mode of gdb is append write.</p>
-<p><strong>Note:</strong> After setting <code>overwrite</code> or
-<code>additional write</code>, you need to execute
-<code>set logging on</code> again to take effect.</p>
-<p>Example:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">file ./main</span><br><span class="line">set logging overwrite on</span><br><span class="line">set logging on test.log</span><br><span class="line">starrt</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>Set whether to redirect gdb output</strong></li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># The output of gdb is only written to the log output file, not to the console</span><br><span class="line">(gdb) set logging redirect on</span><br><span class="line"># The output of gdb will be written to the log output file and the console</span><br><span class="line">(gdb) set logging redirect off</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>View the current log output settings</strong></li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">(gdb) show logging </span><br><span class="line">Currently logging to &quot;debug_navigator.txt&quot;.</span><br><span class="line">Logs will be appended to the log file.</span><br><span class="line">Output is being logged and displayed.</span><br></pre></td></tr></table></figure>
-<div class="note info no-icon"><h1 id="code-debugging-with-gdb-series">Code debugging with GDB
-Series</h1>
+<div class="note info no-icon"><h1 id="rust-series">Rust Series</h1>
 <div class="post-series">
 <ul class="post-series-list">
 <li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_1_basic/">Code
-Debugging with GDB - part 1: Basic Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_2_custom/">Code
-Debugging with GDB - part 2: Custom Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_3_automating_testing/">Code
-Debugging with GDB - part 3: Automating the Testing</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_4_glibc/">Code
-Debugging with GDB - part 4: Basic Debug Glibc Source Code</a>
+<a href="https://ethanol1310.github.io/2024/03/08/learning/rust/rust_1_getting_started/">Rust:
+Getting Started</a>
 </li>
 </ul>
 </div>
 </div>
 ]]></content>
       <categories>
-        <category>Tutorial</category>
-        <category>Code debugging with GDB</category>
+        <category>Rust</category>
       </categories>
       <tags>
-        <tag>gdb</tag>
-        <tag>debug</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Code Debugging with GDB - part 2: Custom Commands</title>
-    <url>/2021/07/26/tutorial/gdb/gdb_2_custom/</url>
-    <content><![CDATA[<h1 id="abstract">Abstract</h1>
-<p>This article describes custom commands in GDB and how to write
-it.</p>
-<span id="more"></span>
-<h1 id="customize-a-gdb-command">Customize a gdb command</h1>
-<h2 id="syntax">Syntax</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">define &lt;command-name&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">define &lt;defined-command-name&gt;&lt;sub-command-name&gt;</span><br><span class="line">	&lt;body&gt;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p><strong>Debug</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ethanol@ethanol:~/Desktop/pic$ gdb -q ./main_mix</span><br><span class="line">GEF <span class="keyword">for</span> linux ready, <span class="built_in">type</span> `gef<span class="string">&#x27; to start, `gef config&#x27;</span> to configure</span><br><span class="line">96 commands loaded <span class="keyword">for</span> GDB 9.2 using Python engine 3.8</span><br><span class="line">Reading symbols from ./main_mix...</span><br><span class="line">gef➤  define hello</span><br><span class="line">Type commands <span class="keyword">for</span> definition of <span class="string">&quot;hello&quot;</span>.</span><br><span class="line">End with a line saying just <span class="string">&quot;end&quot;</span>.</span><br><span class="line">&gt;<span class="built_in">echo</span> hello, world\n</span><br><span class="line">&gt;end</span><br><span class="line">gef➤  hello</span><br><span class="line">hello, world</span><br></pre></td></tr></table></figure>
-<h2 id="view-custom-gdb-command">View custom gdb command</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gef➤  show user</span><br><span class="line">User <span class="built_in">command</span> <span class="string">&quot;hello&quot;</span>:</span><br><span class="line">  <span class="built_in">echo</span> hello, world\n</span><br><span class="line"></span><br><span class="line">gef➤  show user hello</span><br><span class="line">User <span class="built_in">command</span> <span class="string">&quot;hello&quot;</span>:</span><br><span class="line">  <span class="built_in">echo</span> hello, world\n</span><br></pre></td></tr></table></figure>
-<h1 id="get-parameters">Get parameters</h1>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$arg0</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$arg1</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$arg</span>&lt;n-1&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gef➤  define log_info</span><br><span class="line">Type commands <span class="keyword">for</span> definition of <span class="string">&quot;log_info&quot;</span>.</span><br><span class="line">End with a line saying just <span class="string">&quot;end&quot;</span>.</span><br><span class="line">&gt;<span class="built_in">echo</span> argc=<span class="variable">$argc</span>\n</span><br><span class="line">&gt;<span class="built_in">echo</span> arg1=<span class="variable">$arg0</span>\n</span><br><span class="line">&gt;<span class="built_in">echo</span> arg2=<span class="variable">$arg1</span>\n</span><br><span class="line">&gt;end</span><br><span class="line">gef➤  log_info hello world</span><br><span class="line">argc=2</span><br><span class="line">arg1=hello</span><br><span class="line">arg2=world</span><br></pre></td></tr></table></figure>
-<h1 id="use-conditional-branching">Use conditional branching</h1>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gef➤  define log_info</span><br><span class="line">Type commands <span class="keyword">for</span> definition of <span class="string">&quot;log_info&quot;</span>.</span><br><span class="line">End with a line saying just <span class="string">&quot;end&quot;</span>.</span><br><span class="line">&gt;<span class="keyword">if</span> <span class="variable">$argc</span>==2</span><br><span class="line">&gt;<span class="built_in">echo</span> argc=<span class="variable">$argc</span>\n</span><br><span class="line">&gt;<span class="built_in">echo</span> arg1=<span class="variable">$arg0</span>\n</span><br><span class="line">&gt;<span class="built_in">echo</span> arg2=<span class="variable">$arg1</span>\n</span><br><span class="line">&gt;<span class="keyword">else</span></span><br><span class="line">&gt;<span class="built_in">echo</span> args error\n</span><br><span class="line">&gt;end</span><br><span class="line">&gt;end</span><br><span class="line">gef➤  log_info hello world</span><br><span class="line">argc=2</span><br><span class="line">arg1=hello</span><br><span class="line">arg2=world</span><br></pre></td></tr></table></figure>
-<h1 id="use-loop">Use loop</h1>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">define log_info</span><br><span class="line">	<span class="keyword">if</span> <span class="variable">$argc</span> &lt; 1</span><br><span class="line">		<span class="built_in">echo</span> args error\n</span><br><span class="line">		<span class="built_in">return</span></span><br><span class="line">	end</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">set</span> <span class="variable">$i</span> = 0</span><br><span class="line">	<span class="keyword">while</span> <span class="variable">$1</span> &lt; argc</span><br><span class="line">		<span class="built_in">printf</span> <span class="string">&quot;%dth arg\n&quot;</span>, <span class="variable">$i</span></span><br><span class="line">		<span class="built_in">set</span> <span class="variable">$i</span> = <span class="variable">$i</span> + 1</span><br><span class="line">	end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<h1 id="execute-custom-gdb-commands-in-files">Execute custom gdb
-commands in files</h1>
-<p>In gdb:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> cmd.gdb</span><br><span class="line">show user</span><br></pre></td></tr></table></figure>
-<div class="note info no-icon"><h1 id="code-debugging-with-gdb-series">Code debugging with GDB
-Series</h1>
-<div class="post-series">
-<ul class="post-series-list">
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_1_basic/">Code
-Debugging with GDB - part 1: Basic Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_2_custom/">Code
-Debugging with GDB - part 2: Custom Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_3_automating_testing/">Code
-Debugging with GDB - part 3: Automating the Testing</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_4_glibc/">Code
-Debugging with GDB - part 4: Basic Debug Glibc Source Code</a>
-</li>
-</ul>
-</div>
-</div>
-]]></content>
-      <categories>
-        <category>Tutorial</category>
-        <category>Code debugging with GDB</category>
-      </categories>
-      <tags>
-        <tag>gdb</tag>
-        <tag>debug</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Code Debugging with GDB - part 3: Automating the Testing</title>
-    <url>/2021/07/27/tutorial/gdb/gdb_3_automating_testing/</url>
-    <content><![CDATA[<h1 id="abstract">Abstract</h1>
-<p>There are some processes nested with complex conditional branches.
-Now you need to be able to fully cover and test program work
-correctly.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Sequence 1: Condition1 -&gt; Condition2 -&gt; Condition3 -&gt; Condition4 -&gt; Handler1</span><br><span class="line">Sequence 2: Condition1 -&gt; Condition2 -&gt; Condition3 -&gt; Condition5 -&gt; Handler1</span><br><span class="line">Sequence 3: Condition1 -&gt; Condition2 -&gt; Condition7 -&gt; Condition4 -&gt; Handler1</span><br></pre></td></tr></table></figure>
-<p><strong>Note</strong>: Each condition is encapsulated into a separate
-function, and these execution branches execute only one at a time.</p>
-<span id="more"></span>
-<h1 id="automating-testing">Automating Testing</h1>
-<h2 id="ideas">Ideas</h2>
-<ul>
-<li>Do not try to modify the existing code.</li>
-<li>Construct the conditions required to execute each handler at
-runtime. For example, to handler called normally requires all its
-pre-condition to be modified to true.</li>
-<li>Can do this with GDB.</li>
-</ul>
-<h2 id="using-gdb-to-modify-function-return-values-at-runtime">Using GDB
-to modify function return values at runtime</h2>
-<h3 id="source-test">Source test</h3>
-<figure class="highlight c++"><figcaption><span>main.cpp</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> g_cond1 = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> g_cond2 = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">bool</span> g_cond3 = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">bool</span> g_cond4 = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">condition1</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> g_cond1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">condition2</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> g_cond2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">condition3</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> g_cond3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">condition4</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> g_cond4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">handler1</span><span class="params">()</span></span>&#123;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;handler1() is called&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">condition1</span>() == <span class="number">2</span> &amp;&amp; <span class="built_in">condition2</span>() == <span class="number">3</span> &amp; !<span class="built_in">condition3</span>() &amp;&amp; <span class="built_in">condition4</span>()) &#123;</span><br><span class="line">		<span class="built_in">handler1</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="modify-return-value-in-gdb">Modify return value in GDB</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ethanol@ethanol:~/Desktop/automating_test$ gdb -q ./main</span><br><span class="line">GEF <span class="keyword">for</span> linux ready, <span class="built_in">type</span> `gef<span class="string">&#x27; to start, `gef config&#x27;</span> to configure</span><br><span class="line">96 commands loaded <span class="keyword">for</span> GDB 9.2 using Python engine 3.8</span><br><span class="line">Reading symbols from ./main...</span><br><span class="line">gef➤  b condition1</span><br><span class="line">Breakpoint 1 at 0x11a9: file main.cpp, line 8.</span><br><span class="line">gef➤  b condition2</span><br><span class="line">Breakpoint 2 at 0x11b9: file main.cpp, line 12.</span><br><span class="line">gef➤  b condition3</span><br><span class="line">Breakpoint 3 at 0x11c9: file main.cpp, line 16.</span><br><span class="line">gef➤  b condition4</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gef➤  c</span><br><span class="line">gef➤  <span class="built_in">return</span> 2</span><br><span class="line">gef➤  c </span><br><span class="line">gef➤  <span class="built_in">return</span> 3</span><br><span class="line">gef➤  c</span><br><span class="line">gef➤  <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">gef➤  c</span><br><span class="line">gef➤  <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">gef➤  c</span><br><span class="line">Continuing.</span><br><span class="line">handler1() is called</span><br><span class="line">[Inferior 1 (process 20873) exited normally]</span><br><span class="line">gef➤  </span><br></pre></td></tr></table></figure>
-<p>We can put manually executed commands into a file
-<code>cmd_test.gdb</code>.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">file ./main</span><br><span class="line">start</span><br><span class="line"></span><br><span class="line">define test_handler1</span><br><span class="line">  b condition1</span><br><span class="line">  b condition2</span><br><span class="line">  b condition3</span><br><span class="line">  b condition4</span><br><span class="line"></span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> 2</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> 3</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">  c</span><br><span class="line">end</span><br><span class="line">test_handler1</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb -q -x cmd_test.gdb</span><br></pre></td></tr></table></figure>
-<h2 id="tell-if-the-handler-is-called">Tell if the handler is
-called</h2>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">file ./main</span><br><span class="line">start</span><br><span class="line"></span><br><span class="line">define test_handler1</span><br><span class="line">  b condition1</span><br><span class="line">  b condition2</span><br><span class="line">  b condition3</span><br><span class="line">  b condition4</span><br><span class="line">	b *handler1</span><br><span class="line">	</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> 2</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> 3</span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">  c</span><br><span class="line">  <span class="built_in">set</span> <span class="variable">$next_actual</span> = <span class="variable">$pc</span></span><br><span class="line">  <span class="built_in">set</span> <span class="variable">$next_expected</span> = &amp;handler1</span><br><span class="line">  <span class="keyword">if</span> <span class="variable">$next_actual</span> == <span class="variable">$next_expected</span></span><br><span class="line">  	<span class="built_in">echo</span> test_handler1[SUCCESS]\n</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  	<span class="built_in">echo</span> test_handler1[FAILURE]\n</span><br><span class="line">  end</span><br><span class="line">  c</span><br><span class="line">end</span><br><span class="line">test_handler1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>Note</strong>: If you want to get the first instruction of a
-class member function -
-<code>set $expected =(int) 'test.cpp' ::Test::Handler1</code>.</p>
-<ul>
-<li><code>Test</code>: class name.</li>
-<li><code>Handler1</code>: member function name.</li>
-</ul>
-<h2 id="other-issues">Other issues</h2>
-<ol type="1">
-<li>Breakpoint cleanup between test cases - <code>d</code>.</li>
-<li>Test case results statistics.
-<ol type="1">
-<li>Turn on gdb logging function.</li>
-<li>Write scripts that analyze the output logs of gdb and count which
-test cases passed and which failed.</li>
-</ol></li>
-</ol>
-<div class="note info no-icon"><h1 id="code-debugging-with-gdb-series">Code debugging with GDB
-Series</h1>
-<div class="post-series">
-<ul class="post-series-list">
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_1_basic/">Code
-Debugging with GDB - part 1: Basic Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_2_custom/">Code
-Debugging with GDB - part 2: Custom Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_3_automating_testing/">Code
-Debugging with GDB - part 3: Automating the Testing</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_4_glibc/">Code
-Debugging with GDB - part 4: Basic Debug Glibc Source Code</a>
-</li>
-</ul>
-</div>
-</div>
-]]></content>
-      <categories>
-        <category>Tutorial</category>
-        <category>Code debugging with GDB</category>
-      </categories>
-      <tags>
-        <tag>gdb</tag>
-        <tag>debug</tag>
-        <tag>automating</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Code Debugging with GDB - part 4: Basic Debug Glibc Source Code</title>
-    <url>/2021/07/27/tutorial/gdb/gdb_4_glibc/</url>
-    <content><![CDATA[<h1 id="abstract">Abstract</h1>
-<p>This article describes the preparations needed to debug glibc source
-code, including: how to install the glibc shared library with debugging
-information, how to get the glibc source code that matches the system,
-how to use the glibc source code in gdb, and through a simple Examples
-show this process.</p>
-<span id="more"></span>
-<h1 id="preparation-for-debugging-glibc-source-code">Preparation for
-debugging glibc source code</h1>
-<h2 id="install-libc-dbg">Install <code>libc-dbg</code></h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libc-dbg</span><br></pre></td></tr></table></figure>
-<p><strong>Note:</strong> libc-dbg contains glibc shared libraries such
-as <code>ld-X.X.so</code>, <code>libc-X.X.so</code> and
-<code>libm-X.X.so</code> with debugging information.</p>
-<p>On the author's machine, after installing libc-dbg, these shared
-libraries with debugging information are located in the
-<code>/usr/lib/debug/lib/x86_64-linux-gnu</code> directory, as
-follows:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls /usr/lib/debug/lib/x86_64-linux-gnu</span><br></pre></td></tr></table></figure>
-<p>We can use the readelf command to verify that these shared libraries
-are indeed with debugging information. for example:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">readelf -S /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.31.so | grep debug</span><br></pre></td></tr></table></figure>
-<p>If there are sections beginning with <code>.debug</code> in the above
-output, it means that there are debugging information.</p>
-<h2 id="install-the-matching-glibc-source-code">Install the matching
-glibc source code</h2>
-<p><strong>Note:</strong> If the glibc library that comes with the
-system, for example, the version of <code>lib.c.so</code> is 2.31. Then,
-the source code of glibc 2.31 version downloaded directly from GNU
-official website may not match. The word "may" here means that if ubuntu
-does not modify the source code you want to debug, then it matches;
-otherwise, it does not match.</p>
-<p><strong>Install the matching glibc source code</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install glibc-source</span><br></pre></td></tr></table></figure>
-<p><strong>Decompress the matching glibc source code</strong></p>
-<p>the installed glibc source code is located in the /usr/src/glibc/
-directory, as follows:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ls /usr/src/glibc</span><br></pre></td></tr></table></figure>
-<p>After the installation is complete, you need to unzip it before you
-can use it. Suppose you want to extract it to the <code>/home</code>
-directory, then execute the following command:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo tar xvf /usr/src/glibc/glibc-2.31.tar.xz -C /home/ethanol/Desktop</span><br></pre></td></tr></table></figure>
-<p><strong>How to determine whether the glibc source code is
-compatible</strong></p>
-<p>If you use gdb to debug the glibc source code, a
-<code>warning: Source file is more recent than executable</code>
-appears. Well, it usually means that the glibc source code is not
-compatible. At this point, we must install the supporting glibc source
-code before proceeding with source code debugging.</p>
-<h1 id="debug-glibc-source-code">Debug glibc source code</h1>
-<p><strong>Step 1</strong>: Prepare the sample program and generate an
-executable target file.</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hello world.&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">g++ -o hello hello.cpp -g</span><br></pre></td></tr></table></figure>
-<p><strong>Step 2</strong>: Debug glibc</p>
-<ul>
-<li>Directory of debugging shared library.</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">show debug-file-directory</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Manually set the directory of debugging shared library.</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> debug-file-directory /usr/lib/debug</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Specify the directory where the glibc source is located.</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Start debug</span></span><br><span class="line">gdb -q ./hello</span><br><span class="line"></span><br><span class="line"><span class="comment"># Specify the directory where the glibc source code is locate</span></span><br><span class="line">gef➤  directory /home/ethanol/Desktop/glibc-2.31/stdio-common</span><br><span class="line"></span><br><span class="line"><span class="comment"># Run file</span></span><br><span class="line">gef➤  start</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the breakpoint and continue execute</span></span><br><span class="line">gef➤  b __printf</span><br><span class="line">gef➤  c</span><br><span class="line"></span><br><span class="line">gef➤  l</span><br><span class="line">23</span><br><span class="line">24      /* Write formatted output to stdout from the format string FORMAT.  */</span><br><span class="line">25      /* VARARGS1 */</span><br><span class="line">26      int</span><br><span class="line">27      __printf (const char *format, ...)</span><br><span class="line">28      &#123;</span><br><span class="line">29        va_list arg;</span><br><span class="line">30        int <span class="keyword">done</span>;</span><br><span class="line">31</span><br><span class="line">32        va_start (arg, format);</span><br></pre></td></tr></table></figure>
-<div class="note info no-icon"><h1 id="code-debugging-with-gdb-series">Code debugging with GDB
-Series</h1>
-<div class="post-series">
-<ul class="post-series-list">
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_1_basic/">Code
-Debugging with GDB - part 1: Basic Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_2_custom/">Code
-Debugging with GDB - part 2: Custom Commands</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_3_automating_testing/">Code
-Debugging with GDB - part 3: Automating the Testing</a>
-</li>
-<li class="post-series-list-item">
-<a href="https://ethanol1310.github.io/2021/07/27/tutorial/gdb/gdb_4_glibc/">Code
-Debugging with GDB - part 4: Basic Debug Glibc Source Code</a>
-</li>
-</ul>
-</div>
-</div>
-]]></content>
-      <categories>
-        <category>Tutorial</category>
-        <category>Code debugging with GDB</category>
-      </categories>
-      <tags>
-        <tag>gdb</tag>
-        <tag>debug</tag>
-        <tag>glibc</tag>
+        <tag>rust</tag>
       </tags>
   </entry>
 </search>

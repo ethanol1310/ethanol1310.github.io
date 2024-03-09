@@ -4,41 +4,48 @@
 
     <url>
         <loc>https://ethanol1310.github.io/tags/diary/</loc>
-        <lastmod>2024-03-08T03:53:18.194Z</lastmod>
+        <lastmod>2024-03-09T11:55:11.397Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://ethanol1310.github.io/tags/glibc/</loc>
-        <lastmod>2024-03-08T03:16:22.065Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://ethanol1310.github.io/tags/automating/</loc>
-        <lastmod>2024-03-08T03:16:22.065Z</lastmod>
+        <lastmod>2024-03-08T04:20:06.444Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://ethanol1310.github.io/tags/debug/</loc>
-        <lastmod>2024-03-08T03:16:22.065Z</lastmod>
+        <lastmod>2024-03-08T04:20:06.444Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://ethanol1310.github.io/tags/gdb/</loc>
-        <lastmod>2024-03-08T03:16:22.065Z</lastmod>
+        <lastmod>2024-03-08T04:20:06.444Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://ethanol1310.github.io/tags/rust/</loc>
+        <lastmod>2024-03-08T04:08:02.654Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://ethanol1310.github.io/tags/latex/</loc>
+        <lastmod>2024-03-08T04:03:01.954Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://ethanol1310.github.io/tags/automating/</loc>
         <lastmod>2024-03-08T03:16:22.065Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
