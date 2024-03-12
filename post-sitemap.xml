@@ -10,7 +10,23 @@
 
     <url>
         <loc>https://ethanol1310.github.io/2099/03/07/diary/diary_2024/</loc>
-        <lastmod>2024-03-12T14:51:32.785Z</lastmod>
+        <lastmod>2024-03-12T14:58:19.225Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ethanol1310.github.io/2020/09/16/diary/diary_2020/</loc>
+        <lastmod>2024-03-12T14:58:14.375Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ethanol1310.github.io/2021/07/30/diary/diary_2021/</loc>
+        <lastmod>2024-03-12T14:58:08.715Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -35,22 +51,6 @@
     <url>
         <loc>https://ethanol1310.github.io/2020/10/01/learning/latex/laTex/</loc>
         <lastmod>2024-03-08T04:03:01.954Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://ethanol1310.github.io/2020/09/16/diary/diary_2020/</loc>
-        <lastmod>2024-03-08T03:49:17.945Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://ethanol1310.github.io/2021/07/30/diary/diary_2021/</loc>
-        <lastmod>2024-03-08T03:49:14.025Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
