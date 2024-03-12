@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://ethanol1310.github.io/"/>
-  <updated>2024-03-08T04:08:02.654Z</updated>
+  <updated>2024-03-12T14:51:32.785Z</updated>
   <id>https://ethanol1310.github.io/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Diary 2024 - 2025</title>
+    <link href="https://ethanol1310.github.io/2099/03/07/diary/diary_2024/"/>
+    <id>https://ethanol1310.github.io/2099/03/07/diary/diary_2024/</id>
+    <published>2099-03-07T03:40:38.000Z</published>
+    <updated>2024-03-12T14:51:32.785Z</updated>
+    
+    <content type="html"><![CDATA[<div class="note info no-icon"><h1 id="diary">Diary</h1><div class="post-series"><ul class="post-series-list"><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2099/03/07/diary/diary_2024/">Diary2024 - 2025</a></li></ul></div></div><h1 id="section">2022-4-1</h1><span id="more"></span><h1 id="section-1">2024-03-07</h1><ul><li>Read blog: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.freecodecamp.org/news/so-you-want-to-work-in-security-bc6c10157d23/</span><br><span class="line">https://buaq.net/go-38591.html</span><br></pre></td></tr></table></figure></li><li>Summary:<ol type="1"><li>Stop reading, start doing.</li><li>Write code.</li><li>Break code:<ol type="1"><li>Learning:<ol type="1"><li>Debugger: gdb, ida</li><li>Network scanner: ffuf, nmap, masscan</li><li>Web debugging proxy: WireShark, BurpSuite</li><li>Software fuzzer: AFLfuzzing, winAFL</li></ol></li><li>CTF</li><li>Bug Bounty: HackerOne, BugCrowd</li><li>Reproduce 0day - learning from what others are finding:<ol type="1"><li>https://seclists.org/fulldisclosure/</li><li>https://seclists.org/oss-sec/</li></ol></li><li>Share knowledge: write-up</li></ol></li></ol></li><li>How to get into hacking:https://www.youtube.com/watch?v=9I5RAWGWj7I</li><li>Learning Rust Challenge - Gynvael:<ul><li>https://www.youtube.com/watch?v=CQyQBO1uvV0</li></ul></li></ul><h1 id="section-2">2024-03-08</h1><ul><li>Update blog.</li><li>Learning Rust Challenge:<ul><li><a href="https://www.youtube.com/watch?v=CQyQBO1uvV0">Learning RustChallenge! #1</a></li></ul></li></ul><h1 id="section-3">2024-03-09</h1><ul><li>Learning Rust Challenge:<ul><li><a href="https://www.youtube.com/watch?v=POc-1X7mEH4">Learning RustChallenge! #2</a></li></ul></li><li>Find something online to transcribe code Rust to learn.</li><li>Transcribing source code is fun</li></ul><h1 id="section-4">2024-03-10</h1><ul><li>Learning Rust Challenge:<ul><li><a href="https://www.youtube.com/watch?v=etk8wBOmmBo">Learning RustChallenge! #3</a></li></ul></li></ul><h1 id="section-5">2024-03-11</h1><ul><li>Learning Rust Challenge:<ul><li>Continue <ahref="https://www.youtube.com/watch?v=etk8wBOmmBo">Learning RustChallenge! #3</a></li></ul></li><li>Transcribing source code RustDesk</li></ul><h1 id="section-6">2024-03-12</h1><ul><li>Learning Rust Challenge:<ul><li><a href="https://www.youtube.com/watch?v=jjhINPM3CDY">Learning RustChallenge! #4</a></li></ul></li><li>Transcibing source code RustDesk</li><li>I think I should delve into source code of password manager andremote desktop control to research within 1-2 month. I should also delveinto some resources about distributed system to research instead ofreading theory. It's interesting...</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;div class=&quot;note info no-icon&quot;&gt;&lt;h1 id=&quot;diary&quot;&gt;Diary&lt;/h1&gt;
+&lt;div class=&quot;post-series&quot;&gt;
+&lt;ul class=&quot;post-series-list&quot;&gt;
+&lt;li class=&quot;post-series-list-item&quot;&gt;
+&lt;a href=&quot;https://ethanol1310.github.io/2099/03/07/diary/diary_2024/&quot;&gt;Diary
+2024 - 2025&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h1 id=&quot;section&quot;&gt;2022-4-1&lt;/h1&gt;
+    
+    </summary>
+    
+      <category term="Diary" scheme="https://ethanol1310.github.io/categories/Diary/"/>
+    
+    
+      <category term="diary" scheme="https://ethanol1310.github.io/tags/diary/"/>
+    
+  </entry>
   
   <entry>
     <title>Rust: Getting Started</title>
@@ -40,38 +72,6 @@
     
     
       <category term="rust" scheme="https://ethanol1310.github.io/tags/rust/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Diary 2024 - 2025</title>
-    <link href="https://ethanol1310.github.io/2024/03/07/diary/diary_2024/"/>
-    <id>https://ethanol1310.github.io/2024/03/07/diary/diary_2024/</id>
-    <published>2024-03-07T03:40:38.000Z</published>
-    <updated>2024-03-09T11:55:11.397Z</updated>
-    
-    <content type="html"><![CDATA[<div class="note info no-icon"><h1 id="diary">Diary</h1><div class="post-series"><ul class="post-series-list"><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2024/03/07/diary/diary_2024/">Diary2024 - 2025</a></li></ul></div></div><h1 id="section">2022-4-1</h1><span id="more"></span><h1 id="section-1">2024-03-07</h1><ul><li>Read blog: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://www.freecodecamp.org/news/so-you-want-to-work-in-security-bc6c10157d23/</span><br><span class="line">https://buaq.net/go-38591.html</span><br></pre></td></tr></table></figure></li><li>Summary:<ol type="1"><li>Stop reading, start doing.</li><li>Write code.</li><li>Break code:<ol type="1"><li>Learning:<ol type="1"><li>Debugger: gdb, ida</li><li>Network scanner: ffuf, nmap, masscan</li><li>Web debugging proxy: WireShark, BurpSuite</li><li>Software fuzzer: AFLfuzzing, winAFL</li></ol></li><li>CTF</li><li>Bug Bounty: HackerOne, BugCrowd</li><li>Reproduce 0day - learning from what others are finding:<ol type="1"><li>https://seclists.org/fulldisclosure/</li><li>https://seclists.org/oss-sec/</li></ol></li><li>Share knowledge: write-up</li></ol></li></ol></li><li>How to get into hacking:https://www.youtube.com/watch?v=9I5RAWGWj7I</li><li>Learning Rust Challenge - Gynvael:<ul><li>https://www.youtube.com/watch?v=CQyQBO1uvV0</li></ul></li></ul><h1 id="section-2">2024-03-08</h1><ul><li>Update blog.</li><li>Learning Rust Challenge:<ul><li><a href="https://www.youtube.com/watch?v=CQyQBO1uvV0">Learning RustChallenge! #1</a></li></ul></li></ul><h1 id="section-3">2024-03-09</h1><ul><li>Learning Rust Challenge:<ul><li><a href="https://www.youtube.com/watch?v=POc-1X7mEH4">Learning RustChallenge! #2</a></li></ul></li><li>Find something online to transcribe code Rust to learn.</li><li>Transcribing source code is fun</li><li>Review GDB and debug glibc.</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;div class=&quot;note info no-icon&quot;&gt;&lt;h1 id=&quot;diary&quot;&gt;Diary&lt;/h1&gt;
-&lt;div class=&quot;post-series&quot;&gt;
-&lt;ul class=&quot;post-series-list&quot;&gt;
-&lt;li class=&quot;post-series-list-item&quot;&gt;
-&lt;a href=&quot;https://ethanol1310.github.io/2024/03/07/diary/diary_2024/&quot;&gt;Diary
-2024 - 2025&lt;/a&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;h1 id=&quot;section&quot;&gt;2022-4-1&lt;/h1&gt;
-    
-    </summary>
-    
-      <category term="Diary" scheme="https://ethanol1310.github.io/categories/Diary/"/>
-    
-    
-      <category term="diary" scheme="https://ethanol1310.github.io/tags/diary/"/>
     
   </entry>
   
