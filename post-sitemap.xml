@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://ethanol1310.github.io/2099/03/07/diary/diary_2024/</loc>
+        <lastmod>2024-06-19T14:52:22.933Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://ethanol1310.github.io/2021/07/26/tutorial/gdb/gdb_2_custom/</loc>
         <lastmod>2024-06-19T02:13:54.924Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -122,14 +130,6 @@
 
     <url>
         <loc>https://ethanol1310.github.io/2021/07/30/diary/diary_2021/</loc>
-        <lastmod>2024-06-19T02:13:54.919Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://ethanol1310.github.io/2099/03/07/diary/diary_2024/</loc>
         <lastmod>2024-06-19T02:13:54.919Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
