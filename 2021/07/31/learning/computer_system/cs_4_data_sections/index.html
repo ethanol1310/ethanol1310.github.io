@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="ZQz_t8vELd81TFzPz1A-Z9DqpyMPjoniWqJ6-ZYmyL4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ethanol1310.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="AbstractThis article describes data sections of ELF64 file and the difference among data sections. This is a interesting part to begin to get to know about PIC (Position Independent code) data referen">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Computer Systems Practical - Part 4: Data Sections">
+<meta property="og:url" content="https://ethanol1310.github.io/2021/07/31/learning/computer_system/cs_4_data_sections/index.html">
+<meta property="og:site_name" content="Ethanol&#39;s blog">
+<meta property="og:description" content="AbstractThis article describes data sections of ELF64 file and the difference among data sections. This is a interesting part to begin to get to know about PIC (Position Independent code) data referen">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-31T16:16:02.000Z">
+<meta property="article:modified_time" content="2024-06-19T02:13:54.923Z">
+<meta property="article:author" content="Ethanol">
+<meta property="article:tag" content="sections">
+<meta property="article:tag" content="bss">
+<meta property="article:tag" content="rodata">
+<meta property="article:tag" content="plt">
+<meta property="article:tag" content="got table">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://ethanol1310.github.io/2021/07/31/learning/computer_system/cs_4_data_sections/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ethanol1310.github.io/2021/07/31/learning/computer_system/cs_4_data_sections/","path":"2021/07/31/learning/computer_system/cs_4_data_sections/","title":"Computer Systems Practical - Part 4: Data Sections"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Computer Systems Practical - Part 4: Data Sections | Ethanol's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-203243794-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-203243794-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Ethanol's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Nhật ký rượu chè</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-series"><a href="/series" rel="section"><i class="fa fa-book-reader fa-fw"></i>series</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Difference-between-bss-data-and-rodata-sections"><span class="nav-number">2.</span> <span class="nav-text">Difference between .bss, .data, and .rodata sections</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-difference-between-plt-and-plt-sec-plt-got-got-got-plt-sections"><span class="nav-number">3.</span> <span class="nav-text">The difference between .plt and .plt.sec, .plt.got, .got, .got.plt sections</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#plt-and-plt-sec"><span class="nav-number">3.1.</span> <span class="nav-text">.plt and .plt.sec</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#plt"><span class="nav-number">3.1.1.</span> <span class="nav-text">.plt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#plt-sec"><span class="nav-number">3.1.2.</span> <span class="nav-text">.plt.sec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#plt-got"><span class="nav-number">3.2.</span> <span class="nav-text">.plt.got</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#got"><span class="nav-number">3.3.</span> <span class="nav-text">.got</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#got-plt"><span class="nav-number">3.4.</span> <span class="nav-text">.got.plt</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code-debugging-with-GDB-Series"><span class="nav-number">4.</span> <span class="nav-text">Code debugging with GDB Series</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ethanol"
+      src="/uploads/tiger.jpg">
+  <p class="site-author-name" itemprop="name">Ethanol</p>
+  <div class="site-description" itemprop="description">81 <br> 🇻🇳🇻🇳🇻🇳🇻🇳</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ethanol1310" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ethanol1310" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:quanhuynh1310@gmail.com" title="E-Mail → mailto:quanhuynh1310@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/_ethanol1310" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;_ethanol1310" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/_ethanolll" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;_ethanolll" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ethanol1310.github.io/2021/07/31/learning/computer_system/cs_4_data_sections/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/tiger.jpg">
+      <meta itemprop="name" content="Ethanol">
+      <meta itemprop="description" content="81 <br> 🇻🇳🇻🇳🇻🇳🇻🇳">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ethanol's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Computer Systems Practical - Part 4: Data Sections
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-07-31 23:16:02" itemprop="dateCreated datePublished" datetime="2021-07-31T23:16:02+07:00">2021-07-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Learning/" itemprop="url" rel="index"><span itemprop="name">Learning</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Learning/Computer-Systems-Practical/" itemprop="url" rel="index"><span itemprop="name">Computer Systems Practical</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>This article describes data sections of ELF64 file and the difference among data sections. This is a interesting part to begin to get to know about PIC (Position Independent code) data reference and function call.</p>
+<span id="more"></span>
+<h1 id="Difference-between-bss-data-and-rodata-sections"><a href="#Difference-between-bss-data-and-rodata-sections" class="headerlink" title="Difference between .bss, .data, and .rodata sections"></a>Difference between .bss, .data, and .rodata sections</h1><table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Diff 1</th>
+<th>Diff 2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.rodata</td>
+<td><strong>Read-only</strong> data, <strong>constant</strong> strings, global, variables with <strong>const</strong> modification and static variables.</td>
+<td>Occupy space in object files</td>
+</tr>
+<tr>
+<td>.data</td>
+<td><strong>Global, static variables</strong> with an initial value of <strong>non-zero</strong> (without const).</td>
+<td>Occupy space in object files</td>
+</tr>
+<tr>
+<td>.bss</td>
+<td><strong>Global, static variables</strong> are not initialized or have an <strong>initial value of 0</strong> (without const).</td>
+<td>No space in object files.</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Local non-static variables - runtime stack.</li>
+<li><code>gcc</code> marks the uninitialized global variables in C programs (file <code>.c</code>) as <code>COMMON</code> instead of putting them in <code>.bss</code> section.</li>
+<li>C++ programs, uninitialized global variables in the program will be placed in <code>.bss</code> section.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">ethanol@ethanol:~/Desktop/sections$ readelf -S datasection</span><br><span class="line">There are 13 section headers, starting at offset 0x388:</span><br><span class="line"></span><br><span class="line">Section Headers:</span><br><span class="line">  [Nr] Name              Type             Address           Offset</span><br><span class="line">       Size              EntSize          Flags  Link  Info  Align</span><br><span class="line">  [ 0]                   NULL             0000000000000000  00000000</span><br><span class="line">       0000000000000000  0000000000000000           0     0     0</span><br><span class="line">  [ 1] .text             PROGBITS         0000000000000000  00000040</span><br><span class="line">       0000000000000018  0000000000000000  AX       0     0     1</span><br><span class="line">  [ 2] .data             PROGBITS         0000000000000000  00000058</span><br><span class="line">       0000000000000008  0000000000000000  WA       0     0     4</span><br><span class="line">  [ 3] .bss              NOBITS           0000000000000000  00000060</span><br><span class="line">       000000000000000c  0000000000000000  WA       0     0     4</span><br><span class="line">  [ 4] .rodata           PROGBITS         0000000000000000  00000060</span><br><span class="line">       0000000000000004  0000000000000000   A       0     0     4</span><br><span class="line">  [ 5] .comment          PROGBITS         0000000000000000  00000064</span><br><span class="line">       000000000000002b  0000000000000001  MS       0     0     1</span><br><span class="line">  [ 6] .note.GNU-stack   PROGBITS         0000000000000000  0000008f</span><br><span class="line">       0000000000000000  0000000000000000           0     0     1</span><br><span class="line">  [ 7] .note.gnu.propert NOTE             0000000000000000  00000090</span><br><span class="line">       0000000000000020  0000000000000000   A       0     0     8</span><br><span class="line">  [ 8] .eh_frame         PROGBITS         0000000000000000  000000b0</span><br><span class="line">       0000000000000038  0000000000000000   A       0     0     8</span><br><span class="line">  [ 9] .rela.eh_frame    RELA             0000000000000000  00000300</span><br><span class="line">       0000000000000018  0000000000000018   I      10     8     8</span><br><span class="line">  [10] .symtab           SYMTAB           0000000000000000  000000e8</span><br><span class="line">       0000000000000198  0000000000000018          11    16     8</span><br><span class="line">  [11] .strtab           STRTAB           0000000000000000  00000280</span><br><span class="line">       0000000000000080  0000000000000000           0     0     1</span><br><span class="line">  [12] .shstrtab         STRTAB           0000000000000000  00000318</span><br><span class="line">       000000000000006f  0000000000000000           0     0     1</span><br><span class="line">Key to Flags:</span><br><span class="line">  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),</span><br><span class="line">  L (link order), O (extra OS processing required), G (group), T (TLS),</span><br><span class="line">  C (compressed), x (unknown), o (OS specific), E (exclude),</span><br><span class="line">  l (large), p (processor specific)</span><br><span class="line">ethanol@ethanol:~/Desktop/sections$ cat datasection.cpp</span><br><span class="line">int sum(int a, int b) &#123;</span><br><span class="line">        static int val_1;</span><br><span class="line">        static int val_2 = 0;</span><br><span class="line">        static int val_3 = 1;</span><br><span class="line">        static int val_4 = 0;</span><br><span class="line">        static int val_5 = 2;</span><br><span class="line">        const static int val_6 = 0;</span><br><span class="line">        <span class="built_in">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>.rodata</code>: size = <code>0x4</code> $\rightarrow$ <code>val_6</code></li>
+<li><code>.data</code>: size = <code>0x8</code> $\rightarrow$ <code>val_3</code> and <code>val_5</code></li>
+<li><code>.bss</code>: size = <code>0xc</code> $\rightarrow$ <code>val_1</code>, <code>val_2</code> and <code>val_4</code></li>
+<li>Futher reading: view offset.</li>
+</ul>
+<h1 id="The-difference-between-plt-and-plt-sec-plt-got-got-got-plt-sections"><a href="#The-difference-between-plt-and-plt-sec-plt-got-got-got-plt-sections" class="headerlink" title="The difference between .plt and .plt.sec, .plt.got, .got, .got.plt sections"></a>The difference between .plt and .plt.sec, .plt.got, .got, .got.plt sections</h1><table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Segment</th>
+<th>Access</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.plt</td>
+<td>code segment</td>
+<td>RE</td>
+<td>PLT</td>
+</tr>
+<tr>
+<td>.plt.got</td>
+<td>code segment</td>
+<td>RE</td>
+<td>PLT entry <code>_cxa_finalize</code> function</td>
+</tr>
+<tr>
+<td>.got</td>
+<td>data segment</td>
+<td>RW</td>
+<td>- Address of global variable<br />- Address of funtions that do not require delay biding.</td>
+</tr>
+<tr>
+<td>.got.plt</td>
+<td>data segment</td>
+<td>RW</td>
+<td>- Address of the function that requires delay binding.</td>
+</tr>
+</tbody></table>
+<p>View the program table.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readelf -l main_mix		</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Section to Segment mapping:</span><br><span class="line"> Segment Sections...</span><br><span class="line">  00     </span><br><span class="line">  01     .interp </span><br><span class="line">  02     .interp .note.gnu.property .note.gnu.build-id .note.ABI-tag .gnu.hash .dynsym .dynstr .gnu.version .gnu.version_r .rela.dyn .rela.plt </span><br><span class="line">  03     .init .plt .plt.sec .text .fini </span><br><span class="line">  04     .rodata .eh_frame_hdr .eh_frame </span><br><span class="line">  05     .init_array .fini_array .dynamic .got .got.plt .data .bss </span><br><span class="line">  06     .dynamic </span><br><span class="line">  07     .note.gnu.property </span><br><span class="line">  08     .note.gnu.build-id .note.ABI-tag </span><br><span class="line">  09     .note.gnu.property </span><br><span class="line">  10     .eh_frame_hdr </span><br><span class="line">  11     </span><br><span class="line">  12     .init_array .fini_array .dynamic .got </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>.plt</code>, <code>.plt.sec</code>, <code>.text</code> are located in the code segment.</li>
+<li><code>.got</code>, <code>.got.plt</code> and <code>.data</code> in the same segment.</li>
+</ul>
+<h2 id="plt-and-plt-sec"><a href="#plt-and-plt-sec" class="headerlink" title=".plt and .plt.sec"></a>.plt and .plt.sec</h2><h3 id="plt"><a href="#plt" class="headerlink" title=".plt"></a>.plt</h3><ul>
+<li>Call dynamic link.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objdump -d --section=.plt main_mix</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Disassembly of section .plt:</span><br><span class="line"></span><br><span class="line">0000000000401020 &lt;.plt&gt;:</span><br><span class="line">  401020:       ff 35 e2 2f 00 00       pushq  0x2fe2(%rip)        <span class="comment"># 404008 &lt;_GLOBAL_OFFSET_TABLE_+0x8&gt;</span></span><br><span class="line">  401026:       f2 ff 25 e3 2f 00 00    bnd jmpq *0x2fe3(%rip)        <span class="comment"># 404010 &lt;_GLOBAL_OFFSET_TABLE_+0x10&gt;</span></span><br><span class="line">  40102d:       0f 1f 00                nopl   (%rax)</span><br><span class="line">  401030:       f3 0f 1e fa             endbr64 </span><br><span class="line">  401034:       68 00 00 00 00          pushq  <span class="variable">$0x0</span></span><br><span class="line">  401039:       f2 e9 e1 ff ff ff       bnd jmpq 401020 &lt;.plt&gt;</span><br><span class="line">  40103f:       90                      nop</span><br><span class="line">  401040:       f3 0f 1e fa             endbr64 </span><br><span class="line">  401044:       68 01 00 00 00          pushq  <span class="variable">$0x1</span></span><br><span class="line">  401049:       f2 e9 d1 ff ff ff       bnd jmpq 401020 &lt;.plt&gt;</span><br><span class="line">  40104f:       90                      nop</span><br></pre></td></tr></table></figure>
+
+<h3 id="plt-sec"><a href="#plt-sec" class="headerlink" title=".plt.sec"></a>.plt.sec</h3><ul>
+<li>Call function.</li>
+<li>If not $\rightarrow$ call dynamic link.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Disassembly of section .plt.sec:</span><br><span class="line"></span><br><span class="line">0000000000401050 &lt;_Z3addii@plt&gt;:</span><br><span class="line">  401050:       f3 0f 1e fa             endbr64 </span><br><span class="line">  401054:       f2 ff 25 bd 2f 00 00    bnd jmpq *0x2fbd(%rip)        <span class="comment"># 404018 &lt;_Z3addii@got.plt&gt;</span></span><br><span class="line">  40105b:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)</span><br><span class="line"></span><br><span class="line">0000000000401060 &lt;_Z3subii@plt&gt;:</span><br><span class="line">  401060:       f3 0f 1e fa             endbr64 </span><br><span class="line">  401064:       f2 ff 25 b5 2f 00 00    bnd jmpq *0x2fb5(%rip)        <span class="comment"># 404020 &lt;_Z3subii@got.plt&gt;</span></span><br><span class="line">  40106b:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Conclusion</strong>: Call dynamic link.</p>
+<h2 id="plt-got"><a href="#plt-got" class="headerlink" title=".plt.got"></a>.plt.got</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objdump -d libadd_debug.so</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ethanol@ethanol:~/Desktop/pic$ objdump -d --section=.plt.got libadd_debug.so</span><br><span class="line"></span><br><span class="line">libadd_debug.so:     file format elf64-x86-64</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disassembly of section .plt.got:</span><br><span class="line"></span><br><span class="line">0000000000001030 &lt;__cxa_finalize@plt&gt;:</span><br><span class="line">    1030:       f3 0f 1e fa             endbr64 </span><br><span class="line">    1034:       f2 ff 25 9d 2f 00 00    bnd jmpq *0x2f9d(%rip)        <span class="comment"># 3fd8 &lt;__cxa_finalize&gt;</span></span><br><span class="line">    103b:       0f 1f 44 00 00          nopl   0x0(%rax,%rax,1)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Debug with GDB and <code>xfiles</code></li>
+<li>The second instruction in <code>plt.got</code> is jump to <strong>the first address</strong> of <code>.got</code> of <code>libadd_debug.so</code>.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">0x00007ffff7fc3020 0x00007ffff7fc3030 .plt                  ./libadd_debug.so</span><br><span class="line">0x00007ffff7fc3030 0x00007ffff7fc3040 .plt.got              ./libadd_debug.so</span><br><span class="line">0x00007ffff7fc5fd8 0x00007ffff7fc6000 .got                  ./libadd_debug.so</span><br><span class="line">0x00007ffff7fc6000 0x00007ffff7fc6018 .got.plt              ./libadd_debug.so</span><br><span class="line"></span><br><span class="line">0x00007ffff7fbe020 0x00007ffff7fbe030 .plt                  ./libsub_debug.so</span><br><span class="line">0x00007ffff7fbe030 0x00007ffff7fbe040 .plt.got              ./libsub_debug.so</span><br><span class="line">0x00007ffff7fc0fd8 0x00007ffff7fc1000 .got                  ./libsub_debug.so</span><br><span class="line">0x00007ffff7fc1000 0x00007ffff7fc1018 .got.plt              ./libsub_debug.so</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gef➤  x/3i 0x00007ffff7fc3030</span><br><span class="line">   0x7ffff7fc3030 &lt;__cxa_finalize@plt&gt;: endbr64 </span><br><span class="line">   0x7ffff7fc3034 &lt;__cxa_finalize@plt+4&gt;:       bnd jmp QWORD PTR [rip+0x2f9d]        <span class="comment"># 0x7ffff7fc5fd8</span></span><br><span class="line">   0x7ffff7fc303b &lt;__cxa_finalize@plt+11&gt;:      nop    DWORD PTR [rax+rax*1+0x0]</span><br></pre></td></tr></table></figure>
+
+<p><strong>Conclusion</strong>: <code>plt.got</code> is used to hold the PLT entry for the <code>&lt;__cxa_finalize@plt&gt;</code>.</p>
+<h2 id="got"><a href="#got" class="headerlink" title=".got"></a>.got</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">gef➤  x/10gx 0x7ffff7fc5fd8</span><br><span class="line">0x7ffff7fc5fd8: 0x00007ffff7e03090      0x00007ffff7fc6024</span><br><span class="line">0x7ffff7fc5fe8: 0x0000000000000000      0x0000000000000000</span><br><span class="line">0x7ffff7fc5ff8: 0x0000000000000000      0x0000000000003e88</span><br><span class="line">0x7ffff7fc6008: 0x0000000000000000      0x0000000000000000</span><br><span class="line">0x7ffff7fc6018: 0x00007ffff7fc6018      0x0000000000000000</span><br><span class="line">gef➤  p/x &amp;g_sum</span><br><span class="line"><span class="variable">$1</span> = 0x7ffff7fc6024</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>GOT[2] hold global variables <code>g_sum</code>.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">gef➤  disas 0x00007ffff7e03090, 0x00007ffff7e03090+0x10</span><br><span class="line">Dump of assembler code from 0x7ffff7e03090 to 0x7ffff7e030a0:</span><br><span class="line">   0x00007ffff7e03090 &lt;__cxa_finalize+0&gt;:       endbr64 </span><br><span class="line">   0x00007ffff7e03094 &lt;__cxa_finalize+4&gt;:       push   r15</span><br><span class="line">   0x00007ffff7e03096 &lt;__cxa_finalize+6&gt;:       push   r14</span><br><span class="line">   0x00007ffff7e03098 &lt;__cxa_finalize+8&gt;:       push   r13</span><br><span class="line">   0x00007ffff7e0309a &lt;__cxa_finalize+10&gt;:      push   r12</span><br><span class="line">   0x00007ffff7e0309c &lt;__cxa_finalize+12&gt;:      push   rbp</span><br><span class="line">   0x00007ffff7e0309d &lt;__cxa_finalize+13&gt;:      mov    rbp,rdi</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>GOT[1] hold the address of function <code>&lt;__cxa_finalize&gt;</code>.</li>
+</ul>
+<h2 id="got-plt"><a href="#got-plt" class="headerlink" title=".got.plt"></a>.got.plt</h2><ul>
+<li>GOT Table.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x0000000000404000 0x0000000000404028 .got.plt              /home/ethanol/Desktop/pic/main_mix</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">gef➤  x/10gx 0x404000</span><br><span class="line">0x404000:       0x0000000000403e00      0x00007ffff7ffe190</span><br><span class="line">0x404010:       0x00007ffff7fe7ae0      0x00007ffff7fc30f9</span><br><span class="line">0x404020 &lt;_Z3subii@got.plt&gt;:    0x00007ffff7fbe0f9      0x0000000000000000</span><br><span class="line">0x404030:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x404040:       0x0000000000000000      0x0000000000000000</span><br><span class="line">gef➤  info symbol 0x00007ffff7fc30f9</span><br><span class="line">add(int, int) <span class="keyword">in</span> section .text of ./libadd_debug.so</span><br><span class="line">gef➤  info symbol 0x00007ffff7fbe0f9</span><br><span class="line">sub(int, int) <span class="keyword">in</span> section .text of ./libsub_debug.so</span><br><span class="line">gef➤  info symbol 0x0000000000403e00</span><br><span class="line">_DYNAMIC <span class="keyword">in</span> section .dynamic of /home/ethanol/Desktop/pic/main_mix</span><br></pre></td></tr></table></figure>
+
+<div class="note info no-icon"><h1 id="Code-debugging-with-GDB-Series"><a href="#Code-debugging-with-GDB-Series" class="headerlink" title="Code debugging with GDB Series"></a>Code debugging with GDB Series</h1><div class="post-series"><ul class="post-series-list"><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/">Computer Systems Practical - Part 0: The Compilation System</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/">Computer Systems Practical - Part 1: Object Files</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_2_1_static_linking/">Computer Systems Practical - Part 2.1: Static Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_2_2_static_linking/">Computer Systems Practical - Part 2.2: Static Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_2_3_static_linking/">Computer Systems Practical - Part 2.3: Static Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_3_dynamic_linking/">Computer Systems Practical - Part 3: Dynamic Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/31/learning/computer_system/cs_4_data_sections/">Computer Systems Practical - Part 4: Data Sections</a></li></ul></div></div>
+    </div>
+        
+    
+    
+    
+      
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/sections/" rel="tag"># sections</a>
+              <a href="/tags/bss/" rel="tag"># bss</a>
+              <a href="/tags/rodata/" rel="tag"># rodata</a>
+              <a href="/tags/plt/" rel="tag"># plt</a>
+              <a href="/tags/got-table/" rel="tag"># got table</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/30/diary/diary_2021/" rel="prev" title="Diary 2021 - 2022">
+                  <i class="fa fa-chevron-left"></i> Diary 2021 - 2022
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/03/08/learning/rust/rust_1_getting_started/" rel="next" title="Rust: Getting Started">
+                  Rust: Getting Started <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ethanol</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://ethanol1310.github.io/2021/07/31/learning/computer_system/cs_4_data_sections/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"ethanol1310","repo":"ethanol1310comment","client_id":"1b092418a3028be296e8","client_secret":"8f61995498559ef2919c1ebaf471d49037f9848e","admin_user":"ethanol1310","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"en","js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"c16c0c47e3e23133593e0b04aa461906"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

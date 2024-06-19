@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="ZQz_t8vELd81TFzPz1A-Z9DqpyMPjoniWqJ6-ZYmyL4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ethanol1310.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="AbstractThis article describes the basic knowledge of object files, which introduces the ELF-64 object file format in detail, and provides common usage of object file processing tools in Linux systems">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Computer Systems Practical - Part 1: Object Files">
+<meta property="og:url" content="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/index.html">
+<meta property="og:site_name" content="Ethanol&#39;s blog">
+<meta property="og:description" content="AbstractThis article describes the basic knowledge of object files, which introduces the ELF-64 object file format in detail, and provides common usage of object file processing tools in Linux systems">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/cs_relocatble_object_files.png">
+<meta property="og:image" content="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/cs_executable_object_files.png">
+<meta property="article:published_time" content="2021-07-27T13:43:29.000Z">
+<meta property="article:modified_time" content="2024-06-19T02:13:54.920Z">
+<meta property="article:author" content="Ethanol">
+<meta property="article:tag" content="csp">
+<meta property="article:tag" content="elf64">
+<meta property="article:tag" content="section">
+<meta property="article:tag" content="objdump">
+<meta property="article:tag" content="readelf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/cs_relocatble_object_files.png">
+
+
+<link rel="canonical" href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/","path":"2021/07/27/learning/computer_system/cs_1_object_files/","title":"Computer Systems Practical - Part 1: Object Files"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Computer Systems Practical - Part 1: Object Files | Ethanol's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-203243794-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-203243794-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Ethanol's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Nhật ký rượu chè</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-series"><a href="/series" rel="section"><i class="fa fa-book-reader fa-fw"></i>series</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Object-files"><span class="nav-number">2.</span> <span class="nav-text">Object files</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-files-format"><span class="nav-number">2.1.</span> <span class="nav-text">Object files format</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Relocable-object-files-ELF-64-format"><span class="nav-number">2.2.</span> <span class="nav-text">Relocable object files (ELF-64 format)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ELFheader"><span class="nav-number">2.2.1.</span> <span class="nav-text">ELFheader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text"><span class="nav-number">2.2.2.</span> <span class="nav-text">.text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rodata"><span class="nav-number">2.2.3.</span> <span class="nav-text">.rodata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data"><span class="nav-number">2.2.4.</span> <span class="nav-text">.data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bss"><span class="nav-number">2.2.5.</span> <span class="nav-text">.bss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#symtab"><span class="nav-number">2.2.6.</span> <span class="nav-text">.symtab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rel-text"><span class="nav-number">2.2.7.</span> <span class="nav-text">.rel.text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rel-data"><span class="nav-number">2.2.8.</span> <span class="nav-text">.rel.data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#debug"><span class="nav-number">2.2.9.</span> <span class="nav-text">.debug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#line"><span class="nav-number">2.2.10.</span> <span class="nav-text">.line</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#comment"><span class="nav-number">2.2.11.</span> <span class="nav-text">.comment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shstrtab"><span class="nav-number">2.2.12.</span> <span class="nav-text">.shstrtab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strtab"><span class="nav-number">2.2.13.</span> <span class="nav-text">.strtab</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Executable-object-files-ELF-64-format"><span class="nav-number">2.3.</span> <span class="nav-text">Executable object files (ELF-64 format)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ELFheader-read-only-memory-when-exec"><span class="nav-number">2.3.1.</span> <span class="nav-text">ELFheader - read only - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Program-header-table-read-only-memory-when-exec"><span class="nav-number">2.3.2.</span> <span class="nav-text">Program header table - read only - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#interp-read-only-memory-when-exec"><span class="nav-number">2.3.3.</span> <span class="nav-text">.interp - read only - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynsym-read-only-memory-when-exec"><span class="nav-number">2.3.4.</span> <span class="nav-text">.dynsym - read only - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynstr-read-only-memory-when-exec"><span class="nav-number">2.3.5.</span> <span class="nav-text">.dynstr - read only - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rela-dyn-read-only-memory-when-exec"><span class="nav-number">2.3.6.</span> <span class="nav-text">.rela.dyn - read only - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rela-plt-read-only-memory-when-exec"><span class="nav-number">2.3.7.</span> <span class="nav-text">.rela.plt - read only - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#init-readable-executable-memory-when-exec"><span class="nav-number">2.3.8.</span> <span class="nav-text">.init - readable, executable - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text-readable-executable-memory-when-exec"><span class="nav-number">2.3.9.</span> <span class="nav-text">.text - readable, executable - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rodata-read-only-memory-when-exec"><span class="nav-number">2.3.10.</span> <span class="nav-text">.rodata - read only - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynamic-read-only-memory-when-exec"><span class="nav-number">2.3.11.</span> <span class="nav-text">.dynamic - read only - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-read-write-memory-when-exec"><span class="nav-number">2.3.12.</span> <span class="nav-text">.data - read, write - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bss-read-write-memory-when-exec"><span class="nav-number">2.3.13.</span> <span class="nav-text">.bss - read, write - memory when exec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#symtab-1"><span class="nav-number">2.3.14.</span> <span class="nav-text">.symtab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#debug-1"><span class="nav-number">2.3.15.</span> <span class="nav-text">.debug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#comment-1"><span class="nav-number">2.3.16.</span> <span class="nav-text">.comment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shstrtab-1"><span class="nav-number">2.3.17.</span> <span class="nav-text">.shstrtab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#strtab-1"><span class="nav-number">2.3.18.</span> <span class="nav-text">.strtab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Section-header-table"><span class="nav-number">2.3.19.</span> <span class="nav-text">Section header table</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Different-symtab-and-dynsym"><span class="nav-number">3.</span> <span class="nav-text">Different .symtab and .dynsym</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code-debugging-with-GDB-Series"><span class="nav-number">4.</span> <span class="nav-text">Code debugging with GDB Series</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ethanol"
+      src="/uploads/tiger.jpg">
+  <p class="site-author-name" itemprop="name">Ethanol</p>
+  <div class="site-description" itemprop="description">81 <br> 🇻🇳🇻🇳🇻🇳🇻🇳</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ethanol1310" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ethanol1310" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:quanhuynh1310@gmail.com" title="E-Mail → mailto:quanhuynh1310@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/_ethanol1310" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;_ethanol1310" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/_ethanolll" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;_ethanolll" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/tiger.jpg">
+      <meta itemprop="name" content="Ethanol">
+      <meta itemprop="description" content="81 <br> 🇻🇳🇻🇳🇻🇳🇻🇳">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ethanol's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Computer Systems Practical - Part 1: Object Files
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-07-27 20:43:29" itemprop="dateCreated datePublished" datetime="2021-07-27T20:43:29+07:00">2021-07-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Learning/" itemprop="url" rel="index"><span itemprop="name">Learning</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Learning/Computer-Systems-Practical/" itemprop="url" rel="index"><span itemprop="name">Computer Systems Practical</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>This article describes the basic knowledge of object files, which introduces the <code>ELF-64</code> object file format in detail, and provides common usage of object file processing tools in Linux systems- <code>readelf</code> and <code>objdump</code>.</p>
+<span id="more"></span>
+<h1 id="Object-files"><a href="#Object-files" class="headerlink" title="Object files"></a>Object files</h1><p>Object files come in three forms:</p>
+<ul>
+<li><p><em>Relocatable object file.</em> Contains binary code and data in a form that can be combined with other relocatable object files at compile time to create an executable object file.</p>
+</li>
+<li><p><em>Executable object file.</em> Contains binary code and data in a form that can be copied directly into memory and executed.</p>
+</li>
+<li><p><em>Shared object file.</em> A special type of relocatable object file that can be loaded into memory and linked dynamically, at either load time or run time.</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Target file type</th>
+<th>Generator</th>
+<th>Loaded directly into memory for execution</th>
+<th>Suffix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Relocable object file</td>
+<td>Assembler</td>
+<td>No</td>
+<td>.o</td>
+</tr>
+<tr>
+<td>Executable object file</td>
+<td>Linker</td>
+<td>Sure</td>
+<td>no suffix or arbitrary - defined in a file in the ELF Header</td>
+</tr>
+<tr>
+<td>Shared object file</td>
+<td>Compiler/Linker</td>
+<td>No</td>
+<td>.so</td>
+</tr>
+</tbody></table>
+<ol>
+<li>How to generate <em>relocable object file</em> </li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -c main.cpp -o main.o</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>How to generate <em>executable object file</em></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g++ main.cpp</span><br><span class="line">g++ main.cpp -o main</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>How to generate <em>shared object file</em></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g++ -shared -fPIC main.cpp <span class="comment"># defaul a.out</span></span><br><span class="line">g++ -shared -fPIC main.cpp -o main.so <span class="comment"># main.so</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>shared</code> option - linker option.</li>
+<li><code>-fPIC</code> option - compiler option.</li>
+</ul>
+<h2 id="Object-files-format"><a href="#Object-files-format" class="headerlink" title="Object files format"></a>Object files format</h2><table>
+<thead>
+<tr>
+<th>System</th>
+<th>Target file format</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Windows</td>
+<td>PE (Portable Executable)</td>
+</tr>
+<tr>
+<td>Mac OX-X</td>
+<td>Mach-O (Mach object)</td>
+</tr>
+<tr>
+<td>X86-64-Linux/aarch64 Linux</td>
+<td>ELF-64</td>
+</tr>
+</tbody></table>
+<ol>
+<li>Generate <code>PE</code></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/x86_64-w64-mingw32-g++ -o main_w64.exe main.cpp</span><br></pre></td></tr></table></figure>
+
+<p>Cross-compilers are required, such as: <code>g++-mingw-w64</code></p>
+<p><code>sudo apt-get install g++-mingw-w64</code>.</p>
+<ol start="2">
+<li>Generate <code>ELF-64</code></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -c main.cpp -o main.o</span><br></pre></td></tr></table></figure>
+
+<p><code>-m32</code> for ELF-32, <code>-m64</code> for ELF-64</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readlelf -h main.o</span><br></pre></td></tr></table></figure>
+
+<h2 id="Relocable-object-files-ELF-64-format"><a href="#Relocable-object-files-ELF-64-format" class="headerlink" title="Relocable object files (ELF-64 format)"></a>Relocable object files (ELF-64 format)</h2><p><img data-src="/2021/07/27/learning/computer_system/cs_1_object_files/cs_relocatble_object_files.png"></p>
+<h3 id="ELFheader"><a href="#ELFheader" class="headerlink" title="ELFheader"></a>ELFheader</h3><p><code>ELFheader</code>: The <em>ELF header</em> begins with a 16-byte sequence that describes the word size and byte ordering of the system that generated the file. The rest of the ELF header contains information that allows a linker to parse and interpret the object file.</p>
+<ol>
+<li><code>readelf -h &lt;object file&gt;</code></li>
+</ol>
+<h3 id="text"><a href="#text" class="headerlink" title=".text"></a>.text</h3><p><code>.text</code>: The machine code of the compiled program.</p>
+<ol>
+<li><code>objdump -d &lt;object file&gt;</code> (only output assembly, output content includes: .init, .plt, .plt.got, .text, .fini, etc. sections)</li>
+<li><code>objdump -d &lt;object file&gt; </code>(output assembly and corresponding source code. You need to add the -g option when compiling to print the source code.)</li>
+<li><code>objdump -d --section .text sum.so </code>(only output assembly, and only print .text section)</li>
+</ol>
+<h3 id="rodata"><a href="#rodata" class="headerlink" title=".rodata"></a>.rodata</h3><p><code>.rodata</code>: <strong>Read-only data</strong> such as <strong>the format strings in printf statements</strong>, and jump tables for switch statements.</p>
+<h3 id="data"><a href="#data" class="headerlink" title=".data"></a>.data</h3><p><code>.data</code>: <em>Initialized</em> <strong>global and static C variables</strong> and <strong>whose initial value is not 0</strong>. Local C variables are maintained at run time on the stack and do <em>not</em> appear in either the .data or .bss sections.</p>
+<h3 id="bss"><a href="#bss" class="headerlink" title=".bss"></a>.bss</h3><p><code>.bss</code>: <em>Uninitialized</em> <strong>global and static C variables</strong>, along with any <strong>global or static variables that are initialized to zero</strong>. Object file formats distinguish between initialized and uninitialized variables for space efficiency: unini- tialized variables do not have to occupy any actual disk space in the object file. At run time, these variables are allocated in memory with an initial value of zero.</p>
+<h3 id="symtab"><a href="#symtab" class="headerlink" title=".symtab"></a>.symtab</h3><p><code>.symtab</code>: A <em>symbol table</em> with information about functions and global variables that are defined and referenced in the program. Some programmers mis- takenly believe that a program must be compiled with the -g option to get symbol table information. In fact, every relocatable object file has a symbol table in .symtab (unless the programmer has specifically re- moved it with the strip command). However, unlike the symbol table inside a compiler, the .symtab symbol table does not contain entries for local variables.</p>
+<ol>
+<li><code>readelf -s &lt;object file&gt;</code></li>
+<li>Command to delete the <code>.symtab</code> section in the object file is: <code>strip &lt;object file&gt;</code>.</li>
+</ol>
+<h3 id="rel-text"><a href="#rel-text" class="headerlink" title=".rel.text"></a>.rel.text</h3><p><code>.rel.text</code>: A list of locations in the .text section that will need to be modified when the linker combines this object file with others. In general, any instruction that calls an external function or references a global variable will need to be modified. On the other hand, instructions that call local functions do not need to be modified. Note that relocation information is not needed in executable object files, and is usually omitted unless the user explicitly instructs the linker to include it.</p>
+<ol>
+<li><code>readelf -r &lt;object file&gt;</code></li>
+</ol>
+<h3 id="rel-data"><a href="#rel-data" class="headerlink" title=".rel.data"></a>.rel.data</h3><p><code>.rel.data</code>:  Relocation information for any global variables that are referenced or defined by the module. In general, any initialized global variable whose initial value is the address of a global variable or externally defined function will need to be modified.</p>
+<ol>
+<li><code>readelf -r &lt;object file&gt;</code></li>
+</ol>
+<h3 id="debug"><a href="#debug" class="headerlink" title=".debug"></a>.debug</h3><p><code>.debug</code>: A debugging symbol table with entries for local variables and typedefs defined in the program, global variables defined and referenced in the program, and the original C source file. It is only present if the compiler driver is invoked with the -g option.</p>
+<ol>
+<li><code>readelf --debug-dump &lt;object file&gt;</code></li>
+<li><code>objdump -g &lt;object file&gt;</code></li>
+<li>Command to delete debugging-related sections such as <code>.debug</code> in the object file: <code>strip --strip-debug &lt;object file&gt;</code>.</li>
+<li>Only delete the sections related to debugging information: <code>strip &lt;object file&gt;</code>.</li>
+</ol>
+<h3 id="line"><a href="#line" class="headerlink" title=".line"></a>.line</h3><p><code>.line</code>: A mapping between line numbers in the original C source program and machine code instructions in the .text section. It is only present if the compiler driver is invoked with the -g option.</p>
+<h3 id="comment"><a href="#comment" class="headerlink" title=".comment"></a>.comment</h3><p><code>.comment</code>: Version control information.</p>
+<ol>
+<li><code>readelf -p .comment &lt;object file&gt;</code>.</li>
+</ol>
+<h3 id="shstrtab"><a href="#shstrtab" class="headerlink" title=".shstrtab"></a>.shstrtab</h3><p><code>.shstrtab</code>: A string table containing the names of all sections.</p>
+<ol>
+<li><code>readelf -p .shstrtab &lt;object file&gt;</code>.</li>
+</ol>
+<h3 id="strtab"><a href="#strtab" class="headerlink" title=".strtab"></a>.strtab</h3><p><code>.strtab</code>: A tring table containing the names of all symbols.</p>
+<ol>
+<li><code>readelf -p .strtab &lt;object file&gt;</code>.</li>
+<li>The command to delete <code>.strtab</code>: <code>strip &lt;object files&gt;</code>.</li>
+</ol>
+<p><code>Section header table</code>: Describe the location and size of all sections of the object files.</p>
+<ol>
+<li><code>readelf -S &lt;object file&gt;</code>.</li>
+</ol>
+<p><strong>Note</strong></p>
+<ul>
+<li><p>The meaning of the abbreviations in the <strong>readelf</strong> command: </p>
+<p>-h is the abbreviation of –file-header </p>
+<p>-s is the abbreviation of –symbols</p>
+<p>-r is the abbreviation of –relocs</p>
+<p>-p is the abbreviation of –string-dump</p>
+<p>-S is the abbreviation of section-headers.</p>
+</li>
+<li><p>The meaning of the abbreviations in the <strong>objdump</strong> command: </p>
+<p>-d is the abbreviation of –disassemble</p>
+<p>-S is the abbreviation of –source</p>
+<p>-g is the abbreviation of –debugging.</p>
+</li>
+</ul>
+<p><strong>Note</strong> CS:APP (Third Edition) Section 7.4 describes that the section header table name is contained in <code>.strtabsection</code>.</p>
+<p>But after actual verification by the author, in X86-64 Linux (Ubuntu 20.04), the section header table name is included in .shstrtab instead of .strtabsection. This point needs attention.</p>
+<h2 id="Executable-object-files-ELF-64-format"><a href="#Executable-object-files-ELF-64-format" class="headerlink" title="Executable object files (ELF-64 format)"></a>Executable object files (ELF-64 format)</h2><p><img data-src="/2021/07/27/learning/computer_system/cs_1_object_files/cs_executable_object_files.png"></p>
+<h3 id="ELFheader-read-only-memory-when-exec"><a href="#ELFheader-read-only-memory-when-exec" class="headerlink" title="ELFheader - read only - memory when exec"></a>ELFheader - read only - memory when exec</h3><p><code>ELFheader</code>: The <em>ELF header</em> begins with a 16-byte sequence that describes the word size and byte ordering of the system that generated the file. The rest of the ELF header contains information that allows a linker to parse and interpret the object file.</p>
+<ol>
+<li><code>readelf -h &lt;object file&gt;</code></li>
+</ol>
+<h3 id="Program-header-table-read-only-memory-when-exec"><a href="#Program-header-table-read-only-memory-when-exec" class="headerlink" title="Program header table - read only - memory when exec"></a>Program header table - read only - memory when exec</h3><p>Describe the location and size of segments in the executable target file and other information.</p>
+<ol>
+<li><code>readelf -l &lt;object file&gt;</code></li>
+<li><code>objdump -p &lt;object file&gt;</code></li>
+</ol>
+<h3 id="interp-read-only-memory-when-exec"><a href="#interp-read-only-memory-when-exec" class="headerlink" title=".interp - read only - memory when exec"></a>.interp - read only - memory when exec</h3><p>This section saves the <strong>path of the dynamic linker</strong> required for the executable object file.</p>
+<ol>
+<li><code>readelf -p .interp &lt;object file&gt;</code></li>
+<li><code>readelf -l &lt;object file&gt; | grep interpreter</code></li>
+<li><code>objdump -s --section .interp &lt;object file&gt;</code></li>
+</ol>
+<h3 id="dynsym-read-only-memory-when-exec"><a href="#dynsym-read-only-memory-when-exec" class="headerlink" title=".dynsym - read only - memory when exec"></a>.dynsym - read only - memory when exec</h3><p>Contains symbols that need dynamic links.</p>
+<ol>
+<li><code>readelf --dyn-syms &lt;object file&gt;</code></li>
+<li><code>readelf -s &lt;object file&gt;</code></li>
+</ol>
+<h3 id="dynstr-read-only-memory-when-exec"><a href="#dynstr-read-only-memory-when-exec" class="headerlink" title=".dynstr - read only - memory when exec"></a>.dynstr - read only - memory when exec</h3><p>Dynamic Link Symbol Table, including only the symbol names that require dynamic links.</p>
+<ol>
+<li><code>readelf -p .dynstr &lt;object file&gt;</code></li>
+</ol>
+<h3 id="rela-dyn-read-only-memory-when-exec"><a href="#rela-dyn-read-only-memory-when-exec" class="headerlink" title=".rela.dyn - read only - memory when exec"></a>.rela.dyn - read only - memory when exec</h3><p>Data repositioning table in dynamic links. Similar to .rela.data in static links.</p>
+<ol>
+<li><code>readelf -r &lt;object file&gt;</code></li>
+</ol>
+<h3 id="rela-plt-read-only-memory-when-exec"><a href="#rela-plt-read-only-memory-when-exec" class="headerlink" title=".rela.plt - read only - memory when exec"></a>.rela.plt - read only - memory when exec</h3><p>Code repositioning table in dynamic links. Similar to .rela.text in static links.</p>
+<ol>
+<li><code>readelf -r &lt;object file&gt;</code></li>
+</ol>
+<h3 id="init-readable-executable-memory-when-exec"><a href="#init-readable-executable-memory-when-exec" class="headerlink" title=".init - readable, executable - memory when exec"></a>.init - readable, executable - memory when exec</h3><p>This section defines a function named _init, which will be called by the program initialization code.</p>
+<ol>
+<li><code>objdump -d &lt;object file&gt;</code></li>
+</ol>
+<h3 id="text-readable-executable-memory-when-exec"><a href="#text-readable-executable-memory-when-exec" class="headerlink" title=".text - readable, executable - memory when exec"></a>.text - readable, executable - memory when exec</h3><p>The machine code of the compiled program.</p>
+<ol>
+<li><code>objdump -d &lt;object file&gt;</code></li>
+<li><code>objdump -S &lt;object file&gt;</code></li>
+<li><code>objdump -d --section .text sum.so</code></li>
+</ol>
+<h3 id="rodata-read-only-memory-when-exec"><a href="#rodata-read-only-memory-when-exec" class="headerlink" title=".rodata - read only - memory when exec"></a>.rodata - read only - memory when exec</h3><p>Read-only data, such as constant strings, global variables modified by consts and static variables.</p>
+<h3 id="dynamic-read-only-memory-when-exec"><a href="#dynamic-read-only-memory-when-exec" class="headerlink" title=".dynamic - read only - memory when exec"></a>.dynamic - read only - memory when exec</h3><p>The basic information of dynamic links is saved in this section.</p>
+<ol>
+<li><code>readelf -d &lt;object file&gt;</code></li>
+<li><code>objdump -p &lt;object file</code></li>
+</ol>
+<h3 id="data-read-write-memory-when-exec"><a href="#data-read-write-memory-when-exec" class="headerlink" title=".data - read, write - memory when exec"></a>.data - read, write - memory when exec</h3><p>Global and static variables that have been initialized and whose initial value is not zero.</p>
+<h3 id="bss-read-write-memory-when-exec"><a href="#bss-read-write-memory-when-exec" class="headerlink" title=".bss - read, write - memory when exec"></a>.bss - read, write - memory when exec</h3><p>Global and static variables that are not initialized or have an initial value of 0.</p>
+<h3 id="symtab-1"><a href="#symtab-1" class="headerlink" title=".symtab"></a>.symtab</h3><p>A symbol table that stores information about functions and global variables and static variables defined and referenced in the object file.</p>
+<ol>
+<li><code>readelf -s &lt;object file&gt;</code></li>
+</ol>
+<h3 id="debug-1"><a href="#debug-1" class="headerlink" title=".debug"></a>.debug</h3><p>A table of debug symbols whose entries are local variables and typedefs defined in the program, global variables defined and referenced in the program, and the original C source file. ( Only when compiled with -g will it be generated)</p>
+<ol>
+<li><code>readelf --debug-dump &lt;object file&gt;</code></li>
+<li><code>objdump -g &lt;object file&gt;</code></li>
+</ol>
+<h3 id="comment-1"><a href="#comment-1" class="headerlink" title=".comment"></a>.comment</h3><ol>
+<li><code>readelf -p .comment &lt;object file&gt;</code></li>
+</ol>
+<h3 id="shstrtab-1"><a href="#shstrtab-1" class="headerlink" title=".shstrtab"></a>.shstrtab</h3><ol>
+<li><code>readelf -p .shstrtab &lt;object file&gt;</code></li>
+</ol>
+<h3 id="strtab-1"><a href="#strtab-1" class="headerlink" title=".strtab"></a>.strtab</h3><ol>
+<li><code>readelf -p .strtab &lt;object file&gt;</code></li>
+</ol>
+<h3 id="Section-header-table"><a href="#Section-header-table" class="headerlink" title="Section header table"></a>Section header table</h3><ol>
+<li><code>readelf -S &lt;object file&gt;</code></li>
+</ol>
+<p><strong>Note</strong>: As described in Section 7.8 of CS:APP (Third Edition), ELF Header, Program Header Table and .rodatasection are all located in Code Segment. But after actual verification by the author, in X86-64 Linux (Ubuntu 20.04), ELF Header and Program Header Table are located in the same segment (according to the order, here is called The First Segment), but not where the .text is Code snippet. In addition, the section where the .rodatasection is located (referred to here as The Third Segment) is not a code section. These two points need to be noted.`</p>
+<h1 id="Different-symtab-and-dynsym"><a href="#Different-symtab-and-dynsym" class="headerlink" title="Different .symtab and .dynsym"></a>Different .symtab and .dynsym</h1><table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+<th>Load into memory</th>
+<th>Deleted throught strip command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.symtab</td>
+<td>All symbols</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>.dynsym</td>
+<td>Only symbols that need dynamic links are included</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<div class="note info no-icon"><h1 id="Code-debugging-with-GDB-Series"><a href="#Code-debugging-with-GDB-Series" class="headerlink" title="Code debugging with GDB Series"></a>Code debugging with GDB Series</h1><div class="post-series"><ul class="post-series-list"><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/">Computer Systems Practical - Part 0: The Compilation System</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/">Computer Systems Practical - Part 1: Object Files</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_2_1_static_linking/">Computer Systems Practical - Part 2.1: Static Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_2_2_static_linking/">Computer Systems Practical - Part 2.2: Static Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_2_3_static_linking/">Computer Systems Practical - Part 2.3: Static Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_3_dynamic_linking/">Computer Systems Practical - Part 3: Dynamic Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/31/learning/computer_system/cs_4_data_sections/">Computer Systems Practical - Part 4: Data Sections</a></li></ul></div></div>
+
+    </div>
+        
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/27/learning/computer_system/cs_0_compilation/" rel="bookmark">Computer Systems Practical - Part 0: The Compilation System</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/29/learning/computer_system/cs_2_2_static_linking/" rel="bookmark">Computer Systems Practical - Part 2.2: Static Linking</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/29/learning/computer_system/cs_2_1_static_linking/" rel="bookmark">Computer Systems Practical - Part 2.1: Static Linking</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/29/learning/computer_system/cs_2_3_static_linking/" rel="bookmark">Computer Systems Practical - Part 2.3: Static Linking</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/29/learning/computer_system/cs_3_dynamic_linking/" rel="bookmark">Computer Systems Practical - Part 3: Dynamic Linking</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/csp/" rel="tag"># csp</a>
+              <a href="/tags/elf64/" rel="tag"># elf64</a>
+              <a href="/tags/section/" rel="tag"># section</a>
+              <a href="/tags/objdump/" rel="tag"># objdump</a>
+              <a href="/tags/readelf/" rel="tag"># readelf</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/27/learning/computer_system/cs_0_compilation/" rel="prev" title="Computer Systems Practical - Part 0: The Compilation System">
+                  <i class="fa fa-chevron-left"></i> Computer Systems Practical - Part 0: The Compilation System
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/27/tutorial/gdb/gdb_4_glibc/" rel="next" title="Code Debugging with GDB - part 4: Basic Debug Glibc Source Code">
+                  Code Debugging with GDB - part 4: Basic Debug Glibc Source Code <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ethanol</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"ethanol1310","repo":"ethanol1310comment","client_id":"1b092418a3028be296e8","client_secret":"8f61995498559ef2919c1ebaf471d49037f9848e","admin_user":"ethanol1310","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"en","js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"254d290c993ec76ed70343c3ecdc145c"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>

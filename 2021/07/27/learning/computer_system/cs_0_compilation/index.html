@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="ZQz_t8vELd81TFzPz1A-Z9DqpyMPjoniWqJ6-ZYmyL4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ethanol1310.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="AbstractThis article describes the workflow of the gcc&#x2F;g++ compilation system and provides different methods to manually complete each stage, so as to better understand the program translation process">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Computer Systems Practical - Part 0: The Compilation System">
+<meta property="og:url" content="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/index.html">
+<meta property="og:site_name" content="Ethanol&#39;s blog">
+<meta property="og:description" content="AbstractThis article describes the workflow of the gcc&#x2F;g++ compilation system and provides different methods to manually complete each stage, so as to better understand the program translation process">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/cs_compilation_system.png">
+<meta property="article:published_time" content="2021-07-27T12:39:19.000Z">
+<meta property="article:modified_time" content="2024-06-19T02:13:54.920Z">
+<meta property="article:author" content="Ethanol">
+<meta property="article:tag" content="compile">
+<meta property="article:tag" content="linker">
+<meta property="article:tag" content="assembler">
+<meta property="article:tag" content="csp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/cs_compilation_system.png">
+
+
+<link rel="canonical" href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/","path":"2021/07/27/learning/computer_system/cs_0_compilation/","title":"Computer Systems Practical - Part 0: The Compilation System"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Computer Systems Practical - Part 0: The Compilation System | Ethanol's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-203243794-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-203243794-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Ethanol's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Nhật ký rượu chè</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-series"><a href="/series" rel="section"><i class="fa fa-book-reader fa-fw"></i>series</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-compilation-system"><span class="nav-number">2.</span> <span class="nav-text">The compilation system</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Preprocessor"><span class="nav-number">2.1.</span> <span class="nav-text">Preprocessor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Compiler"><span class="nav-number">2.2.</span> <span class="nav-text">Compiler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Assembler"><span class="nav-number">2.3.</span> <span class="nav-text">Assembler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linker"><span class="nav-number">2.4.</span> <span class="nav-text">Linker</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Code-debugging-with-GDB-Series"><span class="nav-number">3.</span> <span class="nav-text">Code debugging with GDB Series</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ethanol"
+      src="/uploads/tiger.jpg">
+  <p class="site-author-name" itemprop="name">Ethanol</p>
+  <div class="site-description" itemprop="description">81 <br> 🇻🇳🇻🇳🇻🇳🇻🇳</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ethanol1310" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ethanol1310" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:quanhuynh1310@gmail.com" title="E-Mail → mailto:quanhuynh1310@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/_ethanol1310" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;_ethanol1310" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/_ethanolll" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;_ethanolll" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/tiger.jpg">
+      <meta itemprop="name" content="Ethanol">
+      <meta itemprop="description" content="81 <br> 🇻🇳🇻🇳🇻🇳🇻🇳">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ethanol's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Computer Systems Practical - Part 0: The Compilation System
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-07-27 19:39:19" itemprop="dateCreated datePublished" datetime="2021-07-27T19:39:19+07:00">2021-07-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Learning/" itemprop="url" rel="index"><span itemprop="name">Learning</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Learning/Computer-Systems-Practical/" itemprop="url" rel="index"><span itemprop="name">Computer Systems Practical</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>This article describes the workflow of the gcc/g++ compilation system and provides different methods to manually complete each stage, so as to better understand the program translation process.</p>
+<span id="more"></span>
+<h1 id="The-compilation-system"><a href="#The-compilation-system" class="headerlink" title="The compilation system"></a>The compilation system</h1><p><img data-src="/2021/07/27/learning/computer_system/cs_0_compilation/cs_compilation_system.png"></p>
+<h2 id="Preprocessor"><a href="#Preprocessor" class="headerlink" title="Preprocessor"></a>Preprocessor</h2><p>First call the C preprocessor (an executable object file named <code>cpp</code>, usually located in the <code>/usr/bin/ directory</code>) to extend the source code of each source file (for example: files ending in .c or .cc or .cpp)</p>
+<p>Insert all files specified with #include command and expand all macros specified with #define declaration. </p>
+<p>The output result of preprocessing a source file is an intermediate file ending with .i, that is, the intermediate file of <strong>the source code encoded as ASCII code</strong>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpp -std=c++11 main.cpp -o main.i</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -E main.cpp -o main.i</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong></p>
+<ul>
+<li><p>The main.cpp contains the <thread> header file (covered in the C++11 standard). Therefore, you need to add the -std=c++11 option when calling the preprocessor cpp directly, but you do not need to add this option when you use g++ -E.</p>
+</li>
+<li><p>If the source file and the user header file it contains are not in the same directory, you need to add the -I option to specify the search path to successfully generate the .i file. </p>
+</li>
+<li><p>Example: </p>
+<ol>
+<li>When the user header files are in the same directory, the corresponding command: <code>g++ -E main.cpp -o main.i -I &lt;directory&gt;</code>.</li>
+<li>When the user header files are in different directories, the corresponding command: <code>g++ -E main.cpp -o main.i -I &lt;directory 1&gt; -I &lt;directory 2&gt; -I &lt;directory n&gt;</code>.</li>
+</ol>
+</li>
+<li><p>In some gcc/g++ versions, the preprocessor is integrated into the compilation drive instead of being present as a stand-alone program.</p>
+</li>
+</ul>
+<h2 id="Compiler"><a href="#Compiler" class="headerlink" title="Compiler"></a>Compiler</h2><p>Secondly, call the compiler (named <code>cc1</code>-executable object file for compiling C programs or <code>cc1plus</code>-executable object file for compiling C++ programs, both of which are located in <code>/usr/lib/gcc</code> on my machine <code>/x86_64-linux-gnu/6</code>) compile the expanded source code (files ending with .i) into assembly code (files ending with .s, that is, assembly language files encoded as ASCII codes).</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /usr/lib/gcc/x86_64-linux-gnu/6/cc1plus -o main.s main.cpp &lt;other arguments&gt;</span></span><br><span class="line">/usr/lib/gcc/x86_64-linux-gnu/6/cc1plus -o main.s main.cpp -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE -quiet -dumpbase -mtune=generic -march=x86-64 -auxbase-strip -version -fstack-protector-strong -Wformat -Wformat-security</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -S main.i -o main.s</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong></p>
+<ul>
+<li>How to determine <code>&lt;other arguments&gt;</code></li>
+<li>If you need to add debugging information, you can only add the -g option when performing this step. Other periods: Step 1), step 3), step 4) adding -g option has no effect. You can see sections related to debugging in the assembly code file generated by adding -g, such as: <code>.debug_aranges, .debug_info, .debug_abbrev, .debug_line, .debug_str, .debug_ranges, etc.</code></li>
+<li>One way to tell whether the target file is a DEBUG version or a RELEASE version: <code>readelf -S main | grep debug</code>. If it is a DEBUG version, there will be an information output with <code>.debug*</code>; otherwise, nothing will be output.</li>
+<li>The input of the compiler can be either the source file or the preprocessed file.</li>
+<li>For source files ending in .cpp, whether gcc or g++, the actual compiler is cc1plus.</li>
+</ul>
+<ol>
+<li><code>-v</code> option - print output.</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -S main.cpp -o main.s -v</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>The complete compilation option is the content after cc1plus.</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE main.cpp -quiet -dumpbase main.cpp -mtune=generic -march=x86-64 -auxbase-strip main.s -version -o main.s -fstack-protector-strong -Wformat -Wformat-security</span><br></pre></td></tr></table></figure>
+
+<h2 id="Assembler"><a href="#Assembler" class="headerlink" title="Assembler"></a>Assembler</h2><p>Next, call the assembler (executable object file named <code>as</code>, usually located in the <code>/usr/bin/ directory</code>) to convert the assembly code (file ending in <code>.s</code>) into relocatable object code (ending in <code>.o</code>) File, the binary representation of the assembly code, but the address of the global value has not yet been filled in).</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">as main.s -o main.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -c main.s -o main.o</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linker"><a href="#Linker" class="headerlink" title="Linker"></a>Linker</h2><p>Finally, call the linker (an executable object file named <code>ld</code>, usually located in the <code>/usr/bin/ directory</code>) to combine (multiple) relocatable object files and some necessary system object files, and generate the final executable object file Execute the target file.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ld -o main &lt;list.o&gt; &lt;system object files and args&gt;</span><br><span class="line">ld -o main main.o other.o -pthread</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -o main main.o other.o -pthread</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong></p>
+<ul>
+<li><code>g++ -o main main.o other.o -pthread</code> command combines multiple relocatable object files (<code>main.o</code>, <code>other.o</code>) and system object files (via <code>-pthread</code> option specified) and so on to generate the final executable object file-main.</li>
+</ul>
+<ol>
+<li><code>-v</code> option - print output.</li>
+</ol>
+<div class="note info no-icon"><h1 id="Code-debugging-with-GDB-Series"><a href="#Code-debugging-with-GDB-Series" class="headerlink" title="Code debugging with GDB Series"></a>Code debugging with GDB Series</h1><div class="post-series"><ul class="post-series-list"><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/">Computer Systems Practical - Part 0: The Compilation System</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_1_object_files/">Computer Systems Practical - Part 1: Object Files</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_2_1_static_linking/">Computer Systems Practical - Part 2.1: Static Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_2_2_static_linking/">Computer Systems Practical - Part 2.2: Static Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_2_3_static_linking/">Computer Systems Practical - Part 2.3: Static Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/29/learning/computer_system/cs_3_dynamic_linking/">Computer Systems Practical - Part 3: Dynamic Linking</a></li><li class="post-series-list-item"><a href="https://ethanol1310.github.io/2021/07/31/learning/computer_system/cs_4_data_sections/">Computer Systems Practical - Part 4: Data Sections</a></li></ul></div></div>
+
+
+    </div>
+        
+    
+    
+    
+      
+  <div class="popular-posts-header">Related Posts</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/29/learning/computer_system/cs_2_1_static_linking/" rel="bookmark">Computer Systems Practical - Part 2.1: Static Linking</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/27/learning/computer_system/cs_1_object_files/" rel="bookmark">Computer Systems Practical - Part 1: Object Files</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/29/learning/computer_system/cs_2_2_static_linking/" rel="bookmark">Computer Systems Practical - Part 2.2: Static Linking</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/29/learning/computer_system/cs_2_3_static_linking/" rel="bookmark">Computer Systems Practical - Part 2.3: Static Linking</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2021/07/29/learning/computer_system/cs_3_dynamic_linking/" rel="bookmark">Computer Systems Practical - Part 3: Dynamic Linking</a></div>
+    </li>
+  </ul>
+
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/compile/" rel="tag"># compile</a>
+              <a href="/tags/linker/" rel="tag"># linker</a>
+              <a href="/tags/assembler/" rel="tag"># assembler</a>
+              <a href="/tags/csp/" rel="tag"># csp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/27/tutorial/gdb/gdb_3_automating_testing/" rel="prev" title="Code Debugging with GDB - part 3: Automating the Testing">
+                  <i class="fa fa-chevron-left"></i> Code Debugging with GDB - part 3: Automating the Testing
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/27/learning/computer_system/cs_1_object_files/" rel="next" title="Computer Systems Practical - Part 1: Object Files">
+                  Computer Systems Practical - Part 1: Object Files <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ethanol</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad@1.16.0/dist/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/quicklink@2.2.0/dist/quicklink.umd.js" integrity="sha256-4kQf9z5ntdQrzsBC3YSHnEz02Z9C1UeW/E9OgnvlzSY=" crossorigin="anonymous"></script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"https://ethanol1310.github.io/2021/07/27/learning/computer_system/cs_0_compilation/"}</script>
+  <script src="/js/third-party/quicklink.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"ethanol1310","repo":"ethanol1310comment","client_id":"1b092418a3028be296e8","client_secret":"8f61995498559ef2919c1ebaf471d49037f9848e","admin_user":"ethanol1310","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"en","js":{"url":"https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js","integrity":"sha256-Pmj85ojLaPOWwRtlMJwmezB/Qg8BzvJp5eTzvXaYAfA="},"path_md5":"69c017af0ac220f9a1311719fbece8ef"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
