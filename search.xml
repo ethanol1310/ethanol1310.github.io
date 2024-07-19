@@ -1019,24 +1019,6 @@ sandbox, I still have no idea about escape sandbox...</li>
 <h1 id="to-2024-21-06">2024-17-06 to 2024-21-06</h1>
 <ul>
 <li>Onboarding GHN</li>
-<li>Domain-driven design:
-<ul>
-<li>Data storytelling</li>
-<li><a
-href="https://www.amazon.com/dp/0134434420?ref=emc_s_m_5_i_atc">Domain-Driven
-Design Distilled</a></li>
-<li><a
-href="https://www.amazon.com/dp/0321125215?ref=emc_s_m_5_i_atc">Domain-Driven
-Design</a></li>
-<li><a
-href="https://www.amazon.com/dp/0321834577?ref=emc_s_m_5_i_atc">Implementing
-Domain-Driven Design</a></li>
-</ul></li>
-<li>Redteam Course:
-<ul>
-<li>Improve recon skill</li>
-<li>Solve challenges about recon</li>
-</ul></li>
 <li>Pwnable.vn:
 <ul>
 <li>Write writeup for challenge <code>file_storage</code></li>
@@ -1055,24 +1037,20 @@ Domain-Driven Design</a></li>
 <code>gdb</code></li>
 <li>Meta: bug logic</li>
 </ul>
-<h1 id="section-29">2024-24-06</h1>
+<h1 id="section-29">2024-25-06 - 2024-19-07</h1>
 <ul>
-<li>CBJS Course:
+<li>Redteam Course:
 <ul>
-<li>Linux Privilege Escalation</li>
-</ul></li>
-<li>Plan CBJS:
+<li>Improve recon skill</li>
+<li>Solve challenges about recon
 <ul>
-<li>Recon:
-<ul>
+<li>Recon:</li>
 <li>Part 1 + Part 2</li>
-<li>3 Lab</li>
 </ul></li>
 <li>Initial Access</li>
 <li>Privilege Escalation</li>
 </ul></li>
 </ul>
-<h1 id="section-30">2024-25-06</h1>
 ]]></content>
       <categories>
         <category>Diary</category>
